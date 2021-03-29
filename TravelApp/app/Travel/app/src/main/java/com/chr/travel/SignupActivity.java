@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import callback.AsyncTaskCallBack;
 import connect.GetData;
 import connect.PostInsertData;
 
@@ -162,16 +163,30 @@ public class SignupActivity extends AppCompatActivity {
                             }
 
                             // 노드와 연결해서 db에 정보 저장
-                            post_data = (PostInsertData) new PostInsertData(SignupActivity.this,2).execute(postDataParam);
+                            post_data = (PostInsertData) new PostInsertData(SignupActivity.this,2, new AsyncTaskCallBack(){
 
-                            Log.i("test", ""+post_data.post_res_chk);
+                                @Override
+                                public void onTaskDone(Object... params) {
 
-                            if(post_data.post_res_chk == 3){
-                                Intent i = new Intent(SignupActivity.this, LoginActivity.class);
-                                startActivity(i);
-                                post_data.post_res_chk = 0;
-                                finish();
-                            }
+                                }
+                            }).execute(postDataParam);
+
+                            new Handler().postDelayed(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    Log.i("test", ""+post_data.post_res_chk);
+
+                                    if(post_data.post_res_chk == 3){
+                                        Intent i = new Intent(SignupActivity.this, LoginActivity.class);
+                                        startActivity(i);
+                                        post_data.post_res_chk = 0;
+                                        finish();
+                                    }
+                                }
+                            }, 1200);// 0.6초 정도 딜레이를 준 후 시작
+
 
 
                         }
@@ -186,6 +201,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         }
     };
+
 
     // 생년월일을 BirthPickerActivity에서 선택 후 생년월일 가져오기
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

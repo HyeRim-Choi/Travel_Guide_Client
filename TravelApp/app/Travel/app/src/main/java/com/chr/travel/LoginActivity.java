@@ -3,7 +3,6 @@ package com.chr.travel;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +18,7 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import callback.AsyncTaskCallBack;
 import connect.PostInsertData;
 import vo.LoginVO;
 
@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // user 정보를 저장하는 인터페이스 준비
     Gson gson;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,20 +96,18 @@ public class LoginActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
+
                         // Node.js에게 값 전달
-                        post_data = (PostInsertData) new PostInsertData(LoginActivity.this,3).execute(postDataParam);
+                        post_data = (PostInsertData) new PostInsertData(LoginActivity.this,3, new AsyncTaskCallBack(){
 
-                        // 응답 ok_login 시 로그인 성공
-                        if(post_data.post_res_chk == 1){
-                            // login 한 user 정보 저장
-                            onSaveData();
-                            i = new Intent(com.chr.travel.LoginActivity.this, HomeActivity.class);
-                            startActivity(i);
-
-                            // default 값으로 변경
-                            post_data.post_res_chk = 0;
-                            finish();
-                        }
+                            @Override
+                            public void onTaskDone(Object... params) {
+                                Log.i("test3333",""+params);
+                                Log.i("test3333",""+params[0]);
+                                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(i);
+                            }
+                        }).execute(postDataParam);
 
                     }
                     break;

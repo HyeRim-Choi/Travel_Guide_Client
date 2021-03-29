@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
+import callback.AsyncTaskCallBack;
 import connect.PostInsertData;
 
 
@@ -61,7 +62,13 @@ public class FindPwdActivity extends AppCompatActivity {
                     }
 
                     // Node.js에게 값 전달
-                    new PostInsertData(FindPwdActivity.this,5).execute(postDataParam);
+                    new PostInsertData(FindPwdActivity.this,5, new AsyncTaskCallBack(){
+
+                        @Override
+                        public void onTaskDone(Object... params) {
+
+                        }
+                    }).execute(postDataParam);
 
                 }
             }

@@ -40,7 +40,6 @@ public class PostRequest extends AsyncTask<JSONObject, Void, String> {
             conn.setDoInput(true);
             conn.setDoOutput(true);
 
-            // 이게 무슨 뜻?
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
@@ -73,7 +72,8 @@ public class PostRequest extends AsyncTask<JSONObject, Void, String> {
                 in.close();
                 return sb.toString();
 
-            } else {
+            }
+            else {
                 return new String("Server Error : " + responseCode);
             }
         } catch (Exception e) {
@@ -83,7 +83,6 @@ public class PostRequest extends AsyncTask<JSONObject, Void, String> {
     }
 
 
-    // 이게 무슨 함수?
     private String getPostDataString(JSONObject params) throws Exception {
 
         StringBuilder result = new StringBuilder();
@@ -111,4 +110,5 @@ public class PostRequest extends AsyncTask<JSONObject, Void, String> {
 
         return result.toString();
     }
+
 }

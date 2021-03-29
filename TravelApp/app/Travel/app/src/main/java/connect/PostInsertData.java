@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.chr.travel.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
 
@@ -33,10 +35,14 @@ public class PostInsertData extends PostRequest {
     // JSON 형식 받기
     JSONObject jsonObject = null;
 
+    AsyncTaskCallBack callBack;
 
-    public PostInsertData(Activity activity, int chk) {
+
+
+    public PostInsertData(Activity activity, int chk, AsyncTaskCallBack callBack) {
         super(activity);
         this.chk = chk;
+        this.callBack = callBack;
     }
 
 
@@ -50,6 +56,8 @@ public class PostInsertData extends PostRequest {
             e.printStackTrace();
         }
     }
+
+
 
     // response
     @Override
@@ -71,12 +79,14 @@ public class PostInsertData extends PostRequest {
             e.printStackTrace();
         }
 
+        callBack.onTaskDone(activity);
+
     }
 
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://192.168.16.85:3001";
+        String url = "http://192.168.236.85:3001";
 
         switch (chk){
             // 회원가입 시

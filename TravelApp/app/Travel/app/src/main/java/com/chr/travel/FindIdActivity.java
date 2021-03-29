@@ -2,8 +2,10 @@ package com.chr.travel;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import callback.AsyncTaskCallBack;
 import connect.PostInsertData;
 
 
@@ -64,24 +67,40 @@ public class FindIdActivity extends AppCompatActivity {
                     }
 
                     // Node.js에게 값 전달
-                    post_data = (PostInsertData) new PostInsertData(FindIdActivity.this,4).execute(postDataParam);
+                    post_data = (PostInsertData) new PostInsertData(FindIdActivity.this,4, new AsyncTaskCallBack(){
 
-                    // id 찾기 성공 시
-                    if(post_data.post_res_chk == 2){
-                        // 아이디 Alert창 띄우기
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(com.chr.travel.FindIdActivity.this);
-                        dialog.setTitle(name + "님의 아이디");
-                        dialog.setMessage(post_data.findId);
-                        dialog.setNegativeButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
+                        @Override
+                        public void onTaskDone(Object... params) {
+
+                        }
+                    }).execute(postDataParam);
+
+                    new Handler().postDelayed(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            Log.i("test", ""+post_data.post_res_chk);
+
+                            // id 찾기 성공 시
+                            if(post_data.post_res_chk == 2){
+                                // 아이디 Alert창 띄우기
+                                AlertDialog.Builder dialog = new AlertDialog.Builder(com.chr.travel.FindIdActivity.this);
+                                dialog.setTitle(name + "님의 아이디");
+                                dialog.setMessage(post_data.findId);
+                                dialog.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
+
+                                post_data.post_res_chk = 0;
+                                dialog.show();
                             }
-                        });
+                        }
+                    }, 1200);// 0.6초 정도 딜레이를 준 후 시작
 
-                        post_data.post_res_chk = 0;
-                        dialog.show();
-                    }
 
                 }
             }

@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import callback.AsyncTaskCallBack;
 import connect.GetData;
 import connect.PostInsertData;
 
@@ -95,7 +96,13 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                         }
 
                         // Node.js에게 값 전달
-                        new PostInsertData(ManagerAddGroupActivity.this,6).execute(postDataParam);
+                        new PostInsertData(ManagerAddGroupActivity.this,6, new AsyncTaskCallBack(){
+
+                            @Override
+                            public void onTaskDone(Object... params) {
+
+                            }
+                        }).execute(postDataParam);
                         finish();
                         break;
                     }
