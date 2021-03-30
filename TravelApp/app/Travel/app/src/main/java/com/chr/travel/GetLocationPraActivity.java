@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import callback.AsyncTaskCallBack;
 import connect.GetData;
@@ -25,6 +26,7 @@ public class GetLocationPraActivity extends AppCompatActivity {
         btn_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "ㅇ클릭",Toast.LENGTH_SHORT).show();
                 get_data = (GetData) new GetData(GetLocationPraActivity.this, 9, "seoul", new AsyncTaskCallBack() {
                     @Override
                     public void onTaskDone(Object... params) {
