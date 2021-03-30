@@ -91,7 +91,7 @@ public class GetData extends GetRequest {
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://192.168.231.85:3001";
+        String url = "http://54.180.105.75:3001";
 
         switch (chk){
             // 로그인 중복 체크 시
@@ -161,13 +161,16 @@ public class GetData extends GetRequest {
             case "ok_mem_receive":
                 Log.i("mem", "comeIn");
                 groupMember = new ArrayList<>();
-                //Log.i("mem", "" + jsonString.toString());
+                Log.i("test",jsonString);
 
                 try{
                     JSONObject res = new JSONObject(jsonString);
-                    JSONObject ress = res.optJSONObject("userMem");
+                    JSONArray ress = res.getJSONArray("userMem");
+                    //JSONObject ress = res.optJSONObject("userMem");
                     for(int i=0;i<ress.length();i++){
-                        groupMember.add(ress.getString("userId"));
+                        JSONObject jObj = (JSONObject)ress.get(i);
+                        Log.i("userId", jObj.getString("userId"));
+                        groupMember.add(jObj.getString("userId"));
                     }
                 }catch(JSONException e) {
                     e.printStackTrace();
