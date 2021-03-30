@@ -100,10 +100,12 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
 
                             @Override
                             public void onTaskDone(Object... params) {
-
+                                if((Integer)params[1] == 5){
+                                    Intent i = new Intent(ManagerAddGroupActivity.this, PackageManagerActivity.class);
+                                    startActivity(i);
+                                }
                             }
                         }).execute(postDataParam);
-                        finish();
                         break;
                     }
 
@@ -128,23 +130,22 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                         }
 
                         // node로 정보 전달
-                        new GetData(ManagerAddGroupActivity.this,1, id).execute();
+                        new GetData(ManagerAddGroupActivity.this, 8, id, new AsyncTaskCallBack() {
+                            @Override
+                            public void onTaskDone(Object... params) {
+                                if((Integer)params[1] == 1){
+                                    if(txt_addId.getText().toString().isEmpty()){
+                                        txt_addId.setText(id);
+                                    }
+                                    else{
+                                        txt_addId.append(","+id);
+                                    }
+                                }
+                                et_userId.setText(null);
+                            }
+                        }).execute();
 
                     }
-
-                    // 아이디가 존재하면(로그인 중복 체크 재활용으로 0과 1이 바뀜)
-                    if(get_data.get_res_chk == 1){
-                        if(txt_addId.getText().toString().isEmpty()){
-                            txt_addId.setText(id);
-                        }
-                        else{
-                            txt_addId.append(","+id);
-                        }
-
-                        get_data.get_res_chk = 0;
-                    }
-
-                    et_userId.setText(null);
                     break;
             }
         }

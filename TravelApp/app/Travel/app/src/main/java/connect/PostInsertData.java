@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.chr.travel.FindPwdActivity;
 import com.chr.travel.LoginActivity;
 
 import org.json.JSONException;
@@ -23,8 +24,7 @@ public class PostInsertData extends PostRequest {
     // url 경로 만들기 위한 chk
     int chk;
 
-    // 응답 정보를 넘겨주기 위한 chk
-    public int post_res_chk = 0;
+    public int post_res_chk;
 
     // 로그인 성공 시 user 정보 받기
     public LoginVO vo;
@@ -52,6 +52,7 @@ public class PostInsertData extends PostRequest {
         String serverURLStr = UrlCreate(chk);
         try {
             url = new URL(serverURLStr);
+            Log.i("test", "url : " + url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -62,7 +63,7 @@ public class PostInsertData extends PostRequest {
     // response
     @Override
     protected void onPostExecute(String jsonString) {
-        Log.i("test",jsonString);
+        Log.i("response", "res : " + jsonString);
         if (jsonString == null)
             return;
 
@@ -79,14 +80,15 @@ public class PostInsertData extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity);
+        // 파라미터 바꾸기
+        callBack.onTaskDone(activity, post_res_chk);
 
     }
 
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://192.168.236.85:3001";
+        String url = "http://192.168.231.85:3001";
 
         switch (chk){
             // 회원가입 시
@@ -138,8 +140,8 @@ public class PostInsertData extends PostRequest {
 
             // 응답이 로그인 성공이라면
             case "ok_login":
-                post_res_chk = 1;
                 vo = new LoginVO();
+                post_res_chk = 1;
                 try {
                     vo.setIdx(jsonObject.getJSONObject("user").getInt("id"));
                     vo.setUserId(jsonObject.getJSONObject("user").getString("userId"));
@@ -147,7 +149,10 @@ public class PostInsertData extends PostRequest {
                     vo.setName(jsonObject.getJSONObject("user").getString("name"));
                     vo.setEmail(jsonObject.getJSONObject("user").getString("email"));
                     vo.setRole(jsonObject.getJSONObject("user").getString("role"));
-                } catch (JSONException e) {
+                    vo.setBirth(jsonObject.getJSONObject("user").getString("birth"));
+                    vo.setGender(jsonObject.getJSONObject("user").getBoolean("gender"));
+                }
+                catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
@@ -167,24 +172,20 @@ public class PostInsertData extends PostRequest {
                 }
                 break;
 
-            // 비밀번호 찾기 성공 시
-            case "ok_findPwd":
-                //Alert창 띄우기
-                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
-                dialog.setMessage("작성하신 이메일로 가서 임시 비밀번호를 확인해주세요\n 비밀번호를 변경해주세요");
-                dialog.setNegativeButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        activity.finish();
-                    }
-                });
+            case " ok_findPwd":
+                post_res_chk = 4;
 
-                dialog.show();
+            // 그룹 생성 성공 시
+            case "ok_groupCreate":
+                post_res_chk = 5;
                 break;
+
 
             // 그룹 조회 성공 시
             case "ok_group":
+
                 break;
+
         }
     }
 

@@ -52,18 +52,14 @@ abstract public class GetRequest extends AsyncTask<String, Void, String> {
             conn.setDoOutput(false);
 
             int resCode = conn.getResponseCode();
-            Log.i(TAG,"res : "+resCode);
 
-            String http = Integer.toString(HttpURLConnection.HTTP_OK);
-            Log.i(TAG,http);
+            Log.i("resCode","resCode : "+resCode);
 
             if (resCode != HttpsURLConnection.HTTP_OK) {
                 Log.e(TAG, "HttpsURLConnection ResponseCode: " + resCode);
                 conn.disconnect();
                 return null;
             }
-
-            // GetData의 PostExecute로 return 해 줄 문자열 output
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = null;
             while (true) {
@@ -82,8 +78,6 @@ abstract public class GetRequest extends AsyncTask<String, Void, String> {
             ex.printStackTrace();
         }
 
-        Log.i("test", output.toString());
-        // output 문자열 return
         return output.toString();
     }
 

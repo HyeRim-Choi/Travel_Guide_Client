@@ -16,6 +16,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import callback.AsyncTaskCallBack;
+
 
 public class GetData extends GetRequest {
     int chk;
@@ -24,12 +26,19 @@ public class GetData extends GetRequest {
     String jsonString;
 
     public ArrayList<String> title;
+    public ArrayList<String> groupMember;
     public Object[] userId;
 
-    public GetData(Activity activity, int chk, String info) {
+    // JSON 형식 받기
+    JSONObject jsonObject = null;
+
+    AsyncTaskCallBack callBack;
+
+    public GetData(Activity activity, int chk, String info, AsyncTaskCallBack callBack) {
         super(activity);
         this.chk = chk;
         this.info = info;
+        this.callBack = callBack;
     }
 
     // request
@@ -38,6 +47,7 @@ public class GetData extends GetRequest {
         String serverURLStr = UrlCreate(chk);
         try {
             url = new URL(serverURLStr);
+            Log.i("test", "url : " + url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -47,6 +57,8 @@ public class GetData extends GetRequest {
     @Override
     protected void onPostExecute(String jsonString) {
         this.jsonString = jsonString;
+
+        Log.i("response", "res : " + jsonString);
 
         if (jsonString == null)
             return;
@@ -65,6 +77,8 @@ public class GetData extends GetRequest {
             e.printStackTrace();
         }
 
+        callBack.onTaskDone(activity, get_res_chk);
+
         /*ArrayList<Book> arrayList = getArrayListFromJSONString(jsonString);
 
         ArrayAdapter adapter = new ArrayAdapter(activity,
@@ -77,7 +91,7 @@ public class GetData extends GetRequest {
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://192.168.16.85:3001";
+        String url = "http://192.168.231.85:3001";
 
         switch (chk){
             // 로그인 중복 체크 시
@@ -90,11 +104,11 @@ public class GetData extends GetRequest {
                 break;
             // 그룹에 멤버 초대 시 아이디 있는 지 체크
             case 8:
-                url += ""+info;
+                url += "/group/idCheck/"+info;
                 break;
             // 그룹 구성원 조회
             case 9:
-                url+= "" + info;
+                url+= "/group/member/" + info;
                 break;
         }
 
@@ -105,6 +119,7 @@ public class GetData extends GetRequest {
         switch (result) {
             // 회원가입 아이디 중복체크 시 아이디가 존재하지 않다면
             case "ok_idChk":
+                get_res_chk = 3;
                 Toast.makeText(activity,"사용가능 한 아이디입니다",Toast.LENGTH_SHORT).show();
                 break;
 
@@ -128,6 +143,7 @@ public class GetData extends GetRequest {
                 // 응답이 어떻게 오는지 확인
                 title = getArrayListFromJSONString(jsonString);
                 Log.i("test","jsonString : " + jsonString);
+                Log.i("test","title : " + title);
 
                 ArrayAdapter adapter = new ArrayAdapter(activity,
                         android.R.layout.simple_list_item_1,
@@ -140,6 +156,39 @@ public class GetData extends GetRequest {
              // 해당 그룹에 존재하는 멤버 받기
             case "ok_group_member":
                 userId = getArrayListFromJSONString(jsonString).toArray();
+                break;
+
+            case "ok_mem_receive":
+                Log.i("mem", "comeIn");
+                groupMember = new ArrayList<>();
+                //Log.i("mem", "" + jsonString.toString());
+
+                try{
+                    JSONObject res = new JSONObject(jsonString);
+                    JSONObject ress = res.optJSONObject("userMem");
+                    for(int i=0;i<ress.length();i++){
+                        groupMember.add(ress.getString("userId"));
+                    }
+                }catch(JSONException e) {
+                    e.printStackTrace();
+                }
+
+//                try {
+//                    Log.i("mem", "" + jsonObject.getString("userMem"));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+               /* try {
+                    for(int i=0;i<jsonObject.getJSONArray("userMem").length();i++){
+                        groupMember.add(jsonObject.getJSONArray("userMem").getString(Integer.parseInt("userId")));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }*/
+
+               for(int i=0;i<groupMember.size();i++) {
+                   Log.i("mem", "" + groupMember.get(i));
+               }
                 break;
         }
     }

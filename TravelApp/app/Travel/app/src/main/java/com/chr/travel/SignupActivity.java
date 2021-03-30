@@ -132,8 +132,14 @@ public class SignupActivity extends AppCompatActivity {
                     // 서버를 통해 해당아이디 사용가능한지 확인받기
                    else{
                         // node로 정보 전달
-                        new GetData(SignupActivity.this,1, id).execute();
-                        check_id = true;
+                        new GetData(SignupActivity.this, 1, id, new AsyncTaskCallBack() {
+                            @Override
+                            public void onTaskDone(Object... params) {
+                                if((Integer)params[1] == 3){
+                                    check_id = true;
+                                }
+                            }
+                        }).execute();
                     }
                     break;
 
@@ -167,25 +173,13 @@ public class SignupActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onTaskDone(Object... params) {
-
+                                   if((Integer)params[1] == 3){
+                                       Intent i = new Intent(SignupActivity.this, LoginActivity.class);
+                                       startActivity(i);
+                                       finish();
+                                   }
                                 }
                             }).execute(postDataParam);
-
-                            new Handler().postDelayed(new Runnable()
-                            {
-                                @Override
-                                public void run()
-                                {
-                                    Log.i("test", ""+post_data.post_res_chk);
-
-                                    if(post_data.post_res_chk == 3){
-                                        Intent i = new Intent(SignupActivity.this, LoginActivity.class);
-                                        startActivity(i);
-                                        post_data.post_res_chk = 0;
-                                        finish();
-                                    }
-                                }
-                            }, 1200);// 0.6초 정도 딜레이를 준 후 시작
 
 
 

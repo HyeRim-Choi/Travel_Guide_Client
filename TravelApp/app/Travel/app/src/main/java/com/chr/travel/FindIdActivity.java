@@ -45,7 +45,6 @@ public class FindIdActivity extends AppCompatActivity {
         btn_findId = findViewById(R.id.btn_findId);
 
 
-
         // 아이디 찾기 버튼 클릭 시
         btn_findId.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,19 +70,8 @@ public class FindIdActivity extends AppCompatActivity {
 
                         @Override
                         public void onTaskDone(Object... params) {
-
-                        }
-                    }).execute(postDataParam);
-
-                    new Handler().postDelayed(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            Log.i("test", ""+post_data.post_res_chk);
-
-                            // id 찾기 성공 시
-                            if(post_data.post_res_chk == 2){
+                            if((Integer)params[1] == 2){
+                                // id 찾기 성공 시
                                 // 아이디 Alert창 띄우기
                                 AlertDialog.Builder dialog = new AlertDialog.Builder(com.chr.travel.FindIdActivity.this);
                                 dialog.setTitle(name + "님의 아이디");
@@ -95,12 +83,10 @@ public class FindIdActivity extends AppCompatActivity {
                                     }
                                 });
 
-                                post_data.post_res_chk = 0;
                                 dialog.show();
                             }
                         }
-                    }, 1200);// 0.6초 정도 딜레이를 준 후 시작
-
+                    }).execute(postDataParam);
 
                 }
             }

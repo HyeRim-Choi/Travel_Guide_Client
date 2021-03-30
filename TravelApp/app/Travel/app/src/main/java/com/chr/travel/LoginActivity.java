@@ -100,12 +100,15 @@ public class LoginActivity extends AppCompatActivity {
                         // Node.js에게 값 전달
                         post_data = (PostInsertData) new PostInsertData(LoginActivity.this,3, new AsyncTaskCallBack(){
 
+                            // 로그인이 완료 됐다면 홈 액티비티로 화면 전환
                             @Override
                             public void onTaskDone(Object... params) {
-                                Log.i("test3333",""+params);
-                                Log.i("test3333",""+params[0]);
-                                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                                startActivity(i);
+                                // 로그인 성공하면
+                               if((Integer)params[1] == 1){
+                                   onSaveData();
+                                   Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                   startActivity(i);
+                               }
                             }
                         }).execute(postDataParam);
 

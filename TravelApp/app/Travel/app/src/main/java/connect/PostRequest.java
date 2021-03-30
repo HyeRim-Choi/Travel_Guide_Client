@@ -106,7 +106,7 @@ public class PostRequest extends AsyncTask<JSONObject, Void, String> {
 
         }
 
-        Log.i("test",result.toString());
+        Log.i("test_res",result.toString());
 
         return result.toString();
     }

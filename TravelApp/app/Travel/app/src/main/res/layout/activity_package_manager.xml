@@ -23,12 +23,15 @@
             android:layout_marginLeft="15dp"
             android:id="@+id/txt_manager_actionbar"/>
 
+
         <Button
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/plus"
             android:layout_marginLeft="100dp"
             android:id="@+id/btn_addGroup"/>
+
+
 
 
     </LinearLayout>

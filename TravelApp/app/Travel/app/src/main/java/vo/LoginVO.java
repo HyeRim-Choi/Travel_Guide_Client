@@ -9,6 +9,8 @@ public class LoginVO {
     private String name;
     private String email;
     private String role;
+    private  String birth;
+    private  boolean gender;
 
 
     public int getIdx() {
@@ -57,5 +59,21 @@ public class LoginVO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
     }
 }

@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import callback.AsyncTaskCallBack;
 import connect.GetData;
 import vo.LoginVO;
 
@@ -75,6 +76,7 @@ public class PackageManagerActivity extends AppCompatActivity {
 
 
         btn_addGroup.setOnClickListener(click);
+
         // ListView 클릭 시
         if(manager_group_listView!=null){
             manager_group_listView.setOnItemClickListener(list_click);
@@ -85,25 +87,41 @@ public class PackageManagerActivity extends AppCompatActivity {
        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                swipe.setRefreshing(true);
                 //당겼다가 손을 떼는 순간 호출되는 메서드
+                Log.i("eee" , "zdfsa");
                 JSONObject postDataParam = new JSONObject();
 
                 try {
                     postDataParam.put("userId",""+vo.getUserId());
+                    Log.i("eee" , "id : " + vo.getUserId());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                // node로 정보 전달
-                get_data = new GetData(PackageManagerActivity.this, 7, vo.getUserId());
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // node로 정보 전달
+                        get_data = new GetData(PackageManagerActivity.this, 7, vo.getUserId(), new AsyncTaskCallBack() {
+                            @Override
+                            public void onTaskDone(Object... params) {
+                                Log.i("eee" , "zdfsa");
+                            }
+                        });
+
+                    }
+                },3000);
+
+
                 //arrayList = new ArrayList<>();
-                title = get_data.title;
+                //서버통신이 마무리 되면 디스크를 제거
+                swipe.setRefreshing(false);
+
 
             }
         });
 
-        //서버통신이 마무리 되면 디스크를 제거
-        swipe.setRefreshing(false);
 
     }
 
@@ -111,7 +129,12 @@ public class PackageManagerActivity extends AppCompatActivity {
     AdapterView.OnItemClickListener list_click = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            get_data = new GetData(PackageManagerActivity.this, 9, title.get(i));
+            get_data = new GetData(PackageManagerActivity.this, 9, title.get(i), new AsyncTaskCallBack() {
+                @Override
+                public void onTaskDone(Object... params) {
+
+                }
+            });
         }
     };
 
@@ -122,7 +145,8 @@ public class PackageManagerActivity extends AppCompatActivity {
             switch (v.getId()){
                 // 그룹 생성 버튼 클릭 시
                 case R.id.btn_addGroup:
-                    Intent i = new Intent(com.chr.travel.PackageManagerActivity.this, com.chr.travel.ManagerAddGroupActivity.class);
+                    //ManagerAddGroupActivity로 고치기
+                    Intent i = new Intent(com.chr.travel.PackageManagerActivity.this, com.chr.travel.GetLocationPraActivity.class);
                     startActivity(i);
                     break;
             }
