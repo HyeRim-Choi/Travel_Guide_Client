@@ -151,6 +151,8 @@ public class GetData extends GetRequest {
                 ListView txtList = activity.findViewById(R.id.manager_group_listView);
                 txtList.setAdapter(adapter);
                 txtList.setDividerHeight(10);
+
+                get_res_chk = 5;
                 break;
 
              // 해당 그룹에 존재하는 멤버 받기

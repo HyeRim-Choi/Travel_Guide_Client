@@ -48,7 +48,7 @@ public class PackageManagerActivity extends AppCompatActivity {
     Gson gson;
 
     // 그룹 정보 업데이트
-    SwipeRefreshLayout swipe;
+    //SwipeRefreshLayout swipe;
 
     ArrayList<String> title;
 
@@ -72,7 +72,7 @@ public class PackageManagerActivity extends AppCompatActivity {
         txt_manager_actionbar = findViewById(R.id.txt_manager_actionbar);
         btn_addGroup = findViewById(R.id.btn_addGroup);
         manager_group_listView = findViewById(R.id.manager_group_listView);
-        swipe = findViewById(R.id.swipe);
+        //swipe = findViewById(R.id.swipe);
 
 
         btn_addGroup.setOnClickListener(click);
@@ -84,34 +84,11 @@ public class PackageManagerActivity extends AppCompatActivity {
 
 
         // swipe가 당겨지면 ( swipe안되면 생명주기로 해보기 )
-       swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+       /*swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipe.setRefreshing(true);
                 //당겼다가 손을 떼는 순간 호출되는 메서드
-                Log.i("eee" , "zdfsa");
-                JSONObject postDataParam = new JSONObject();
-
-                try {
-                    postDataParam.put("userId",""+vo.getUserId());
-                    Log.i("eee" , "id : " + vo.getUserId());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // node로 정보 전달
-                        get_data = new GetData(PackageManagerActivity.this, 7, vo.getUserId(), new AsyncTaskCallBack() {
-                            @Override
-                            public void onTaskDone(Object... params) {
-                                Log.i("eee" , "zdfsa");
-                            }
-                        });
-
-                    }
-                },3000);
 
 
                 //arrayList = new ArrayList<>();
@@ -120,9 +97,35 @@ public class PackageManagerActivity extends AppCompatActivity {
 
 
             }
+        });*/
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.i("resume" , "---resume됨---");
+        JSONObject postDataParam = new JSONObject();
+
+        try {
+            postDataParam.put("userId",""+vo.getUserId());
+            Log.i("resume" , "id : " + vo.getUserId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // node로 정보 전달
+        get_data = new GetData(PackageManagerActivity.this, 7, vo.getUserId(), new AsyncTaskCallBack() {
+            @Override
+            public void onTaskDone(Object... params) {
+                Log.i("eee" , "zdfsa");
+                if(get_data.get_res_chk!=5){
+                    Toast.makeText(PackageManagerActivity.this, "아직 그룹이 존재하지 않습니다", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
-
-
     }
 
     // title 전달
