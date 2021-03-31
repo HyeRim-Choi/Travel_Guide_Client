@@ -103,6 +103,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                                 if((Integer)params[1] == 5){
                                     Intent i = new Intent(ManagerAddGroupActivity.this, PackageManagerActivity.class);
                                     startActivity(i);
+                                    finish();
                                 }
                             }
                         }).execute(postDataParam);

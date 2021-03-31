@@ -87,7 +87,7 @@ public class PostInsertData extends PostRequest {
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://54.180.105.75:3001";
+        String url = "http://192.168.10.85:3001";
 
         switch (chk){
             // 회원가입 시

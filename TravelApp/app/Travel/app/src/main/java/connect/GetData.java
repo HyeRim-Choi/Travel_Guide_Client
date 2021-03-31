@@ -27,10 +27,7 @@ public class GetData extends GetRequest {
 
     public ArrayList<String> title;
     public ArrayList<String> groupMember;
-    public Object[] userId;
 
-    // JSON 형식 받기
-    JSONObject jsonObject = null;
 
     AsyncTaskCallBack callBack;
 
@@ -91,7 +88,7 @@ public class GetData extends GetRequest {
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://54.180.105.75:3001";
+        String url = "http://192.168.10.85:3001";
 
         switch (chk){
             // 로그인 중복 체크 시
@@ -140,24 +137,32 @@ public class GetData extends GetRequest {
 
             // 그룹 조회 응답
             case "ok_group":
-                // 응답이 어떻게 오는지 확인
-                title = getArrayListFromJSONString(jsonString);
-                Log.i("test","jsonString : " + jsonString);
-                Log.i("test","title : " + title);
+                JSONObject res = null;
+                try {
+                    res = new JSONObject(jsonString);
+                    JSONArray ress = res.getJSONArray("groups");
+                    for(int i=0;i<ress.length();i++){
+                        JSONObject jObj = (JSONObject)ress.get(i);
+                        Log.i("userId", jObj.getString("title"));
+                        title.add(jObj.getString("title"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                ArrayAdapter adapter = new ArrayAdapter(activity,
+                /*ArrayAdapter adapter = new ArrayAdapter(activity,
                         android.R.layout.simple_list_item_1,
                         title.toArray());
                 ListView txtList = activity.findViewById(R.id.manager_group_listView);
                 txtList.setAdapter(adapter);
-                txtList.setDividerHeight(10);
+                txtList.setDividerHeight(10);*/
 
                 get_res_chk = 5;
                 break;
 
              // 해당 그룹에 존재하는 멤버 받기
             case "ok_group_member":
-                userId = getArrayListFromJSONString(jsonString).toArray();
+                //userId = getArrayListFromJSONString(jsonString).toArray();
                 break;
 
             case "ok_mem_receive":
@@ -166,9 +171,8 @@ public class GetData extends GetRequest {
                 Log.i("test",jsonString);
 
                 try{
-                    JSONObject res = new JSONObject(jsonString);
+                    res = new JSONObject(jsonString);
                     JSONArray ress = res.getJSONArray("userMem");
-                    //JSONObject ress = res.optJSONObject("userMem");
                     for(int i=0;i<ress.length();i++){
                         JSONObject jObj = (JSONObject)ress.get(i);
                         Log.i("userId", jObj.getString("userId"));
@@ -178,22 +182,6 @@ public class GetData extends GetRequest {
                     e.printStackTrace();
                 }
 
-//                try {
-//                    Log.i("mem", "" + jsonObject.getString("userMem"));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-               /* try {
-                    for(int i=0;i<jsonObject.getJSONArray("userMem").length();i++){
-                        groupMember.add(jsonObject.getJSONArray("userMem").getString(Integer.parseInt("userId")));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
-
-               for(int i=0;i<groupMember.size();i++) {
-                   Log.i("mem", "" + groupMember.get(i));
-               }
                 break;
         }
     }
@@ -208,7 +196,7 @@ public class GetData extends GetRequest {
 
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
-                output.add(jsonObject.getJSONObject("group").getString("title"));
+                output.add(jsonObject.getJSONObject("groups").getString("title"));
             }
         }
         catch (JSONException e) {

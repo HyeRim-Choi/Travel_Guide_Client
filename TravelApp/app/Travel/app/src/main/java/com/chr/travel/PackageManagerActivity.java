@@ -34,7 +34,7 @@ import vo.LoginVO;
 public class PackageManagerActivity extends AppCompatActivity {
 
     TextView txt_manager_actionbar;
-    Button btn_addGroup;
+    Button btn_addGroup, btn_restart;
     ListView manager_group_listView;
 
 
@@ -76,6 +76,7 @@ public class PackageManagerActivity extends AppCompatActivity {
 
 
         btn_addGroup.setOnClickListener(click);
+        //btn_restart.setOnClickListener(click);
 
         // ListView 클릭 시
         if(manager_group_listView!=null){
@@ -102,7 +103,7 @@ public class PackageManagerActivity extends AppCompatActivity {
 
     }
 
-    @Override
+   /* @Override
     protected void onResume() {
         super.onResume();
 
@@ -124,9 +125,12 @@ public class PackageManagerActivity extends AppCompatActivity {
                 if(get_data.get_res_chk!=5){
                     Toast.makeText(PackageManagerActivity.this, "아직 그룹이 존재하지 않습니다", Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    Log.i("tets", "dsgs");
+                }
             }
         });
-    }
+    }*/
 
     // title 전달
     AdapterView.OnItemClickListener list_click = new AdapterView.OnItemClickListener() {
@@ -149,7 +153,7 @@ public class PackageManagerActivity extends AppCompatActivity {
                 // 그룹 생성 버튼 클릭 시
                 case R.id.btn_addGroup:
                     //ManagerAddGroupActivity로 고치기
-                    Intent i = new Intent(com.chr.travel.PackageManagerActivity.this, com.chr.travel.GetLocationPraActivity.class);
+                    Intent i = new Intent(com.chr.travel.PackageManagerActivity.this, com.chr.travel.ManagerAddGroupActivity.class);
                     startActivity(i);
                     break;
             }

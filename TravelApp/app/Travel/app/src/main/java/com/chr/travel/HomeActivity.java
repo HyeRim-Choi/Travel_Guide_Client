@@ -16,6 +16,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.Gson;
 
+import callback.AsyncTaskCallBack;
+import connect.GetData;
 import vo.LoginVO;
 
 public class HomeActivity extends AppCompatActivity {
@@ -30,6 +32,8 @@ public class HomeActivity extends AppCompatActivity {
 
     // login한 user 정보 불러오기
     Gson gson;
+
+    GetData get_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,8 +132,22 @@ public class HomeActivity extends AppCompatActivity {
                     // login 한 user 권한이 매니저인 경우
                     if(vo.getRole().equals("manager")){
                         // 매니저 액티비티로 이동
-                        i = new Intent(com.chr.travel.HomeActivity.this, com.chr.travel.PackageManagerActivity.class);
-                        startActivity(i);
+                        Log.i("test11","sdgafdg");
+
+                        get_data = (GetData) new GetData(HomeActivity.this, 7, vo.getUserId(), new AsyncTaskCallBack() {
+                            @Override
+                            public void onTaskDone(Object... params) {
+                                Log.i("eee" , "zdfsa");
+                                if(get_data.get_res_chk!=5){
+                                    Toast.makeText(getApplicationContext(), "아직 그룹이 존재하지 않습니다", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Log.i("test","sdgafdg");
+                                }
+                            }
+                        });
+                        /*i = new Intent(com.chr.travel.HomeActivity.this, com.chr.travel.PackageManagerActivity.class);
+                        startActivity(i);*/
                     }
                     break;
             }
