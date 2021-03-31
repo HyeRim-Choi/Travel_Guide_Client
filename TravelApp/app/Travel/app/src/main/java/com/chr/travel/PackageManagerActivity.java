@@ -34,7 +34,7 @@ import vo.LoginVO;
 public class PackageManagerActivity extends AppCompatActivity {
 
     TextView txt_manager_actionbar;
-    Button btn_addGroup, btn_restart;
+    Button btn_addGroup;
     ListView manager_group_listView;
 
 
@@ -76,7 +76,6 @@ public class PackageManagerActivity extends AppCompatActivity {
 
 
         btn_addGroup.setOnClickListener(click);
-        //btn_restart.setOnClickListener(click);
 
         // ListView 클릭 시
         if(manager_group_listView!=null){
@@ -103,34 +102,21 @@ public class PackageManagerActivity extends AppCompatActivity {
 
     }
 
-   /* @Override
+    // 매니저의 그룹 조회
+   @Override
     protected void onResume() {
         super.onResume();
 
-        Log.i("resume" , "---resume됨---");
-        JSONObject postDataParam = new JSONObject();
-
-        try {
-            postDataParam.put("userId",""+vo.getUserId());
-            Log.i("resume" , "id : " + vo.getUserId());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         // node로 정보 전달
-        get_data = new GetData(PackageManagerActivity.this, 7, vo.getUserId(), new AsyncTaskCallBack() {
+        get_data = (GetData) new GetData(PackageManagerActivity.this, 7, vo.getUserId(), new AsyncTaskCallBack() {
             @Override
             public void onTaskDone(Object... params) {
-                Log.i("eee" , "zdfsa");
                 if(get_data.get_res_chk!=5){
                     Toast.makeText(PackageManagerActivity.this, "아직 그룹이 존재하지 않습니다", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    Log.i("tets", "dsgs");
-                }
             }
-        });
-    }*/
+        }).execute();
+    }
 
     // title 전달
     AdapterView.OnItemClickListener list_click = new AdapterView.OnItemClickListener() {

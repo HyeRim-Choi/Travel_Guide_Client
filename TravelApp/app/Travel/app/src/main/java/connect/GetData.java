@@ -137,25 +137,30 @@ public class GetData extends GetRequest {
 
             // 그룹 조회 응답
             case "ok_group":
-                JSONObject res = null;
-                try {
-                    res = new JSONObject(jsonString);
-                    JSONArray ress = res.getJSONArray("groups");
-                    for(int i=0;i<ress.length();i++){
-                        JSONObject jObj = (JSONObject)ress.get(i);
-                        Log.i("userId", jObj.getString("title"));
+                title = new ArrayList<>();
+
+                try{
+                    JSONObject res1 = new JSONObject(jsonString);
+                    JSONArray ress1 = res1.getJSONArray("group");
+                    for(int i=0;i<ress1.length();i++){
+                        JSONObject jObj = (JSONObject)ress1.get(i);
+                        Log.i("title", jObj.getString("title"));
                         title.add(jObj.getString("title"));
                     }
-                } catch (JSONException e) {
+                }catch(JSONException e) {
                     e.printStackTrace();
                 }
 
-                /*ArrayAdapter adapter = new ArrayAdapter(activity,
+                for(int i=0;i<title.size();i++){
+                    Log.i("title22 : " , ""+title.get(i));
+                }
+
+                ArrayAdapter adapter = new ArrayAdapter(activity,
                         android.R.layout.simple_list_item_1,
-                        title.toArray());
+                        title);
                 ListView txtList = activity.findViewById(R.id.manager_group_listView);
                 txtList.setAdapter(adapter);
-                txtList.setDividerHeight(10);*/
+                txtList.setDividerHeight(10);
 
                 get_res_chk = 5;
                 break;
@@ -171,7 +176,7 @@ public class GetData extends GetRequest {
                 Log.i("test",jsonString);
 
                 try{
-                    res = new JSONObject(jsonString);
+                    JSONObject res = new JSONObject(jsonString);
                     JSONArray ress = res.getJSONArray("userMem");
                     for(int i=0;i<ress.length();i++){
                         JSONObject jObj = (JSONObject)ress.get(i);
