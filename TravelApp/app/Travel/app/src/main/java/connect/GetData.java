@@ -88,7 +88,7 @@ public class GetData extends GetRequest {
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://13.125.213.7:3001";
+        String url = "http://192.168.50.85:3001";
 
         switch (chk){
             // 로그인 중복 체크 시
