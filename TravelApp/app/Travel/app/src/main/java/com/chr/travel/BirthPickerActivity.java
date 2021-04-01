@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+
+/* 생년월일 Picker */
 public class BirthPickerActivity extends AppCompatActivity {
 
     DatePicker datepicker;

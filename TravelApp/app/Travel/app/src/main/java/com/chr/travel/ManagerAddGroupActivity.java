@@ -37,9 +37,6 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
 
     String title, id;
 
-    // Node와 통신해주는 객체 생성
-    GetData get_data;
-
     JSONObject postDataParam;
 
     // login한 user 정보
@@ -84,7 +81,6 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
 
                     title = et_title.getText().toString();
                     String ids = txt_addId.getText().toString();
-                    Log.i("test","ids : "+ids);
 
                     if (BlankCheck(title, ids)) {
                         try {
@@ -100,6 +96,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
 
                             @Override
                             public void onTaskDone(Object... params) {
+                                // 그룹 생성 성공하면
                                 if((Integer)params[1] == 5){
                                     Intent i = new Intent(ManagerAddGroupActivity.this, PackageManagerActivity.class);
                                     startActivity(i);
@@ -134,6 +131,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                         new GetData(ManagerAddGroupActivity.this, 8, id, new AsyncTaskCallBack() {
                             @Override
                             public void onTaskDone(Object... params) {
+                                //  id가 존재한다면
                                 if((Integer)params[1] == 1){
                                     if(txt_addId.getText().toString().isEmpty()){
                                         txt_addId.setText(id);
@@ -152,6 +150,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
         }
     };
 
+    // 정보 다 입력했는지 확인하는 함수
     public boolean BlankCheck(String title, String ids){
 
         if(title.isEmpty() || title == null){

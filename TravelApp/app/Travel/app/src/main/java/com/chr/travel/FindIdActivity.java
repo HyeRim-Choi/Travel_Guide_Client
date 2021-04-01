@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import callback.AsyncTaskCallBack;
 import connect.PostInsertData;
 
+/* 아이디 찾기 */
 
 public class FindIdActivity extends AppCompatActivity {
 

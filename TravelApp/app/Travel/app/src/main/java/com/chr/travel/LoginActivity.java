@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import callback.AsyncTaskCallBack;
 import connect.PostInsertData;
+import fcm.FirebaseInstanceIDService;
 import vo.LoginVO;
 
 public class LoginActivity extends AppCompatActivity {
@@ -89,9 +90,15 @@ public class LoginActivity extends AppCompatActivity {
                     // 아이디, 비밀번호 다 입력했는지 확인
                     if(BlankCheck(id, pwd)){
                         // node에 전달 할 정보 넣기
+
+                        // 기기마다 Token 전달해주기기
+                       FirebaseInstanceIDService fcm = new FirebaseInstanceIDService();
+                        fcm.onTokenRefresh();
+
                         try {
                             postDataParam.put("userId", id.trim());
                             postDataParam.put("password", pwd.trim());
+                            postDataParam.put("token",fcm.getToken());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

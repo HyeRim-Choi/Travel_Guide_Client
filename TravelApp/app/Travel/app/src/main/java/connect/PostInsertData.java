@@ -87,7 +87,7 @@ public class PostInsertData extends PostRequest {
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://192.168.10.85:3001";
+        String url = "http://192.168.142.85:3001";
 
         switch (chk){
             // 회원가입 시
@@ -171,7 +171,7 @@ public class PostInsertData extends PostRequest {
                 }
                 break;
 
-            case " ok_findPwd":
+            case "ok_findPwd":
                 post_res_chk = 4;
 
             // 그룹 생성 성공 시

@@ -20,11 +20,13 @@ import callback.AsyncTaskCallBack;
 import connect.GetData;
 import vo.LoginVO;
 
+/* Home */
+
 public class HomeActivity extends AppCompatActivity {
 
     DrawerLayout drawer_layout;
     LinearLayout drawer;
-    Button opendrawer, btn_package, btn_free, btn_area;
+    Button opendrawer, btn_package, btn_free, btn_area, btn_logout;
     TextView txt_home_actionbar, txt_id;
 
     // login한 user 정보
@@ -32,8 +34,6 @@ public class HomeActivity extends AppCompatActivity {
 
     // login한 user 정보 불러오기
     Gson gson;
-
-    GetData get_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         btn_package = findViewById(R.id.btn_package);
         btn_free = findViewById(R.id.btn_free);
         btn_area = findViewById(R.id.btn_area);
+        btn_logout = findViewById(R.id.btn_logout);
 
 
         txt_home_actionbar.setText(vo.getUserId() + "님의 일상");
@@ -68,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
         // 버튼들 클릭 시
         opendrawer.setOnClickListener(click);
         btn_package.setOnClickListener(click);
+        btn_logout.setOnClickListener(click);
 
 
         //손가락 드래그로 메뉴 열고 닫기를 방지(버튼 클릭으로만 서랍을 제어)
@@ -135,6 +137,22 @@ public class HomeActivity extends AppCompatActivity {
                         i = new Intent(com.chr.travel.HomeActivity.this, com.chr.travel.PackageManagerActivity.class);
                         startActivity(i);
                     }
+                    break;
+
+                // 로그아웃 버튼을 눌렀을 때
+                case R.id.btn_logout:
+                    new GetData(HomeActivity.this, 10, vo.getUserId(), new AsyncTaskCallBack() {
+                        @Override
+                        public void onTaskDone(Object... params) {
+                            if((Integer)params[1] == 2){
+                                Toast.makeText(HomeActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+                                vo = null;
+                                Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        }
+                    }).execute();
                     break;
             }
         }

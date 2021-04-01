@@ -133,6 +133,7 @@ public class SignupActivity extends AppCompatActivity {
                    else{
                         // node로 정보 전달
                         new GetData(SignupActivity.this, 1, id, new AsyncTaskCallBack() {
+                            // 아이디 사용가능하다면
                             @Override
                             public void onTaskDone(Object... params) {
                                 if((Integer)params[1] == 3){

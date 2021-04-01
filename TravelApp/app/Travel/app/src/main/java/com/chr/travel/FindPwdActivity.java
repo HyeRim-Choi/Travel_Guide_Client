@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 import callback.AsyncTaskCallBack;
 import connect.PostInsertData;
 
+/* 비밀번호 찾기 */
 
 public class FindPwdActivity extends AppCompatActivity {
 
@@ -90,6 +91,7 @@ public class FindPwdActivity extends AppCompatActivity {
         });
     }
 
+    // 정보 입력 체크
     public boolean BlankCheck(String name, String email, String id){
 
 

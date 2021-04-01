@@ -88,7 +88,7 @@ public class GetData extends GetRequest {
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://192.168.10.85:3001";
+        String url = "http://192.168.142.85:3001";
 
         switch (chk){
             // 로그인 중복 체크 시
@@ -107,6 +107,10 @@ public class GetData extends GetRequest {
             case 9:
                 url+= "/group/member/" + info;
                 break;
+            // 로그아웃
+            case 10:
+                url += "/auth/logout/" + info;
+                break;
         }
 
         return url;
@@ -114,6 +118,9 @@ public class GetData extends GetRequest {
 
     public void resultResponse(String result){
         switch (result) {
+            case "ok":
+                get_res_chk = 2;
+                break;
             // 회원가입 아이디 중복체크 시 아이디가 존재하지 않다면
             case "ok_idChk":
                 get_res_chk = 3;
@@ -151,30 +158,13 @@ public class GetData extends GetRequest {
                     e.printStackTrace();
                 }
 
-                for(int i=0;i<title.size();i++){
-                    Log.i("title22 : " , ""+title.get(i));
-                }
-
-                ArrayAdapter adapter = new ArrayAdapter(activity,
-                        android.R.layout.simple_list_item_1,
-                        title);
-                ListView txtList = activity.findViewById(R.id.manager_group_listView);
-                txtList.setAdapter(adapter);
-                txtList.setDividerHeight(10);
-
                 get_res_chk = 5;
                 break;
 
-             // 해당 그룹에 존재하는 멤버 받기
-            case "ok_group_member":
-                //userId = getArrayListFromJSONString(jsonString).toArray();
-                break;
 
+            // 해당 그룹에 존재하는 멤버 받기
             case "ok_mem_receive":
-                Log.i("mem", "comeIn");
                 groupMember = new ArrayList<>();
-                Log.i("test",jsonString);
-
                 try{
                     JSONObject res = new JSONObject(jsonString);
                     JSONArray ress = res.getJSONArray("userMem");
@@ -186,6 +176,8 @@ public class GetData extends GetRequest {
                 }catch(JSONException e) {
                     e.printStackTrace();
                 }
+
+                get_res_chk = 6;
 
                 break;
         }
