@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -52,9 +53,14 @@ public class GroupActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.btn_location:
-                    Intent i = new Intent(GroupActivity.this, SocketClientActivity.class);
-                    i.putExtra("title", title);
-                    startActivity(i);
+                    // node로 정보 전달
+                    new GetData(GroupActivity.this, 11, title, new AsyncTaskCallBack() {
+                        // 아이디 사용가능하다면
+                        @Override
+                        public void onTaskDone(Object... params) {
+                            Toast.makeText(GroupActivity.this, "aaaaa", Toast.LENGTH_SHORT).show();
+                        }
+                    }).execute();
                     break;
             }
         }

@@ -88,7 +88,7 @@ public class GetData extends GetRequest {
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://192.168.142.85:3001";
+        String url = "http://192.168.139.85:3001";
 
         switch (chk){
             // 로그인 중복 체크 시
@@ -110,6 +110,10 @@ public class GetData extends GetRequest {
             // 로그아웃
             case 10:
                 url += "/auth/logout/" + info;
+                break;
+            // 위치 알림 요청
+            case 11:
+                url += "/push/alarm/" + info;
                 break;
         }
 
