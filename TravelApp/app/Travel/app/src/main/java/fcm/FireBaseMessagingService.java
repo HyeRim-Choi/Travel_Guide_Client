@@ -23,7 +23,9 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.chr.travel.FindIdActivity;
 import com.chr.travel.MainActivity;
+import com.chr.travel.NotificationActivity;
 import com.chr.travel.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 
@@ -46,33 +48,34 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
 
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
-        Log.i("test", remoteMessage.getNotification().getBody());
+        //Log.i("test", remoteMessage.getNotification().getBody());
 
 
         if (remoteMessage.getData().size() > 0) {
 
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            //Log.i("test1", remoteMessage.getNotification().getBody());
 
 
-            if (true) {
-
-            } else {
-
+            if (false) {
                 handleNow();
-
             }
+
 
         }
 
-        if (remoteMessage.getNotification() != null) {
+        if (remoteMessage.getData() != null) {
 
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            //Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            //Log.i("test2", remoteMessage.getNotification().getBody());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                sendNotification(remoteMessage.getNotification().getBody());
+                Log.i("test2", remoteMessage.getData().get("title"));
+                sendNotification(remoteMessage.getData().get("title"));
             }
 
         }
+
 
     }
 
@@ -87,22 +90,21 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void sendNotification(String messageBody) {
 
-        //Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, NotificationActivity.class);
 
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class),
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
 
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         String channelId = "channelId";
 
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder notificationBuilder =
 
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(this, channelId)
 
                         .setSmallIcon(R.mipmap.ic_launcher)
 
@@ -111,8 +113,6 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
                         .setContentText(messageBody)
 
                         .setAutoCancel(true)
-
-                        .setSound(defaultSoundUri)
 
                         .setContentIntent(pendingIntent);
 
