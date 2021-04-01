@@ -113,8 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // 로그인 성공하면
                                if((Integer)params[1] == 1){
                                    onSaveData();
-                                   Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                                   startActivity(i);
+                                   finish();
                                }
                             }
                         }).execute(postDataParam);

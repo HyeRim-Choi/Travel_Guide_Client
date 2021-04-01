@@ -9,8 +9,40 @@ public class LoginVO {
     private String name;
     private String email;
     private String role;
-    private  String birth;
-    private  boolean gender;
+    private String birth;
+    private boolean gender;
+
+
+
+    // private LoginVO instance;
+//
+//
+//    private LoginVO(int idx, String userId, String password, String name, String email, String role, String birth, boolean gender) {
+//        this.idx = idx;
+//        this.userId = userId;
+//        this.password = password;
+//        this.name = name;
+//        this.email = email;
+//        this.role = role;
+//        this.birth = birth;
+//        this.gender = gender;
+//    }
+////    public LoginVO getInstance(){
+////        if(instance == null) {
+////            instance = new LoginVO();
+////        }
+////        return instance;
+////    }
+//
+//    public LoginVO login(){
+//        if(instance == null) {
+//            login if(login == success){
+//                instance = new LoginVO(, id ,pass, email, erwer);
+//            }
+//
+//        }
+//        return instance;
+//    }
 
 
     public int getIdx() {

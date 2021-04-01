@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -135,7 +136,7 @@ public class HomeActivity extends AppCompatActivity {
                     if(vo.getRole().equals("manager")){
                         // 매니저 액티비티로 이동
                         i = new Intent(com.chr.travel.HomeActivity.this, com.chr.travel.PackageManagerActivity.class);
-                        startActivity(i);
+                        startActivityForResult(i, 0);
                     }
                     break;
 
@@ -148,7 +149,7 @@ public class HomeActivity extends AppCompatActivity {
                                 Toast.makeText(HomeActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
                                 vo = null;
                                 Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-                                startActivity(i);
+                                startActivityForResult(i, 0);
                                 finish();
                             }
                         }
@@ -157,6 +158,16 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == -1){
+            Toast.makeText(this,"로그인 후 이용해주세요", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, com.chr.travel.LoginActivity.class);
+            startActivity(i);
+        }
+    }
 
     // 저장한 user 정보를 불러오는 함수
     public void onSearchData(){

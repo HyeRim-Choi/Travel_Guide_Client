@@ -74,7 +74,7 @@ public class GetData extends GetRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, get_res_chk);
+        callBack.onTaskDone(activity, get_res_chk, title);
 
         /*ArrayList<Book> arrayList = getArrayListFromJSONString(jsonString);
 
@@ -88,7 +88,7 @@ public class GetData extends GetRequest {
 
     // 요청 url 생성하기
     public String UrlCreate(int chk){
-        String url = "http://192.168.139.85:3001";
+        String url = UrlCreater.getUrl();
 
         switch (chk){
             // 로그인 중복 체크 시
