@@ -148,6 +148,7 @@ public class GetData extends GetRequest {
 
             // 그룹 조회 응답
             case "ok_group":
+                Log.i("login", "ok_group받음");
                 title = new ArrayList<>();
 
                 try{

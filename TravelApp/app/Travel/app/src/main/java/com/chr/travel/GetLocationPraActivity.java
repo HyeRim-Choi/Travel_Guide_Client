@@ -27,7 +27,7 @@ public class GetLocationPraActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "ㅇ클릭",Toast.LENGTH_SHORT).show();
-                get_data = (GetData) new GetData(GetLocationPraActivity.this, 9, "seoul", new AsyncTaskCallBack() {
+                get_data = (GetData) new GetData(GetLocationPraActivity.this, 11, "seoul", new AsyncTaskCallBack() {
                     @Override
                     public void onTaskDone(Object... params) {
 

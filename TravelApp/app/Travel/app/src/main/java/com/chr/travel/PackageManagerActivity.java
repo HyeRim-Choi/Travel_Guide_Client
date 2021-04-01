@@ -58,15 +58,58 @@ public class PackageManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_package_manager);
 
+        Log.i("패키지 매니저", "패키지 매니저 액티비티 들어옴");
+
         // login 한 user 정보 불러오기
         onSearchData();
 
         // login 하지 않았다면
         if(vo == null){
+            Log.i("login", "login 안됨");
             Toast.makeText(com.chr.travel.PackageManagerActivity.this,"로그인 후 이용해주세요", Toast.LENGTH_LONG).show();
-            Intent i = new Intent(com.chr.travel.PackageManagerActivity.this, com.chr.travel.LoginActivity.class);
+           /* Intent i = new Intent(com.chr.travel.PackageManagerActivity.this, com.chr.travel.LoginActivity.class);
             startActivity(i);
-            finish();
+            finish();*/
+        }
+
+        else{
+            // node로 정보 전달
+            Log.i("login", "login 됨");
+            get_data = (GetData) new GetData(PackageManagerActivity.this, 7, vo.getUserId(), new AsyncTaskCallBack() {
+                @Override
+                public void onTaskDone(Object... params) {
+                    // 그룹조회 성공 시
+                    if((Integer)params[1] == 5){
+                        adapter = new ArrayAdapter(PackageManagerActivity.this,
+                                android.R.layout.simple_list_item_1,
+                                get_data.title);
+                        manager_group_listView = findViewById(R.id.manager_group_listView);
+                        manager_group_listView.setAdapter(adapter);
+                        manager_group_listView.setDividerHeight(10);
+                    }
+                }
+            }).execute();
+
+            // title 클릭 시 멤버 정보 받아오기
+            manager_group_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    String title = adapter.getItem(i).toString();
+
+                    get_data = (GetData) new GetData(PackageManagerActivity.this, 9, title, new AsyncTaskCallBack() {
+                        @Override
+                        public void onTaskDone(Object... params) {
+                            if((Integer)params[1] == 6){
+                                Intent i = new Intent(PackageManagerActivity.this, GroupActivity.class);
+                                i.putExtra("title", title);
+                                i.putExtra("members", get_data.groupMember);
+                                startActivity(i);
+                            }
+                        }
+                    }).execute();
+
+                }
+            });
         }
 
 
@@ -99,12 +142,14 @@ public class PackageManagerActivity extends AppCompatActivity {
     }
 
     // 매니저의 그룹 조회
-   @Override
+  @Override
     protected void onResume() {
         super.onResume();
 
+       onSearchData();
+
         // node로 정보 전달
-        new GetData(PackageManagerActivity.this, 7, vo.getUserId(), new AsyncTaskCallBack() {
+        get_data = (GetData) new GetData(PackageManagerActivity.this, 7, vo.getUserId(), new AsyncTaskCallBack() {
             @Override
             public void onTaskDone(Object... params) {
                 // 그룹조회 성공 시
