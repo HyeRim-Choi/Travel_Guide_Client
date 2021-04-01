@@ -72,7 +72,7 @@ public class PackageManagerActivity extends AppCompatActivity {
             finish();*/
         }
 
-        else{
+       /* else{
             // node로 정보 전달
             Log.i("login", "login 됨");
             get_data = (GetData) new GetData(PackageManagerActivity.this, 7, vo.getUserId(), new AsyncTaskCallBack() {
@@ -110,7 +110,7 @@ public class PackageManagerActivity extends AppCompatActivity {
 
                 }
             });
-        }
+        }*/
 
 
         txt_manager_actionbar = findViewById(R.id.txt_manager_actionbar);
