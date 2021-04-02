@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class ManagerGetLocationActivity extends AppCompatActivity {
+public class ManagerGetLocationActivity2 extends AppCompatActivity {
 
     Button btn_get_location;
 
@@ -25,7 +25,7 @@ public class ManagerGetLocationActivity extends AppCompatActivity {
         btn_get_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MemberSendLocationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MemberSendLocationActivity2.class);
 
                 intent.putExtra("dataFromFirstActivity", "location");
 

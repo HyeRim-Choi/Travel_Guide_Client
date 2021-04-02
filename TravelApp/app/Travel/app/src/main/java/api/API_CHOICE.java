@@ -15,4 +15,6 @@ public final class API_CHOICE {
     public static final int FIND_PWD = 5;
     public static final int GROUP_ADD = 6;
     public static final int LOCATION_REQ = 11;
+    public static final int LOCATION_SEND = 12;
+
 }

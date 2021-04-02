@@ -59,6 +59,9 @@ public class UrlCreate {
                  url += "/push/alarm";
                  return url;
 
+              case API_CHOICE.LOCATION_SEND:
+                  url += "/group/location";
+                  return url;
 
             default:
                 return "";

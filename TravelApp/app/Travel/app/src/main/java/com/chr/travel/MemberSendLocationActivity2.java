@@ -1,5 +1,8 @@
 package com.chr.travel;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,9 +14,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -27,17 +27,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MemberSendLocationActivity extends AppCompatActivity {
+public class MemberSendLocationActivity2 extends AppCompatActivity {
 
     private FusedLocationProviderClient mFusedLocationClient;
 
     final private int REQUEST_PERMISSIONS_FOR_LAST_KNOWN_LOCATION = 100;
     final private int REQUEST_PERMISSIONS_FOR_LOCATION_UPDATES = 101;
 
+    private Button mStartUpdatesButton;
+    private Button mStopUpdatesButton;
+    private boolean mRequestingLocationUpdates;
+
     private Location mLastLocation;
     private LocationCallback mLocationCallback;
-
-    TextView txt_latitude, txt_longitude;
 
 
     @Override
@@ -46,10 +48,6 @@ public class MemberSendLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_member_send_location);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        txt_latitude = findViewById(R.id.txt_latitude);
-        txt_longitude = findViewById(R.id.txt_longitude);
-
 
         //getLastLocation();
 
@@ -84,7 +82,7 @@ public class MemberSendLocationActivity extends AppCompatActivity {
         // 1. 위치 접근에 필요한 권한 검사 및 요청
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
-                    MemberSendLocationActivity.this,            // MainActivity 액티비티의 객체 인스턴스를 나타냄
+                    MemberSendLocationActivity2.this,            // MainActivity 액티비티의 객체 인스턴스를 나타냄
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},        // 요청할 권한 목록을 설정한 String 배열
                     REQUEST_PERMISSIONS_FOR_LAST_KNOWN_LOCATION    // 사용자 정의 int 상수. 권한 요청 결과를 받을 때
             );
@@ -114,18 +112,17 @@ public class MemberSendLocationActivity extends AppCompatActivity {
     private void updateUI() {
         double latitude = 0.0;
         double longitude = 0.0;
+        //float precision = 0.0f;
 
 
         if (mLastLocation != null) {
             latitude = mLastLocation.getLatitude();
             longitude = mLastLocation.getLongitude();
+            //precision = mLastLocation.getAccuracy();
             Log.i("test", "latitude33 : " + latitude + ", longitude : " + longitude);
         }
 
-        txt_latitude.setText("latitude : " + latitude);
-        txt_longitude.setText("longitude : " + longitude);
-
-        /*Intent resultIntent = new Intent();
+        Intent resultIntent = new Intent();
 
         Log.i("test", "latitude22 : " + latitude + ", longitude : " + longitude);
 
@@ -134,7 +131,7 @@ public class MemberSendLocationActivity extends AppCompatActivity {
         resultIntent.putExtra("longitude", longitude);
 
         setResult(RESULT_OK, resultIntent);
-        finish();*/
+        finish();
 
     }
 
@@ -159,7 +156,7 @@ public class MemberSendLocationActivity extends AppCompatActivity {
         // 3. 위치 접근에 필요한 권한 검사
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
-                    MemberSendLocationActivity.this,            // MainActivity 액티비티의 객체 인스턴스를 나타냄
+                    MemberSendLocationActivity2.this,            // MainActivity 액티비티의 객체 인스턴스를 나타냄
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},        // 요청할 권한 목록을 설정한 String 배열
                     REQUEST_PERMISSIONS_FOR_LOCATION_UPDATES    // 사용자 정의 int 상수. 권한 요청 결과를 받을 때
             );
@@ -178,4 +175,27 @@ public class MemberSendLocationActivity extends AppCompatActivity {
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
 
+    private void getAddress() {
+        TextView addressTextView = (TextView) findViewById(R.id.address_text);
+        Geocoder geocoder = new Geocoder(this, Locale.KOREA);
+        List<Address> addresses = null;
+
+        try {
+            addresses = geocoder.getFromLocation(mLastLocation.getLatitude(),mLastLocation.getLongitude(),1);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (addresses.size() >0) {
+            Address address = addresses.get(0);
+            addressTextView.setText(String.format("\n[%s]\n[%s]\n[%s]\n[%s]",
+                    address.getFeatureName(),
+                    address.getThoroughfare(),
+                    address.getLocality(),
+                    address.getCountryName()
+            ));
+        }
+
+    }
 }

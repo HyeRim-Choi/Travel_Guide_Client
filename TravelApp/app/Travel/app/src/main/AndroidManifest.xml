@@ -20,8 +20,14 @@
         <activity android:name=".GroupActivity" />
         <activity android:name=".GetLocationPraActivity" />
         <activity android:name=".BirthPickerActivity" />
-        <activity android:name=".MemberSendLocationActivity" />
-        <activity android:name=".ManagerGetLocationActivity" />
+        <activity android:name=".MemberSendLocationActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ManagerGetLocationActivity2" />
         <activity android:name=".LocationActivity" />
         <activity android:name=".LocationAccessActivity" />
         <activity android:name=".FindIdActivity"></activity>
@@ -29,11 +35,7 @@
         <activity android:name=".HomeActivity" />
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".LogoActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ManagerAddGroupActivity" />
         <activity android:name=".PackageManagerActivity" />
