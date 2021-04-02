@@ -3,7 +3,6 @@ package com.chr.travel;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,12 +17,9 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import callback.AsyncTaskCallBack;
-import connect.GetData;
-import connect.PostInsertData;
+import api.API_CHOICE;
+import api.AsyncTaskFactory;
+import api.callback.AsyncTaskCallBack;
 
 import vo.LoginVO;
 
@@ -91,19 +87,22 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        // Node.js에게 값 전달
-                        new PostInsertData(ManagerAddGroupActivity.this,6, new AsyncTaskCallBack(){
-
-                            @Override
-                            public void onTaskDone(Object... params) {
-                                // 그룹 생성 성공하면
-                                if((Integer)params[1] == 5){
-                                    Intent i = new Intent(ManagerAddGroupActivity.this, PackageManagerActivity.class);
-                                    startActivity(i);
-                                    finish();
+                        try {
+                            AsyncTaskFactory.getApiPostTask(ManagerAddGroupActivity.this, API_CHOICE.GROUP_ADD, new AsyncTaskCallBack() {
+                                @Override
+                                public void onTaskDone(Object... params) {
+                                    // 그룹 생성 성공하면
+                                    if((Integer)params[1] == 5){
+                                        Intent i = new Intent(ManagerAddGroupActivity.this, PackageManagerActivity.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
                                 }
-                            }
-                        }).execute(postDataParam);
+                            }).execute(postDataParam);
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
                         break;
                     }
 
@@ -120,30 +119,26 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
 
                     // 서버를 통해 해당아이디 사용가능한지 확인받기
                     else{
-
                         try {
-                            postDataParam.put("userId", id.trim());
-                        } catch (JSONException e) {
+                            AsyncTaskFactory.getApiGetTask(ManagerAddGroupActivity.this, API_CHOICE.GROUP_ID_CHECK, id, new AsyncTaskCallBack() {
+                                @Override
+                                public void onTaskDone(Object... params) {
+                                    //  id가 존재한다면
+                                    if((Integer)params[1] == 1){
+                                        if(txt_addId.getText().toString().isEmpty()){
+                                            txt_addId.setText(id);
+                                        }
+                                        else{
+                                            txt_addId.append(","+id);
+                                        }
+                                    }
+                                    et_userId.setText(null);
+                                }
+                            }).execute();
+                        }
+                        catch (Exception e){
                             e.printStackTrace();
                         }
-
-                        // node로 정보 전달
-                        new GetData(ManagerAddGroupActivity.this, 8, id, new AsyncTaskCallBack() {
-                            @Override
-                            public void onTaskDone(Object... params) {
-                                //  id가 존재한다면
-                                if((Integer)params[1] == 1){
-                                    if(txt_addId.getText().toString().isEmpty()){
-                                        txt_addId.setText(id);
-                                    }
-                                    else{
-                                        txt_addId.append(","+id);
-                                    }
-                                }
-                                et_userId.setText(null);
-                            }
-                        }).execute();
-
                     }
                     break;
             }

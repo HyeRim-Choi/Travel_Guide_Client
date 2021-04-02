@@ -1,9 +1,8 @@
-package connect;
+package api.post;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 

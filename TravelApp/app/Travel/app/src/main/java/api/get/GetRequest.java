@@ -1,4 +1,4 @@
-package connect;
+package api.get;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -29,7 +29,6 @@ abstract public class GetRequest extends AsyncTask<String, Void, String> {
     public GetRequest(Activity activity) {
         this.activity = activity;
     }
-
 
     @Override
     protected String doInBackground(String... strings) {
@@ -82,3 +81,4 @@ abstract public class GetRequest extends AsyncTask<String, Void, String> {
     }
 
 }
+

@@ -2,7 +2,6 @@ package com.chr.travel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -18,13 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
-import callback.AsyncTaskCallBack;
-import connect.GetData;
-import connect.PostInsertData;
+import api.API_CHOICE;
+import api.AsyncTaskFactory;
+import api.callback.AsyncTaskCallBack;
 
 
 public class SignupActivity extends AppCompatActivity {
@@ -43,8 +40,6 @@ public class SignupActivity extends AppCompatActivity {
     String name, id, pwd, checkPwd, email, tel, role, birth;
     boolean gen;
 
-    // 서버와의 통신 객체 생성
-    PostInsertData post_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,16 +126,21 @@ public class SignupActivity extends AppCompatActivity {
 
                     // 서버를 통해 해당아이디 사용가능한지 확인받기
                    else{
-                        // node로 정보 전달
-                        new GetData(SignupActivity.this, 1, id, new AsyncTaskCallBack() {
-                            // 아이디 사용가능하다면
-                            @Override
-                            public void onTaskDone(Object... params) {
-                                if((Integer)params[1] == 3){
-                                    check_id = true;
-                                }
-                            }
-                        }).execute();
+                       try {
+                           // node로 정보 전달
+                           AsyncTaskFactory.getApiGetTask(SignupActivity.this, API_CHOICE.IDCHECK, id, new AsyncTaskCallBack() {
+                               // 아이디 사용가능하다면
+                               @Override
+                               public void onTaskDone(Object... params) {
+                                   if ((Integer) params[1] == 3) {
+                                       check_id = true;
+                                   }
+                               }
+                           }).execute();
+                       }
+                       catch (Exception e){
+                           e.printStackTrace();
+                       }
                     }
                     break;
 
@@ -169,22 +169,24 @@ public class SignupActivity extends AppCompatActivity {
                                 Log.e(TAG, "JSONEXception");
                             }
 
-                            // 노드와 연결해서 db에 정보 저장
-                            post_data = (PostInsertData) new PostInsertData(SignupActivity.this,2, new AsyncTaskCallBack(){
+                            try {
+                                AsyncTaskFactory.getApiPostTask(SignupActivity.this, API_CHOICE.SIGNUP, new AsyncTaskCallBack() {
+                                    @Override
+                                    public void onTaskDone(Object... params) {
+                                        if((Integer)params[1] == 3){
+                                            Intent i = new Intent(SignupActivity.this, LoginActivity.class);
+                                            startActivity(i);
+                                            finish();
+                                        }
+                                    }
+                                }).execute(postDataParam);
 
-                                @Override
-                                public void onTaskDone(Object... params) {
-                                   if((Integer)params[1] == 3){
-                                       Intent i = new Intent(SignupActivity.this, LoginActivity.class);
-                                       startActivity(i);
-                                       finish();
-                                   }
-                                }
-                            }).execute(postDataParam);
-
-
-
+                            }
+                            catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
+
                         // 아이디 중복 체크를 하지 않았다면
                         else{
                             Toast.makeText(com.chr.travel.SignupActivity.this, "아이디 중복체크를 해주세요", Toast.LENGTH_LONG).show();

@@ -18,8 +18,10 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import callback.AsyncTaskCallBack;
-import connect.PostInsertData;
+import api.API_CHOICE;
+import api.AsyncTaskFactory;
+import api.callback.AsyncTaskCallBack;
+import api.post.PostLogin;
 import fcm.FirebaseInstanceIDService;
 import vo.LoginVO;
 
@@ -30,10 +32,6 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox check_autoLogin;
 
     String id, pwd;
-
-    // node와 통신 할 객체 생성
-    PostInsertData post_data;
-
     // user 정보를 저장하는 인터페이스 준비
     Gson gson;
 
@@ -103,21 +101,22 @@ public class LoginActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
-                        // Node.js에게 값 전달
-                        post_data = (PostInsertData) new PostInsertData(LoginActivity.this,3, new AsyncTaskCallBack(){
-
-                            // 로그인이 완료 됐다면 홈 액티비티로 화면 전환
-                            @Override
-                            public void onTaskDone(Object... params) {
-                                // 로그인 성공하면
-                               if((Integer)params[1] == 1){
-                                   onSaveData();
-                                   Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                                   startActivity(i);
-                               }
-                            }
-                        }).execute(postDataParam);
+                        try {
+                            AsyncTaskFactory.getApiPostTask(LoginActivity.this, API_CHOICE.LOGIN, new AsyncTaskCallBack() {
+                                @Override
+                                public void onTaskDone(Object... params) {
+                                    // 로그인 성공하면
+                                    if((Integer)params[1] == 1){
+                                        onSaveData();
+                                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                        startActivity(i);
+                                    }
+                                }
+                            }).execute(postDataParam);
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
 
                     }
                     break;
@@ -166,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // login 한 user 정보를 저장하는 함수
     public void onSaveData(){
-        LoginVO vo = post_data.vo;
+        LoginVO vo = PostLogin.vo;
 
         if(vo == null){
             Log.i("test","user 정보 저장 안됨");

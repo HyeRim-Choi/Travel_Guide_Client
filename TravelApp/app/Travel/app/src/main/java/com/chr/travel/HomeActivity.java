@@ -16,8 +16,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.Gson;
 
-import callback.AsyncTaskCallBack;
-import connect.GetData;
+import api.API_CHOICE;
+import api.AsyncTaskFactory;
+import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
 /* Home */
@@ -142,18 +143,23 @@ public class HomeActivity extends AppCompatActivity {
 
                 // 로그아웃 버튼을 눌렀을 때
                 case R.id.btn_logout:
-                    new GetData(HomeActivity.this, 10, vo.getUserId(), new AsyncTaskCallBack() {
-                        @Override
-                        public void onTaskDone(Object... params) {
-                            if((Integer)params[1] == 2){
-                                Toast.makeText(HomeActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
-                                vo = null;
-                                Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-                                startActivity(i);
-                                finish();
+                    try {
+                        AsyncTaskFactory.getApiGetTask(HomeActivity.this, API_CHOICE.LOGOUT, vo.getUserId(), new AsyncTaskCallBack() {
+                            @Override
+                            public void onTaskDone(Object... params) {
+                                if((Integer)params[1] == 2){
+                                    Toast.makeText(HomeActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+                                    vo = null;
+                                    Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
                             }
-                        }
-                    }).execute();
+                        }).execute();
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
                     break;
 
                 case R.id.btn_area:
