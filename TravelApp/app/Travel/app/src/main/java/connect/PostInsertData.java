@@ -110,6 +110,11 @@ public class PostInsertData extends PostRequest {
             case 6:
                 url += "/group";
                 break;
+
+            // 위치 알림 요청
+            case 11:
+                url += "/push/alarm";
+                break;
         }
 
         return url;

@@ -111,10 +111,7 @@ public class GetData extends GetRequest {
             case 10:
                 url += "/auth/logout/" + info;
                 break;
-            // 위치 알림 요청
-            case 11:
-                url += "/push/alarm/" + info;
-                break;
+
         }
 
         return url;

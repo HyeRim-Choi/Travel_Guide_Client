@@ -132,14 +132,11 @@ public class HomeActivity extends AppCompatActivity {
 
                 // 패키지 버튼을 눌렀을 때
                 case R.id.btn_package:
-                case R.id.btn_area:
                     // login 한 user 권한이 매니저인 경우
                     if(vo.getRole().equals("manager")){
                         // 매니저 액티비티로 이동
-                        i = new Intent(com.chr.travel.HomeActivity.this, com.chr.travel.GetLocationPraActivity.class);
-                        Log.i("login1", "login 됨");
+                        i = new Intent(com.chr.travel.HomeActivity.this, com.chr.travel.PackageManagerActivity.class);
                         startActivity(i);
-                        Log.i("login2", "login 됨");
                     }
                     break;
 
@@ -159,7 +156,14 @@ public class HomeActivity extends AppCompatActivity {
                     }).execute();
                     break;
 
-
+                case R.id.btn_area:
+                    // login 한 user 권한이 매니저인 경우
+                    if(vo.getRole().equals("manager")){
+                        // 매니저 액티비티로 이동
+                        i = new Intent(com.chr.travel.HomeActivity.this, com.chr.travel.GetLocationPraActivity.class);
+                        startActivity(i);
+                    }
+                    break;
             }
         }
     };

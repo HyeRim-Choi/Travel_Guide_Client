@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import callback.AsyncTaskCallBack;
 import connect.GetData;
+import connect.PostInsertData;
 
 /* 매니저 그룹 목록 가져오기 */
 
@@ -54,7 +55,7 @@ public class GroupActivity extends AppCompatActivity {
             switch (view.getId()){
                 case R.id.btn_location:
                     // node로 정보 전달
-                    new GetData(GroupActivity.this, 11, title, new AsyncTaskCallBack() {
+                    new PostInsertData(GroupActivity.this, 11, new AsyncTaskCallBack() {
                         // 아이디 사용가능하다면
                         @Override
                         public void onTaskDone(Object... params) {
