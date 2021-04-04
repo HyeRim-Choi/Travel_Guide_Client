@@ -47,6 +47,6 @@ public class MapActivity extends AppCompatActivity {
                     // 새로고침 버튼 클릭 시
                     break;
             }
-        }
+       }
     };
 }
