@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config xmlns:tools="http://schemas.android.com/tools">
+    <!--Set application-wide security config using base-config tag.-->
+    <base-config cleartextTrafficPermitted="true"/>
+
+    <!--<domain includeSubdomains="true"
+        tools:ignore="NetworkSecurityConfig">"http://개인 웹 서버 주소/"</domain>-->
+</network-security-config>
