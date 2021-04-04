@@ -32,6 +32,9 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class LocationAccessActivity extends AppCompatActivity {
     private static final String TAG = LocationAccessActivity.class.getSimpleName();
 
@@ -185,9 +188,15 @@ public class LocationAccessActivity extends AppCompatActivity {
             txt_lati.setText(""+latitude);
             txt_long.setText(""+longitude);
 
+            SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String time = format.format(date);
+
             Intent resultIntent = new Intent();
             resultIntent.putExtra("latitude", latitude);
             resultIntent.putExtra("longitude", longitude);
+            resultIntent.putExtra("date", time);
+            resultIntent.putExtra("time", time);
             setResult(RESULT_OK, resultIntent);
         }
 

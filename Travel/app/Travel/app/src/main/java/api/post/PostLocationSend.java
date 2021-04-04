@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
@@ -17,12 +19,14 @@ import api.callback.AsyncTaskCallBack;
 public class PostLocationSend extends PostRequest {
     public final int chk;
 
-
     AsyncTaskCallBack callBack;
     JSONObject jsonObject;
+    String jsonString;
+    int post_res_chk;
 
-    // ******
-    public int post_res_chk;
+    ArrayList<String> userId;
+    ArrayList<Double> latitude;
+    ArrayList<Double> longitude;
 
 
     public PostLocationSend(Activity activity, AsyncTaskCallBack callBack) {
@@ -49,6 +53,8 @@ public class PostLocationSend extends PostRequest {
     // response
     @Override
     protected void onPostExecute(String jsonString) {
+        this.jsonString = jsonString;
+
         Log.i("response", "res : " + jsonString);
         if (jsonString == null)
             return;
@@ -62,7 +68,7 @@ public class PostLocationSend extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, post_res_chk);
+        callBack.onTaskDone(post_res_chk, userId, latitude, longitude);
 
     }
 
@@ -72,6 +78,28 @@ public class PostLocationSend extends PostRequest {
         switch (result) {
             case "ok":
                 post_res_chk = 1;
+                userId = new ArrayList<>();
+                latitude = new ArrayList<>();
+                longitude = new ArrayList<>();
+
+                try{
+                    JSONObject res1 = new JSONObject(jsonString);
+                    // 전달되는 이름 확인
+                    JSONArray res2 = res1.getJSONArray("location");
+                    for(int i=0;i<res2.length();i++){
+                        JSONObject jObj = (JSONObject)res2.get(i);
+                        // ArrayList로 아이디, 경도, 위도 각각 받기
+                        userId.add(jObj.getString("userId"));
+                        latitude.add(jObj.getDouble("latitude"));
+                        longitude.add(jObj.getDouble("longitude"));
+
+                        Log.i("id", jObj.getString("userId"));
+                        Log.i("latitude", jObj.getString("latitude"));
+                        Log.i("longitude", jObj.getString("longitude"));
+                    }
+                }catch(JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case "fail":

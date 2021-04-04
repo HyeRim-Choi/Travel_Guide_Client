@@ -53,6 +53,9 @@ public class  NotificationActivity extends AppCompatActivity {
                     postDataParam.put("userId", vo.getUserId());
                     postDataParam.put("latitude", latitude);
                     postDataParam.put("longitude", longitude);
+                    // 날짜 시간 값 전달
+                    postDataParam.put("date", longitude);
+                    postDataParam.put("time", longitude);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -61,8 +64,9 @@ public class  NotificationActivity extends AppCompatActivity {
                     AsyncTaskFactory.getApiPostTask(NotificationActivity.this, API_CHOICE.LOCATION_SEND, new AsyncTaskCallBack() {
                         @Override
                         public void onTaskDone(Object... params) {
-                            if((Integer)params[1] == 1){
+                            if((Integer)params[0] == 1){
                                 // 지도에 위치 띄우기
+
                             }
                         }
                     }).execute(postDataParam);
