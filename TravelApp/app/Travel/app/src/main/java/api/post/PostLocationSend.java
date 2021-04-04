@@ -17,8 +17,6 @@ import api.callback.AsyncTaskCallBack;
 public class PostLocationSend extends PostRequest {
     public final int chk;
 
-    // 아이디 찾기 시 아이디 받기
-    public String findId;
 
     AsyncTaskCallBack callBack;
     JSONObject jsonObject;
@@ -64,7 +62,7 @@ public class PostLocationSend extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, post_res_chk, findId);
+        callBack.onTaskDone(activity, post_res_chk);
 
     }
 
@@ -72,20 +70,12 @@ public class PostLocationSend extends PostRequest {
 
     public void resultResponse(String result){
         switch (result) {
-
-            //
             case "ok":
-                post_res_chk = 2;
-                try {
-                    findId = jsonObject.getString("userId");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                post_res_chk = 1;
                 break;
 
-            // 아이디 찾기 실패 시
             case "fail":
-                Toast.makeText(activity, "없는 정보입니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "위치 전달 실패", Toast.LENGTH_SHORT).show();
                 break;
 
 

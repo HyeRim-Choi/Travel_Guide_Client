@@ -4,21 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LocationAccessActivity"
+    tools:context=".GetLocationPraActivity"
     android:orientation="vertical">
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="위도"
-        android:textSize="30dp"
-        android:id="@+id/txt_lati"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="경도"
-        android:textSize="30dp"
-        android:id="@+id/txt_long"/>
+        android:textSize="20dp"
+        android:text="위치 가져오기"
+        android:id="@+id/btn_location"/>
 
 </LinearLayout>
