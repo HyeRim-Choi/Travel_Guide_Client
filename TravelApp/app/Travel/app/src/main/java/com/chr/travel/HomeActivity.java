@@ -166,7 +166,7 @@ public class HomeActivity extends AppCompatActivity {
                     // login 한 user 권한이 매니저인 경우
                     if(vo.getRole().equals("manager")){
                         // 매니저 액티비티로 이동
-                        i = new Intent(com.chr.travel.HomeActivity.this, com.chr.travel.GetLocationPraActivity.class);
+                        i = new Intent(com.chr.travel.HomeActivity.this, GetApiHashKeyActivity.class);
                         startActivity(i);
                     }
                     break;

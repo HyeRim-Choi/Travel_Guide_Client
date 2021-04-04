@@ -15,51 +15,54 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel">
-        <activity android:name=".NotificationActivity"></activity>
-        <activity android:name=".SocketClientActivity" />
-        <activity android:name=".GroupActivity" />
-        <activity android:name=".GetLocationPraActivity" />
-        <activity android:name=".BirthPickerActivity" />
-        <activity android:name=".MemberSendLocationActivity" >
+
+        <activity android:name=".MapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ManagerGetLocationActivity2" />
-        <activity android:name=".LocationActivity" />
-        <activity android:name=".LocationAccessActivity" />
-        <activity android:name=".FindIdActivity"></activity>
-        <activity android:name=".FindPwdActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".LogoActivity">
+
+        <activity android:name=".NotificationActivity" />
+        <activity android:name=".SocketClientActivity" />
+        <activity android:name=".GroupActivity" />
+        <activity android:name=".GetApiHashKeyActivity">
 
         </activity>
+        <activity android:name=".BirthPickerActivity" />
+        <activity android:name=".MemberSendLocationActivity2"></activity>
+        <activity android:name=".ManagerGetLocationActivity2"></activity>
+        <activity android:name=".LocationActivity" />
+        <activity android:name=".LocationAccessActivity" />
+        <activity android:name=".FindIdActivity" />
+        <activity android:name=".FindPwdActivity" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".LogoActivity"></activity>
         <activity android:name=".ManagerAddGroupActivity" />
         <activity android:name=".PackageManagerActivity" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"></activity>
 
-        </activity>
-
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--???-->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/plus" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+
+        <!--???-->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/black" />
 
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="5388dfebf1555a140f1277f2222bb5cc" />
 
         <service
             android:name="fcm.FireBaseMessagingService"
-            tools:ignore="Instantiatable"
-            android:exported="false">
+            android:exported="false"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
