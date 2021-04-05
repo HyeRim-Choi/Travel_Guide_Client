@@ -73,10 +73,10 @@
         </service>
 
         <!--Gps 포그라운드-->
-        <service
+        <!--<service
             android:name="LocationAccessActivity"
             android:foregroundServiceType="location">
-        </service>
+        </service>-->
 
     </application>
 

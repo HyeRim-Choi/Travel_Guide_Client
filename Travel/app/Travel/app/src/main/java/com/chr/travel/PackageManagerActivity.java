@@ -38,9 +38,6 @@ public class PackageManagerActivity extends AppCompatActivity {
     // login한 user 정보
     LoginVO vo;
 
-    // login한 user 정보 불러오기
-    Gson gson;
-
     // 그룹 정보 업데이트
     //SwipeRefreshLayout swipe;
 
@@ -50,18 +47,15 @@ public class PackageManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_package_manager);
 
-        Log.i("패키지 매니저", "패키지 매니저 액티비티 들어옴");
-
-        // login 한 user 정보 불러오기
-        onSearchData();
+        vo = LoginVO.getInstance();
 
         // login 하지 않았다면
         if(vo == null){
             Log.i("login", "login 안됨");
             Toast.makeText(com.chr.travel.PackageManagerActivity.this,"로그인 후 이용해주세요", Toast.LENGTH_LONG).show();
-           /* Intent i = new Intent(com.chr.travel.PackageManagerActivity.this, com.chr.travel.LoginActivity.class);
+           Intent i = new Intent(com.chr.travel.PackageManagerActivity.this, com.chr.travel.LoginActivity.class);
             startActivity(i);
-            finish();*/
+            finish();
         }
 
 
@@ -98,7 +92,7 @@ public class PackageManagerActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-       onSearchData();
+      vo = LoginVO.getInstance();
 
        try {
            AsyncTaskFactory.getApiGetTask(PackageManagerActivity.this, API_CHOICE.GROUP_SEARCH, vo.getUserId(), new AsyncTaskCallBack() {
@@ -165,15 +159,4 @@ public class PackageManagerActivity extends AppCompatActivity {
     };
 
 
-    // 저장한 user 정보를 불러오는 함수
-    public void onSearchData(){
-
-        gson = new Gson();
-
-        SharedPreferences sp = getSharedPreferences("LOGIN", MODE_PRIVATE);
-        String strUser = sp.getString("vo","");
-        Log.i("test","loginUserSearch : " + strUser);
-
-        vo = gson.fromJson(strUser, LoginVO.class);
-    }
 }

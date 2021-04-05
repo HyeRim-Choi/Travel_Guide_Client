@@ -32,8 +32,6 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox check_autoLogin;
 
     String id, pwd;
-    // user 정보를 저장하는 인터페이스 준비
-    Gson gson;
 
 
     @Override
@@ -107,9 +105,9 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onTaskDone(Object... params) {
                                     // 로그인 성공하면
                                     if((Integer)params[0] == 1){
-                                        onSaveData();
                                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                                         startActivity(i);
+                                        finish();
                                     }
                                 }
                             }).execute(postDataParam);
@@ -161,32 +159,6 @@ public class LoginActivity extends AppCompatActivity {
 
         return true;
     };
-
-
-    // login 한 user 정보를 저장하는 함수
-    public void onSaveData(){
-        LoginVO vo = PostLogin.vo;
-
-        if(vo == null){
-            Log.i("test","user 정보 저장 안됨");
-            return;
-        }
-
-        // Gson 인스턴스 생성
-        gson = new GsonBuilder().create();
-        // JSON 형식으로 변환
-        String strUser = gson.toJson(vo, LoginVO.class);
-        Log.i("test","loginUser : " + strUser);
-
-        SharedPreferences sp =getSharedPreferences("LOGIN", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        // JSON 형식으로 변환한 객체를 저장
-        editor.putString("vo", strUser);
-        editor.commit();
-
-    }
-
-
 
 
 }

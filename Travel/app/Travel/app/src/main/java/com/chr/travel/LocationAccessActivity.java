@@ -52,8 +52,8 @@ public class LocationAccessActivity extends AppCompatActivity {
     private static final int GPS_UTIL_LOCATION_RESOLUTION_REQUEST_CODE = 101;
 
     public static final int DEFAULT_LOCATION_REQUEST_PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
-    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 30000;
-    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 20000;
+    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 100000; // 300000
+    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 50000; // 200000
 
     //현재 위치를 가져오는 객체
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -62,8 +62,6 @@ public class LocationAccessActivity extends AppCompatActivity {
     //위도, 경도
     double longitude, latitude;
 
-    Gson gson;
-
     LoginVO vo;
 
     @Override
@@ -71,14 +69,24 @@ public class LocationAccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_access);
 
+        vo = LoginVO.getInstance();
+
         checkLocationPermission();
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("LocationAccessActivity", "----Pause-----");
+        checkLocationPermission();
+    }
+
     // 위치 정보를 접근할 수 있는 권한을 확인
     private void checkLocationPermission() {
-        int accessLocation = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (accessLocation == PackageManager.PERMISSION_GRANTED) {
+        int accessForeLocation = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        int accessBackLocation = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+        if (accessForeLocation == PackageManager.PERMISSION_GRANTED && accessBackLocation == PackageManager.PERMISSION_GRANTED) {
             checkLocationSetting();
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GPS_UTIL_LOCATION_PERMISSION_REQUEST_CODE);
@@ -199,8 +207,6 @@ public class LocationAccessActivity extends AppCompatActivity {
             String time = format.format(date);
             Log.i("LocationAccessActivity", time);
 
-            onSearchData();
-
             //  서버에 아이디, 위치 전송
             JSONObject postDataParam = new JSONObject();
 
@@ -236,18 +242,6 @@ public class LocationAccessActivity extends AppCompatActivity {
             Log.i(TAG, "onLocationAvailability - " + locationAvailability);
         }
     };
-
-
-    // 저장한 user 정보를 불러오는 함수
-    public void onSearchData(){
-        gson = new Gson();
-
-        SharedPreferences sp = getSharedPreferences("LOGIN", MODE_PRIVATE);
-        String strUser = sp.getString("vo","");
-        Log.i("test","loginUserSearch : " + strUser);
-
-        vo = gson.fromJson(strUser, LoginVO.class);
-    }
 
 
 }

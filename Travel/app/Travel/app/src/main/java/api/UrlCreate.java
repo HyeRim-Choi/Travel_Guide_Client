@@ -2,7 +2,7 @@ package api;
 
 
 public class UrlCreate {
-    private static final String ip = "";
+    private static final String ip = "3.34.126.158";
     private static final int port = 3001;
 
     public static String getUrl(int chk, String info) {

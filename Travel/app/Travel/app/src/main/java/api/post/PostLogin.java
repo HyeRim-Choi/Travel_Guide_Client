@@ -21,9 +21,6 @@ public class PostLogin extends PostRequest {
     JSONObject jsonObject;
 
     int post_res_chk;
-    // 로그인 성공 시 user 정보 받기 *********
-    public static LoginVO vo;
-
 
 
     public PostLogin(Activity activity, AsyncTaskCallBack callBack) {
@@ -77,7 +74,7 @@ public class PostLogin extends PostRequest {
 
             // 응답이 로그인 성공이라면
             case "ok_login":
-                vo = new LoginVO();
+                LoginVO vo = LoginVO.getInstance();
                 post_res_chk = 1;
                 try {
                     vo.setIdx(jsonObject.getJSONObject("user").getInt("id"));

@@ -40,6 +40,7 @@ public class  NotificationActivity extends AppCompatActivity {
                // '네' 클릭 시 LocationAccessActivity로 이동
                 Intent intent = new Intent(getApplicationContext(), LocationAccessActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

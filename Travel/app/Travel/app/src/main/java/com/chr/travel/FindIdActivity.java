@@ -68,7 +68,7 @@ public class FindIdActivity extends AppCompatActivity {
                                     // 아이디 Alert창 띄우기
                                     AlertDialog.Builder dialog = new AlertDialog.Builder(com.chr.travel.FindIdActivity.this);
                                     dialog.setTitle(name + "님의 아이디");
-                                    dialog.setMessage((Integer) params[1]);
+                                    dialog.setMessage((CharSequence) params[1]);
                                     dialog.setNegativeButton("확인", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {

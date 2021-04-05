@@ -12,6 +12,18 @@ public class LoginVO {
     private  String birth;
     private  boolean gender;
 
+    static LoginVO single;
+
+    private LoginVO() {
+    }
+
+    public static LoginVO getInstance(){
+        if(single == null){
+            single = new LoginVO();
+        }
+
+        return single;
+    }
 
     public int getIdx() {
         return idx;

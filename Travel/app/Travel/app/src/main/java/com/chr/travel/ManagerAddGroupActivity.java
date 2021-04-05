@@ -38,16 +38,12 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
     // login한 user 정보
     LoginVO vo;
 
-    // login한 user 정보 불러오기
-    Gson gson;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_add_group);
 
-        // login 한 user 정보 불러오기
-        onSearchData();
+        vo = LoginVO.getInstance();
 
         // login 하지 않았다면
         if(vo == null){
@@ -160,16 +156,4 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
         return true;
     };
 
-
-    // 저장한 user 정보를 불러오는 함수
-    public void onSearchData(){
-
-        gson = new Gson();
-
-        SharedPreferences sp = getSharedPreferences("LOGIN", MODE_PRIVATE);
-        String strUser = sp.getString("vo","");
-        Log.i("test","loginUserSearch : " + strUser);
-
-        vo = gson.fromJson(strUser, LoginVO.class);
-    }
 }
