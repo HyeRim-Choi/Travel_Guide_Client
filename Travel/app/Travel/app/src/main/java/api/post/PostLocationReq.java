@@ -22,8 +22,7 @@ public class PostLocationReq extends PostRequest {
 
     AsyncTaskCallBack callBack;
 
-    // ****
-    public int post_res_chk;
+    int post_res_chk;
 
 
     public PostLocationReq(Activity activity, AsyncTaskCallBack callBack) {
@@ -62,7 +61,7 @@ public class PostLocationReq extends PostRequest {
         }
 
         // 파라미터 바꾸기
-        callBack.onTaskDone(activity, post_res_chk);
+        callBack.onTaskDone(post_res_chk);
 
     }
 
@@ -71,7 +70,7 @@ public class PostLocationReq extends PostRequest {
         switch (result) {
             // 성공 시
             case "ok":
-                post_res_chk = 5;
+                post_res_chk = 1;
                 break;
 
             // 실패 시

@@ -35,7 +35,6 @@ public class PackageManagerActivity extends AppCompatActivity {
     ArrayAdapter adapter;
 
 
-
     // login한 user 정보
     LoginVO vo;
 
@@ -106,10 +105,10 @@ public class PackageManagerActivity extends AppCompatActivity {
                @Override
                public void onTaskDone(Object... params) {
                    // 그룹조회 성공 시
-                   if((Integer)params[1] == 5){
+                   if((Integer)params[0] == 1){
                        adapter = new ArrayAdapter(PackageManagerActivity.this,
                                android.R.layout.simple_list_item_1,
-                               (List) params[2]);
+                               (List) params[1]);
                        manager_group_listView = findViewById(R.id.manager_group_listView);
                        manager_group_listView.setAdapter(adapter);
                        manager_group_listView.setDividerHeight(10);
@@ -134,10 +133,10 @@ public class PackageManagerActivity extends AppCompatActivity {
                    AsyncTaskFactory.getApiGetTask(PackageManagerActivity.this, API_CHOICE.GROUP_MEMBER, title, new AsyncTaskCallBack() {
                        @Override
                        public void onTaskDone(Object... params) {
-                           if((Integer)params[1] == 6){
+                           if((Integer)params[0] == 1){
                                Intent i = new Intent(PackageManagerActivity.this, GroupActivity.class);
                                i.putExtra("title", title);
-                               i.putExtra("members", (Serializable) params[2]);
+                               i.putExtra("members", (Serializable) params[1]);
                                startActivity(i);
                            }
                        }

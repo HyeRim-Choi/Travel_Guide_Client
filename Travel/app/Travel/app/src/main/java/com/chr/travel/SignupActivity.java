@@ -132,7 +132,7 @@ public class SignupActivity extends AppCompatActivity {
                                // 아이디 사용가능하다면
                                @Override
                                public void onTaskDone(Object... params) {
-                                   if ((Integer) params[1] == 3) {
+                                   if ((Integer) params[0] == 1) {
                                        check_id = true;
                                    }
                                }
@@ -173,7 +173,7 @@ public class SignupActivity extends AppCompatActivity {
                                 AsyncTaskFactory.getApiPostTask(SignupActivity.this, API_CHOICE.SIGNUP, new AsyncTaskCallBack() {
                                     @Override
                                     public void onTaskDone(Object... params) {
-                                        if((Integer)params[1] == 3){
+                                        if((Integer)params[0] == 1){
                                             Intent i = new Intent(SignupActivity.this, LoginActivity.class);
                                             startActivity(i);
                                             finish();

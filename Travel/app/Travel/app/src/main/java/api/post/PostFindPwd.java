@@ -20,8 +20,7 @@ public class PostFindPwd extends PostRequest {
     JSONObject jsonObject;
     AsyncTaskCallBack callBack;
 
-    // ***
-    public int post_res_chk;
+    int post_res_chk;
 
 
     public PostFindPwd(Activity activity, AsyncTaskCallBack callBack) {
@@ -60,7 +59,7 @@ public class PostFindPwd extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, post_res_chk);
+        callBack.onTaskDone(post_res_chk);
 
     }
 
@@ -68,7 +67,7 @@ public class PostFindPwd extends PostRequest {
     public void resultResponse(String result){
         switch (result) {
             case "ok_findPwd":
-                post_res_chk = 4;
+                post_res_chk = 1;
         }
     }
 

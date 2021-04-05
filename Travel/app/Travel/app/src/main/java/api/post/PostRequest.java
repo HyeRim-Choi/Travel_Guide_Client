@@ -33,8 +33,8 @@ public class PostRequest extends AsyncTask<JSONObject, Void, String> {
         try {
             // 연결
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(10000 /* milliseconds */);
+            conn.setReadTimeout(1000000 /* milliseconds */);
+            conn.setConnectTimeout(1000000 /* milliseconds */);
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);

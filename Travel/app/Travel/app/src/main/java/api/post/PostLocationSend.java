@@ -24,10 +24,10 @@ public class PostLocationSend extends PostRequest {
     String jsonString;
     int post_res_chk;
 
-    ArrayList<String> userId;
+    /*ArrayList<String> userId;
     ArrayList<Double> latitude;
     ArrayList<Double> longitude;
-
+*/
 
     public PostLocationSend(Activity activity, AsyncTaskCallBack callBack) {
         super(activity);
@@ -68,7 +68,7 @@ public class PostLocationSend extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(post_res_chk, userId, latitude, longitude);
+        callBack.onTaskDone(post_res_chk);
 
     }
 
@@ -78,7 +78,7 @@ public class PostLocationSend extends PostRequest {
         switch (result) {
             case "ok":
                 post_res_chk = 1;
-                userId = new ArrayList<>();
+                /*userId = new ArrayList<>();
                 latitude = new ArrayList<>();
                 longitude = new ArrayList<>();
 
@@ -99,7 +99,7 @@ public class PostLocationSend extends PostRequest {
                     }
                 }catch(JSONException e) {
                     e.printStackTrace();
-                }
+                }*/
                 break;
 
             case "fail":

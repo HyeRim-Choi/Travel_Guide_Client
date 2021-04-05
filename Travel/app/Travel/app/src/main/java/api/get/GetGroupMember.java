@@ -23,8 +23,7 @@ public class GetGroupMember extends GetRequest {
     public ArrayList<String> groupMember;
     AsyncTaskCallBack callBack;
 
-    // *******
-    public int get_res_chk = 0;
+    int get_res_chk = 0;
 
     public GetGroupMember(Activity activity, String info, AsyncTaskCallBack callBack) {
         super(activity);
@@ -65,7 +64,7 @@ public class GetGroupMember extends GetRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, get_res_chk, groupMember);
+        callBack.onTaskDone(get_res_chk, groupMember);
 
     }
 
@@ -74,19 +73,20 @@ public class GetGroupMember extends GetRequest {
 
             // 해당 그룹에 존재하는 멤버 받기
             case "ok_mem_receive":
+                get_res_chk = 1;
                 groupMember = new ArrayList<>();
                 try{
-                    JSONObject res = new JSONObject(jsonString);
-                    JSONArray ress = res.getJSONArray("userMem");
-                    for(int i=0;i<ress.length();i++){
-                        JSONObject jObj = (JSONObject)ress.get(i);
-                        Log.i("userId", jObj.getString("userId"));
-                        groupMember.add(jObj.getString("userId"));
+                    JSONObject res1 = new JSONObject(jsonString);
+                    JSONArray res2 = res1.getJSONArray("userMem");
+                    for(int i=0;i<res2.length();i++){
+                        JSONObject jObj = (JSONObject)res2.get(i);
+                        String userId = jObj.getString("userId");
+                        Log.i("userId", userId);
+                        groupMember.add(userId);
                     }
                 }catch(JSONException e) {
                     e.printStackTrace();
                 }
-                get_res_chk = 6;
                 break;
         }
     }

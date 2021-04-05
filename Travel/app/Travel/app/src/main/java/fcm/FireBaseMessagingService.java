@@ -1,6 +1,6 @@
 package fcm;
 
-import android.app.Activity;
+
 import android.app.NotificationChannel;
 
 import android.app.NotificationManager;
@@ -10,9 +10,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import android.media.RingtoneManager;
-
-import android.net.Uri;
 
 import android.os.Build;
 
@@ -31,6 +28,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
 
 
 public class FireBaseMessagingService extends FirebaseMessagingService {
@@ -48,6 +46,7 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
 
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
+        // 포그라운드 부분에서 작동
         //Log.i("test", remoteMessage.getNotification().getBody());
 
 
@@ -71,7 +70,7 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 Log.i("test2", remoteMessage.getData().get("title"));
-                sendNotification(remoteMessage.getData().get("title"));
+                sendNotification(remoteMessage.getData());
             }
 
         }
@@ -88,7 +87,7 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void sendNotification(String messageBody) {
+    private void sendNotification(Map<String, String> messageBody) {
 
         Intent intent = new Intent(this, NotificationActivity.class);
 
@@ -108,9 +107,9 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
 
                         .setSmallIcon(R.mipmap.ic_launcher)
 
-                        .setContentTitle("FCM Message")
+                        .setContentTitle(messageBody.get("title"))
 
-                        .setContentText(messageBody)
+                        .setContentText(messageBody.get("content"))
 
                         .setAutoCancel(true)
 

@@ -19,8 +19,7 @@ public class GetIdCheck extends GetRequest{
     String jsonString;
     AsyncTaskCallBack callBack;
 
-    // ******
-    public int get_res_chk = 0;
+    int get_res_chk = 0;
 
     public GetIdCheck(Activity activity, String info, AsyncTaskCallBack callBack) {
         super(activity);
@@ -60,13 +59,13 @@ public class GetIdCheck extends GetRequest{
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, get_res_chk);
+        callBack.onTaskDone(get_res_chk);
     }
 
     public void resultResponse(String result){
         switch (result) {
             case "ok_idChk":
-                get_res_chk = 3;
+                get_res_chk = 1;
                 Toast.makeText(activity,"사용가능 한 아이디입니다",Toast.LENGTH_SHORT).show();
                 break;
             // 회원가입 아이디 중복체크 시 아이디가 존재한다면

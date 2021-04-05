@@ -20,9 +20,8 @@ public class PostLogin extends PostRequest {
     AsyncTaskCallBack callBack;
     JSONObject jsonObject;
 
-    // *******
-    public int post_res_chk;
-    // 로그인 성공 시 user 정보 받기
+    int post_res_chk;
+    // 로그인 성공 시 user 정보 받기 *********
     public static LoginVO vo;
 
 
@@ -62,7 +61,7 @@ public class PostLogin extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, post_res_chk);
+        callBack.onTaskDone(post_res_chk);
 
     }
 

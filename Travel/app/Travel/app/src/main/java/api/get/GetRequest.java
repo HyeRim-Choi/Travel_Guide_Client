@@ -33,14 +33,12 @@ abstract public class GetRequest extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         StringBuffer output = new StringBuffer();
-        Log.i("doin", "start!");
         try {
             if (url == null) {
                 Log.e(TAG, "Error: URL is null ");
                 return null;
             }
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            Log.i("doin", "conn!");
             if (conn == null) {
                 Log.e(TAG, "HttpsURLConnection Error");
                 return null;
@@ -49,7 +47,6 @@ abstract public class GetRequest extends AsyncTask<String, Void, String> {
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.setDoOutput(false);
-            Log.i("doin", "respons!");
             int resCode = conn.getResponseCode();
 
             Log.i("resCode","resCode : "+resCode);

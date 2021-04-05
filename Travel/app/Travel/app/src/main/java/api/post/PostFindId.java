@@ -19,13 +19,12 @@ public class PostFindId extends PostRequest {
     public final int chk;
 
     // 아이디 찾기 시 아이디 받기
-    public String findId;
+    String findId;
 
     AsyncTaskCallBack callBack;
     JSONObject jsonObject;
 
-    // ******
-    public int post_res_chk;
+    int post_res_chk;
 
 
     public PostFindId(Activity activity, AsyncTaskCallBack callBack) {
@@ -65,7 +64,7 @@ public class PostFindId extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, post_res_chk, findId);
+        callBack.onTaskDone(post_res_chk, findId);
 
     }
 
@@ -80,7 +79,7 @@ public class PostFindId extends PostRequest {
 
             // 아이디 찾기 성공 시
             case "ok_findId":
-                post_res_chk = 2;
+                post_res_chk = 1;
                 try {
                     findId = jsonObject.getString("userId");
                 } catch (JSONException e) {

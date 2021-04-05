@@ -19,8 +19,7 @@ public class PostSignUp extends PostRequest {
     public final int chk;
     AsyncTaskCallBack callBack;
 
-    // *******
-    public int post_res_chk;
+    int post_res_chk;
 
 
     public PostSignUp(Activity activity, AsyncTaskCallBack callBack) {
@@ -60,7 +59,7 @@ public class PostSignUp extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, post_res_chk);
+        callBack.onTaskDone(post_res_chk);
 
     }
 
@@ -69,8 +68,8 @@ public class PostSignUp extends PostRequest {
         switch (result) {
             // 응답이 회원가입 성공이라면
             case "ok_signUp":
+                post_res_chk = 1;
                 Toast.makeText(activity,"회원가입이 완료되었습니다",Toast.LENGTH_SHORT).show();
-                post_res_chk = 3;
                 break;
 
             // 응답이 회원가입 실패라면

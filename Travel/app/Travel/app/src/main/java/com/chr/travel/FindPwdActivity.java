@@ -69,7 +69,7 @@ public class FindPwdActivity extends AppCompatActivity {
                         AsyncTaskFactory.getApiPostTask(FindPwdActivity.this, API_CHOICE.FIND_PWD, new AsyncTaskCallBack() {
                             @Override
                             public void onTaskDone(Object... params) {
-                                if((Integer)params[1] == 4){
+                                if((Integer)params[0] == 1){
                                     //Alert창 띄우기
                                     AlertDialog.Builder dialog = new AlertDialog.Builder(FindPwdActivity.this);
                                     dialog.setMessage("작성하신 이메일로 가서 임시 비밀번호를 확인해주세요\n 비밀번호를 변경해주세요");

@@ -23,8 +23,7 @@ public class GetGroupSearch extends GetRequest {
     AsyncTaskCallBack callBack;
     public ArrayList<String> title;
 
-    // *********
-    public int get_res_chk = 0;
+    int get_res_chk = 0;
 
     public GetGroupSearch(Activity activity, String info, AsyncTaskCallBack callBack) {
         super(activity);
@@ -64,7 +63,7 @@ public class GetGroupSearch extends GetRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, get_res_chk, title);
+        callBack.onTaskDone(get_res_chk, title);
 
     }
 
@@ -74,19 +73,20 @@ public class GetGroupSearch extends GetRequest {
         switch (result) {
             // 그룹 조회 응답
             case "ok_group":
+                get_res_chk = 1;
                 title = new ArrayList<>();
                 try{
                     JSONObject res1 = new JSONObject(jsonString);
                     JSONArray res2 = res1.getJSONArray("group");
                     for(int i=0;i<res2.length();i++){
                         JSONObject jObj = (JSONObject)res2.get(i);
-                        Log.i("title", jObj.getString("title"));
-                        title.add(jObj.getString("title"));
+                        String str = jObj.getString("title");
+                        Log.i("title", str);
+                        title.add(str);
                     }
                 }catch(JSONException e) {
                     e.printStackTrace();
                 }
-                get_res_chk = 5;
                 break;
         }
     }

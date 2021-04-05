@@ -22,8 +22,7 @@ public class PostGroupAdd extends PostRequest {
 
     AsyncTaskCallBack callBack;
 
-    // *****
-    public int post_res_chk;
+    int post_res_chk;
 
 
     public PostGroupAdd(Activity activity, AsyncTaskCallBack callBack) {
@@ -62,7 +61,7 @@ public class PostGroupAdd extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, post_res_chk);
+        callBack.onTaskDone(post_res_chk);
 
     }
 
@@ -76,7 +75,7 @@ public class PostGroupAdd extends PostRequest {
 
             // 그룹 생성 성공 시
             case "ok_groupCreate":
-                post_res_chk = 5;
+                post_res_chk = 1;
                 break;
         }
     }

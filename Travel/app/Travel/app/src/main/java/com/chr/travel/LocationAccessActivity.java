@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,9 +32,18 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import api.API_CHOICE;
+import api.AsyncTaskFactory;
+import api.callback.AsyncTaskCallBack;
+import vo.LoginVO;
 
 public class LocationAccessActivity extends AppCompatActivity {
     private static final String TAG = LocationAccessActivity.class.getSimpleName();
@@ -42,26 +52,24 @@ public class LocationAccessActivity extends AppCompatActivity {
     private static final int GPS_UTIL_LOCATION_RESOLUTION_REQUEST_CODE = 101;
 
     public static final int DEFAULT_LOCATION_REQUEST_PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
-    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 10000;
-    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 5000;
+    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 30000;
+    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 20000;
 
     //현재 위치를 가져오는 객체
     private FusedLocationProviderClient fusedLocationProviderClient;
     //위치 설정하는 객체
     private LocationRequest locationRequest;
     //위도, 경도
-    private double longitude, latitude;
+    double longitude, latitude;
 
-    TextView txt_lati, txt_long;
+    Gson gson;
 
+    LoginVO vo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_access);
-
-        txt_lati = findViewById(R.id.txt_lati);
-        txt_long = findViewById(R.id.txt_long);
 
         checkLocationPermission();
 
@@ -178,26 +186,48 @@ public class LocationAccessActivity extends AppCompatActivity {
             longitude = locationResult.getLastLocation().getLongitude();
             latitude = locationResult.getLastLocation().getLatitude();
             //현재 리스너를 제거(리스너를 제거하지 않으면 설정한 시간마다 onLocationResult가 호출되어 위치 정보가 전달된다)
-            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+            //fusedLocationProviderClient.removeLocationUpdates(locationCallback);
 
             // delete
-            Log.i("test", "lat : " + latitude);
-            Log.i("test", "long : " + longitude);
+            Log.i("test", "lat : " + (int)(latitude*100)/100.0);
+            Log.i("test", "long : " + (int)(longitude*100)/100.0);
 
-            // delete
-            txt_lati.setText(""+latitude);
-            txt_long.setText(""+longitude);
 
+            // 30초마다 서버로 위치 정보 전달
             SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             String time = format.format(date);
+            Log.i("LocationAccessActivity", time);
 
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("latitude", latitude);
-            resultIntent.putExtra("longitude", longitude);
-            resultIntent.putExtra("date", time);
-            resultIntent.putExtra("time", time);
-            setResult(RESULT_OK, resultIntent);
+            onSearchData();
+
+            //  서버에 아이디, 위치 전송
+            JSONObject postDataParam = new JSONObject();
+
+            try {
+                postDataParam.put("userId", vo.getUserId());
+                postDataParam.put("latitude", (int)(latitude*100)/100.0);
+                postDataParam.put("longitude", (int)(longitude*100)/100.0);
+                postDataParam.put("date", time.substring(0,10));
+                postDataParam.put("time", time.substring(11));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                AsyncTaskFactory.getApiPostTask(LocationAccessActivity.this, API_CHOICE.LOCATION_SEND, new AsyncTaskCallBack() {
+                    @Override
+                    public void onTaskDone(Object... params) {
+                        if((Integer)params[0] == 1){
+                            Log.i("NotificationActivity", "위치 보내기 성공");
+                        }
+                    }
+                }).execute(postDataParam);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
 
         @Override
@@ -207,6 +237,17 @@ public class LocationAccessActivity extends AppCompatActivity {
         }
     };
 
+
+    // 저장한 user 정보를 불러오는 함수
+    public void onSearchData(){
+        gson = new Gson();
+
+        SharedPreferences sp = getSharedPreferences("LOGIN", MODE_PRIVATE);
+        String strUser = sp.getString("vo","");
+        Log.i("test","loginUserSearch : " + strUser);
+
+        vo = gson.fromJson(strUser, LoginVO.class);
+    }
 
 
 }

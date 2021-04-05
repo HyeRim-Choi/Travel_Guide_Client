@@ -63,12 +63,12 @@ public class FindIdActivity extends AppCompatActivity {
                         AsyncTaskFactory.getApiPostTask(FindIdActivity.this, API_CHOICE.FIND_ID, new AsyncTaskCallBack() {
                             @Override
                             public void onTaskDone(Object... params) {
-                                if((Integer)params[1] == 2){
+                                if((Integer)params[0] == 1){
                                     // id 찾기 성공 시
                                     // 아이디 Alert창 띄우기
                                     AlertDialog.Builder dialog = new AlertDialog.Builder(com.chr.travel.FindIdActivity.this);
                                     dialog.setTitle(name + "님의 아이디");
-                                    dialog.setMessage((Integer) params[2]);
+                                    dialog.setMessage((Integer) params[1]);
                                     dialog.setNegativeButton("확인", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {

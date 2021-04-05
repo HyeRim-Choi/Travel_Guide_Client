@@ -22,8 +22,7 @@ public class GetLogout extends GetRequest {
     String jsonString;
     AsyncTaskCallBack callBack;
 
-    // **************
-    public int get_res_chk = 0;
+    int get_res_chk = 0;
 
     public GetLogout(Activity activity, String info, AsyncTaskCallBack callBack) {
         super(activity);
@@ -63,14 +62,14 @@ public class GetLogout extends GetRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, get_res_chk);
+        callBack.onTaskDone(get_res_chk);
     }
 
 
     public void resultResponse(String result){
         switch (result) {
             case "ok":
-                get_res_chk = 2;
+                get_res_chk = 1;
                 break;
         }
     }

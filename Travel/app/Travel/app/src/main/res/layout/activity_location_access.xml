@@ -7,18 +7,5 @@
     tools:context=".LocationAccessActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="위도"
-        android:textSize="30dp"
-        android:id="@+id/txt_lati"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="경도"
-        android:textSize="30dp"
-        android:id="@+id/txt_long"/>
 
 </LinearLayout>

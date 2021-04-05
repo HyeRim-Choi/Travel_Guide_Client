@@ -72,7 +72,7 @@ public class GroupActivity extends AppCompatActivity {
                         AsyncTaskFactory.getApiPostTask(GroupActivity.this, API_CHOICE.LOCATION_REQ, new AsyncTaskCallBack() {
                             @Override
                             public void onTaskDone(Object... params) {
-                                if((Integer)params[1] == 5){
+                                if((Integer)params[0] == 1){
                                     Log.i("GroupActivity", "알림 받음");
                                 }
                             }

@@ -147,7 +147,7 @@ public class HomeActivity extends AppCompatActivity {
                         AsyncTaskFactory.getApiGetTask(HomeActivity.this, API_CHOICE.LOGOUT, vo.getUserId(), new AsyncTaskCallBack() {
                             @Override
                             public void onTaskDone(Object... params) {
-                                if((Integer)params[1] == 2){
+                                if((Integer)params[0] == 1){
                                     Toast.makeText(HomeActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
                                     vo = null;
                                     Intent i = new Intent(HomeActivity.this, LoginActivity.class);

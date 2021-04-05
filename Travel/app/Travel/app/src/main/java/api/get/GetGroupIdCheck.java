@@ -22,8 +22,7 @@ public class GetGroupIdCheck extends GetRequest {
     String jsonString;
     AsyncTaskCallBack callBack;
 
-    // ********************
-    public int get_res_chk = 0;
+    int get_res_chk = 0;
 
     public GetGroupIdCheck(Activity activity, String info, AsyncTaskCallBack callBack) {
         super(activity);
@@ -64,7 +63,7 @@ public class GetGroupIdCheck extends GetRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(activity, get_res_chk);
+        callBack.onTaskDone(get_res_chk);
     }
 
 

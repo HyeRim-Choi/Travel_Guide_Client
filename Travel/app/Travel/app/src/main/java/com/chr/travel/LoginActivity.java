@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onTaskDone(Object... params) {
                                     // 로그인 성공하면
-                                    if((Integer)params[1] == 1){
+                                    if((Integer)params[0] == 1){
                                         onSaveData();
                                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                                         startActivity(i);

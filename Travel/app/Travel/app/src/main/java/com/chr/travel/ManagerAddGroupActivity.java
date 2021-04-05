@@ -92,7 +92,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                                 @Override
                                 public void onTaskDone(Object... params) {
                                     // 그룹 생성 성공하면
-                                    if((Integer)params[1] == 5){
+                                    if((Integer)params[0] == 1){
                                         Intent i = new Intent(ManagerAddGroupActivity.this, PackageManagerActivity.class);
                                         startActivity(i);
                                         finish();
@@ -124,7 +124,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                                 @Override
                                 public void onTaskDone(Object... params) {
                                     //  id가 존재한다면
-                                    if((Integer)params[1] == 1){
+                                    if((Integer)params[0] == 1){
                                         if(txt_addId.getText().toString().isEmpty()){
                                             txt_addId.setText(id);
                                         }

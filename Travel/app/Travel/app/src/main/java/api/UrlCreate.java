@@ -2,7 +2,7 @@ package api;
 
 
 public class UrlCreate {
-    private static final String ip = "54.180.153.90";
+    private static final String ip = "";
     private static final int port = 3001;
 
     public static String getUrl(int chk, String info) {
@@ -60,7 +60,7 @@ public class UrlCreate {
                  return url;
 
               case API_CHOICE.LOCATION_SEND:
-                  url += "/group/location";
+                  url += "/location";
                   return url;
 
             default:
