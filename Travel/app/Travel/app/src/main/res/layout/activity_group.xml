@@ -56,8 +56,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:text="위치 가져오기"
+        android:text="자유시간 시작"
         android:layout_marginTop="250dp"
-        android:id="@+id/btn_location"/>
+        android:id="@+id/btn_start"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="자유시간 종료"
+        android:layout_marginTop="20dp"
+        android:visibility="invisible"
+        android:id="@+id/btn_end"/>
 
 </LinearLayout>

@@ -52,8 +52,8 @@ public class LocationAccessActivity extends AppCompatActivity {
     private static final int GPS_UTIL_LOCATION_RESOLUTION_REQUEST_CODE = 101;
 
     public static final int DEFAULT_LOCATION_REQUEST_PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
-    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 100000; // 300000
-    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 50000; // 200000
+    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 300000; // 300000
+    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 200000; // 200000
 
     //현재 위치를 가져오는 객체
     private FusedLocationProviderClient fusedLocationProviderClient;

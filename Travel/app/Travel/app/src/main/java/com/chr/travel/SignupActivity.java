@@ -222,7 +222,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
 
-        txt_birth.setText(year.substring(2,4)+month+day);
+        txt_birth.setText(year.substring(0,4)+month+day);
     }
 
 

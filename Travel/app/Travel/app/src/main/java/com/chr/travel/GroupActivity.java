@@ -24,7 +24,7 @@ import api.callback.AsyncTaskCallBack;
 public class GroupActivity extends AppCompatActivity {
 
     TextView txt_title, txt_member;
-    Button btn_notify, btn_board, btn_location;
+    Button btn_notify, btn_board, btn_start, btn_end;
 
     String title;
     ArrayList<String> member;
@@ -42,7 +42,8 @@ public class GroupActivity extends AppCompatActivity {
 
         txt_member = findViewById(R.id.txt_memeber);
         txt_title = findViewById(R.id.txt_title);
-        btn_location = findViewById(R.id.btn_location);
+        btn_start = findViewById(R.id.btn_start);
+        btn_end = findViewById(R.id.btn_end);
 
         txt_title.setText(title);
 
@@ -50,14 +51,17 @@ public class GroupActivity extends AppCompatActivity {
             txt_member.append(member.get(i) + "\n");
         }
 
-        btn_location.setOnClickListener(click);
+        btn_start.setOnClickListener(click);
+        btn_end.setOnClickListener(click);
     }
 
     View.OnClickListener click = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()){
-                case R.id.btn_location:
+                case R.id.btn_start:
+                    btn_start.setVisibility(View.INVISIBLE);
+                    btn_end.setVisibility(View.VISIBLE);
                     JSONObject postDataParam = new JSONObject();
 
                     // node에 전달 할 정보 넣기
@@ -78,9 +82,16 @@ public class GroupActivity extends AppCompatActivity {
                             }
                         }).execute(postDataParam);
                     }
+
+
                     catch (Exception e){
                         e.printStackTrace();
                     }
+                    break;
+
+                case R.id.btn_end:
+                    btn_start.setVisibility(View.VISIBLE);
+                    btn_end.setVisibility(View.INVISIBLE);
                     break;
             }
         }
