@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MapActivity"
-    android:id="@+id/frag_map"
     android:orientation="vertical">
 
     <!--상단의 타이틀바처럼 사용한 영역 지정-->
@@ -31,5 +30,11 @@
             android:layout_marginLeft="170dp"
             android:id="@+id/btn_refresh"/>
     </LinearLayout>
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.chr.travel.fragment.MapFragment"
+        android:id="@+id/frag_map"/>
 
 </LinearLayout>

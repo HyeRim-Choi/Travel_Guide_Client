@@ -2,11 +2,13 @@ package api;
 
 import android.app.Activity;
 
+import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 import api.post.*;
 import api.get.*;
 
 public class AsyncTaskFactory{
+    // Get AsyncTasck
     public static GetRequest getApiGetTask(Activity activity,int chk, String info, AsyncTaskCallBack callBack){
         switch(chk){
             case API_CHOICE.IDCHECK:
@@ -28,6 +30,8 @@ public class AsyncTaskFactory{
                 return null;
         }
     }
+
+    // Post AsyncTask
     public static PostRequest getApiPostTask(Activity activity,int chk,AsyncTaskCallBack callBack){
         switch (chk){
             case API_CHOICE.SIGNUP:
@@ -48,11 +52,23 @@ public class AsyncTaskFactory{
              case API_CHOICE.LOCATION_REQ:
                  return new PostLocationReq(activity, callBack);
 
-             case API_CHOICE.LOCATION_SEND:
-                 return new PostLocationSend(activity, callBack);
 
             default:
                 return null;
         }
     }
+
+    // delete
+    // BackGround AsyncTask
+    public static BackLocationRequest getApiBackGroundTask(Activity activity, int chk, AsyncTaskCallBack callBack){
+        switch (chk){
+            case API_CHOICE.LOCATION_SEND:
+                return new PostLocationSend(callBack);
+
+            default:
+                return null;
+        }
+
+    }
+
 }

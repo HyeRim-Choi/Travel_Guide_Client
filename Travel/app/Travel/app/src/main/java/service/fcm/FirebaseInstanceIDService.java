@@ -1,4 +1,4 @@
-package fcm;
+package service.fcm;
 
 import android.annotation.SuppressLint;
 import android.util.Log;

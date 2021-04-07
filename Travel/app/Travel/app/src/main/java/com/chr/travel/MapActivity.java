@@ -29,10 +29,10 @@ public class MapActivity extends AppCompatActivity {
         btn_refresh = findViewById(R.id.btn_refresh);
 
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        /*FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frag_map, new MapFragment());
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
 
 
 

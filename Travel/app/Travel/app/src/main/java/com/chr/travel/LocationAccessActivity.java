@@ -42,6 +42,7 @@ import java.util.Date;
 
 import api.API_CHOICE;
 import api.AsyncTaskFactory;
+import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
@@ -52,8 +53,8 @@ public class LocationAccessActivity extends AppCompatActivity {
     private static final int GPS_UTIL_LOCATION_RESOLUTION_REQUEST_CODE = 101;
 
     public static final int DEFAULT_LOCATION_REQUEST_PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
-    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 300000; // 300000
-    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 200000; // 200000
+    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 10000; // 300000
+    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 5000; // 200000
 
     //현재 위치를 가져오는 객체
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -73,13 +74,6 @@ public class LocationAccessActivity extends AppCompatActivity {
 
         checkLocationPermission();
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i("LocationAccessActivity", "----Pause-----");
-        checkLocationPermission();
     }
 
     // 위치 정보를 접근할 수 있는 권한을 확인
@@ -212,8 +206,8 @@ public class LocationAccessActivity extends AppCompatActivity {
 
             try {
                 postDataParam.put("userId", vo.getUserId());
-                postDataParam.put("latitude", (int)(latitude*100)/100.0);
-                postDataParam.put("longitude", (int)(longitude*100)/100.0);
+                postDataParam.put("latitude", latitude);
+                postDataParam.put("longitude", longitude);
                 postDataParam.put("date", time.substring(0,10));
                 postDataParam.put("time", time.substring(11));
             } catch (JSONException e) {
@@ -221,7 +215,7 @@ public class LocationAccessActivity extends AppCompatActivity {
             }
 
             try {
-                AsyncTaskFactory.getApiPostTask(LocationAccessActivity.this, API_CHOICE.LOCATION_SEND, new AsyncTaskCallBack() {
+                new BackLocationRequest(new AsyncTaskCallBack() {
                     @Override
                     public void onTaskDone(Object... params) {
                         if((Integer)params[0] == 1){

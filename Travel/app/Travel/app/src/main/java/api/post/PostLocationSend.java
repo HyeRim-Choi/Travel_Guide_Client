@@ -13,10 +13,11 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import api.API_CHOICE;
+import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 
-
-public class PostLocationSend extends PostRequest {
+// delete
+public class PostLocationSend extends BackLocationRequest {
     public final int chk;
 
     AsyncTaskCallBack callBack;
@@ -29,8 +30,8 @@ public class PostLocationSend extends PostRequest {
     ArrayList<Double> longitude;
 */
 
-    public PostLocationSend(Activity activity, AsyncTaskCallBack callBack) {
-        super(activity);
+    public PostLocationSend(AsyncTaskCallBack callBack) {
+        super(callBack);
         this.chk = API_CHOICE.LOCATION_SEND;
         this.callBack = callBack;
     }
@@ -41,7 +42,7 @@ public class PostLocationSend extends PostRequest {
     protected void onPreExecute() {
         String serverURLStr = api.UrlCreate.postUrl(chk);
         try {
-            url = new URL(serverURLStr);
+            URL url = new URL(serverURLStr);
             Log.i("test", "url : " + url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -103,7 +104,6 @@ public class PostLocationSend extends PostRequest {
                 break;
 
             case "fail":
-                Toast.makeText(activity, "위치 전달 실패", Toast.LENGTH_SHORT).show();
                 break;
 
 

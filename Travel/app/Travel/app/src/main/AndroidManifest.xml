@@ -58,7 +58,7 @@
 
         <!-- firebase -->
         <service
-            android:name="fcm.FireBaseMessagingService"
+            android:name="service.fcm.FireBaseMessagingService"
             android:exported="false"
             tools:ignore="Instantiatable">
             <intent-filter>
@@ -66,17 +66,15 @@
             </intent-filter>
         </service>
 
-        <service android:name="fcm.FirebaseInstanceIDService">
+        <service android:name="service.fcm.FirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <!--Gps 포그라운드-->
-        <!--<service
-            android:name="LocationAccessActivity"
-            android:foregroundServiceType="location">
-        </service>-->
+        <service android:name="service.LocationService"
+            android:enabled="true"
+            android:exported="true"/>
 
     </application>
 

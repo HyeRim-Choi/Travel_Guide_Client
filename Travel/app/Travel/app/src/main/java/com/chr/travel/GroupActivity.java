@@ -60,6 +60,7 @@ public class GroupActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.btn_start:
+                    //  가이드 위치 전달
                     btn_start.setVisibility(View.INVISIBLE);
                     btn_end.setVisibility(View.VISIBLE);
                     JSONObject postDataParam = new JSONObject();
@@ -92,6 +93,8 @@ public class GroupActivity extends AppCompatActivity {
                 case R.id.btn_end:
                     btn_start.setVisibility(View.VISIBLE);
                     btn_end.setVisibility(View.INVISIBLE);
+
+                    //서비스 종료하기
                     break;
             }
         }
