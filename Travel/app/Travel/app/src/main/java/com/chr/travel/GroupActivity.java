@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,31 +62,10 @@ public class GroupActivity extends AppCompatActivity {
                     //  가이드 위치 전달
                     btn_start.setVisibility(View.INVISIBLE);
                     btn_end.setVisibility(View.VISIBLE);
-                    JSONObject postDataParam = new JSONObject();
 
-                    // node에 전달 할 정보 넣기
-                    try {
-                        postDataParam.put("title", title);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    // node로 정보 전달
-                    try {
-                        AsyncTaskFactory.getApiPostTask(GroupActivity.this, API_CHOICE.LOCATION_REQ, new AsyncTaskCallBack() {
-                            @Override
-                            public void onTaskDone(Object... params) {
-                                if((Integer)params[0] == 1){
-                                    Log.i("GroupActivity", "알림 받음");
-                                }
-                            }
-                        }).execute(postDataParam);
-                    }
-
-
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
+                    // '네' 클릭 시 LocationAccessActivity로 이동
+                    Intent intent = new Intent(getApplicationContext(), ManagerLocationSendActivity.class);
+                    startActivityForResult(intent, 0);;
                     break;
 
                 case R.id.btn_end:
@@ -99,4 +77,50 @@ public class GroupActivity extends AppCompatActivity {
             }
         }
     };
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // 결과를 반환하는 액티비티가 FIRST_ACTIVITY_REQUEST_CODE 요청코드로 시작된 경우가 아니거나
+        // 결과 데이터가 빈 경우라면, 메소드 수행을 바로 반환함.
+        if (requestCode != 0 || data == null)
+            return;
+
+         /* SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String time = format.format(date);
+            Log.i("LocationAccessActivity", time);*/
+
+
+        //  서버에 아이디, 위치 전송
+        JSONObject postDataParam = new JSONObject();
+
+        // node에 전달 할 정보 넣기
+        try {
+            postDataParam.put("title", title);
+            postDataParam.put("latitude", data.getDoubleExtra("latitude", 0));
+            postDataParam.put("longitude", data.getDoubleExtra("longitude", 0));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // node로 정보 전달
+        try {
+            AsyncTaskFactory.getApiPostTask(GroupActivity.this, API_CHOICE.LOCATION_REQ, new AsyncTaskCallBack() {
+                @Override
+                public void onTaskDone(Object... params) {
+                    if((Integer)params[0] == 1){
+                        Log.i("GroupActivity", "알림 받음");
+                    }
+                }
+            }).execute(postDataParam);
+        }
+
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+    }
 }

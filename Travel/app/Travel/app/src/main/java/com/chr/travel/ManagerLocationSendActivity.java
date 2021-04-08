@@ -1,22 +1,18 @@
 package com.chr.travel;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -32,29 +28,24 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import api.API_CHOICE;
 import api.AsyncTaskFactory;
-import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
-public class LocationAccessActivity extends AppCompatActivity {
-    private static final String TAG = LocationAccessActivity.class.getSimpleName();
+public class ManagerLocationSendActivity extends AppCompatActivity {
+    private static final String TAG = ManagerLocationSendActivity.class.getSimpleName();
 
     private static final int GPS_UTIL_LOCATION_PERMISSION_REQUEST_CODE = 100;
     private static final int GPS_UTIL_LOCATION_RESOLUTION_REQUEST_CODE = 101;
 
     public static final int DEFAULT_LOCATION_REQUEST_PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
-    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 30000; // 300000
-    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 20000; // 200000
+    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 10000; // 300000
+    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 5000; // 200000
 
     //현재 위치를 가져오는 객체
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -156,11 +147,11 @@ public class LocationAccessActivity extends AppCompatActivity {
                     public void onSuccess(LocationSettingsResponse locationSettingsResponse) { // OK일 때
                         // 위치 서비스에 접근할 수 있는 API를 이용해서 정보를 받을 것이다(구글에서 제공하는 API)
                         // 현재 위치를 가져 올 수있는 위치 서비스
-                        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(LocationAccessActivity.this);
+                        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(ManagerLocationSendActivity.this);
                         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
                     }
                 })
-                .addOnFailureListener(LocationAccessActivity.this, new OnFailureListener() {
+                .addOnFailureListener(ManagerLocationSendActivity.this, new OnFailureListener() {
                     @Override
                     public void onFailure(Exception e) { // Fail일 때(보통 안드로이드 기기에 위치 서비스가 활성화되어있지 않았을 때)
                         int statusCode = ((ApiException) e).getStatusCode();
@@ -168,7 +159,7 @@ public class LocationAccessActivity extends AppCompatActivity {
                             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED: // 우리가 설정을 통해서 문제 해결이 가능한 경우
                                 try {
                                     ResolvableApiException rae = (ResolvableApiException) e;
-                                    rae.startResolutionForResult(LocationAccessActivity.this, GPS_UTIL_LOCATION_RESOLUTION_REQUEST_CODE);
+                                    rae.startResolutionForResult(ManagerLocationSendActivity.this, GPS_UTIL_LOCATION_RESOLUTION_REQUEST_CODE);
                                 } catch (IntentSender.SendIntentException sie) {
                                     Log.w(TAG, "unable to start resolution for result due to " + sie.getLocalizedMessage());
                                 }
@@ -187,46 +178,17 @@ public class LocationAccessActivity extends AppCompatActivity {
             super.onLocationResult(locationResult);
             longitude = locationResult.getLastLocation().getLongitude();
             latitude = locationResult.getLastLocation().getLatitude();
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("latitude", latitude);
+            Log.i("test", "" + latitude);
+            resultIntent.putExtra("longitude", longitude);
+            Log.i("test", "" + longitude);
+            setResult(RESULT_OK, resultIntent);
+            finish();
+
             //현재 리스너를 제거(리스너를 제거하지 않으면 설정한 시간마다 onLocationResult가 호출되어 위치 정보가 전달된다)
-            //fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-
-            // delete
-            Log.i("test", "lat : " + (int)(latitude*100)/100.0);
-            Log.i("test", "long : " + (int)(longitude*100)/100.0);
-
-
-            // 30초마다 서버로 위치 정보 전달
-            SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-            Date date = new Date();
-            String time = format.format(date);
-            Log.i("LocationAccessActivity", time);
-
-            //  서버에 아이디, 위치 전송
-            JSONObject postDataParam = new JSONObject();
-
-            try {
-                postDataParam.put("userId", vo.getUserId());
-                postDataParam.put("latitude", latitude);
-                postDataParam.put("longitude", longitude);
-                postDataParam.put("date", time.substring(0,10));
-                postDataParam.put("time", time.substring(11));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                new BackLocationRequest(new AsyncTaskCallBack() {
-                    @Override
-                    public void onTaskDone(Object... params) {
-                        if((Integer)params[0] == 1){
-                            Log.i("NotificationActivity", "위치 보내기 성공");
-                        }
-                    }
-                }).execute(postDataParam);
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
 
         }
 

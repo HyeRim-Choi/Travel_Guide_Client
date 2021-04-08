@@ -17,12 +17,8 @@ import vo.LoginVO;
 
 public class PostLocationReq extends PostRequest {
     public final int chk;
-
-    JSONObject jsonObject;
-
     AsyncTaskCallBack callBack;
 
-    int post_res_chk;
 
 
     public PostLocationReq(Activity activity, AsyncTaskCallBack callBack) {
@@ -48,38 +44,7 @@ public class PostLocationReq extends PostRequest {
     // response
     @Override
     protected void onPostExecute(String jsonString) {
-        Log.i("response", "res : " + jsonString);
-        if (jsonString == null)
-            return;
-
-        try {
-            jsonObject = new JSONObject(jsonString);
-            String result = jsonObject.getString("approve");
-            resultResponse(result);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // 파라미터 바꾸기
-        callBack.onTaskDone(post_res_chk);
-
+        callBack.onTaskDone(1);
     }
-
-
-    public void resultResponse(String result){
-        switch (result) {
-            // 성공 시
-            case "ok":
-                post_res_chk = 1;
-                break;
-
-            // 실패 시
-            case "fail":
-                Toast.makeText(activity, "그룹 멤버가 존재하지 않습니다", Toast.LENGTH_SHORT).show();
-                break;
-
-        }
-    }
-
 
 }

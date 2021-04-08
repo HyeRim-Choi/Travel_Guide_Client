@@ -41,6 +41,7 @@
         <activity android:name=".PackageManagerActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".ManagerLocationSendActivity"/>
 
         <!-- ??? -->
         <meta-data

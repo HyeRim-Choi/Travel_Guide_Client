@@ -111,7 +111,7 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
 
             try
             {
-                Thread.sleep(10000);//Your Interval after which you want to refresh the screen
+                Thread.sleep(30000);//Your Interval after which you want to refresh the screen
             }
             catch (InterruptedException e)
             {
