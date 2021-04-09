@@ -4,7 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogoActivity">
+    tools:context=".LogoActivity"
+    android:background="@color/appColor">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="90dp"
+        android:src="@drawable/landscape"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -12,6 +20,8 @@
         android:text="Let's Travel"
         android:textSize="40dp"
         android:layout_gravity="center"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"/>
 
 </FrameLayout>

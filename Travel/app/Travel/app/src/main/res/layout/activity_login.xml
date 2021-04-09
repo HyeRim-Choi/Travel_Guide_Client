@@ -4,15 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@color/appColor">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/guide"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Travel"
+        android:text="Login"
         android:textSize="35dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="60dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,6 +35,10 @@
             android:inputType="text"
             android:hint="아이디"
             android:textSize="30dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/white"
+            android:textColorHint="@color/white"
+            android:textCursorDrawable="@null"
             android:layout_gravity="center"
             android:id="@+id/et_id"/>
 
@@ -34,10 +47,15 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="비밀번호"
+            android:backgroundTint="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="30dp"
+            android:textColor="@color/white"
+            android:textCursorDrawable="@null"
             android:layout_gravity="center"
             android:id="@+id/et_pwd"/>
 
+        <!--설정 바꾸기!! visibility!!-->
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,13 +63,16 @@
             android:textSize="25dp"
             android:layout_gravity="center"
             android:id="@+id/check_autoLogin"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"/>
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:text="로그인"
             android:textSize="30dp"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_round"
             android:layout_gravity="center"
             android:id="@+id/btn_login"
             android:layout_marginTop="20dp"/>
@@ -64,28 +85,34 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_marginTop="180dp">
+        android:layout_marginTop="190dp">
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="회원가입"
             android:textSize="25dp"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_round"
             android:id="@+id/btn_signUp"
             android:layout_marginRight="20dp"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="ID 찾기"
             android:textSize="25dp"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_round"
             android:id="@+id/btn_findId"
             android:layout_marginRight="20dp"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="pwd 찾기"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_round"
             android:textSize="25dp"
             android:id="@+id/btn_findPwd"/>
     </LinearLayout>

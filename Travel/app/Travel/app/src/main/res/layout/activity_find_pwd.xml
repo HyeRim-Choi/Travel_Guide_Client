@@ -5,16 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FindPwdActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/appColor">
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="PWD찾기 창"
-        android:textSize="35dp"
-        android:gravity="center"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="150dp"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/suitcase"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="비밀번호 찾기"
+            android:textSize="35dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="90dp"
+            android:layout_marginBottom="150dp"/>
+
+
+    </FrameLayout>
+
 
     <EditText
         android:layout_width="match_parent"
@@ -22,6 +39,10 @@
         android:inputType="text"
         android:hint="이름"
         android:textSize="30dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/white"
+        android:textColorHint="@color/white"
+        android:textCursorDrawable="@null"
         android:id="@+id/et_name"/>
 
     <EditText
@@ -30,6 +51,10 @@
         android:inputType="textEmailAddress"
         android:hint="이메일"
         android:textSize="30dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/white"
+        android:textColorHint="@color/white"
+        android:textCursorDrawable="@null"
         android:id="@+id/et_email"/>
 
     <EditText
@@ -37,13 +62,21 @@
         android:layout_height="wrap_content"
         android:hint="아이디"
         android:textSize="30dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/white"
+        android:textColorHint="@color/white"
+        android:textCursorDrawable="@null"
         android:id="@+id/et_id"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="비밀번호 찾기"
         android:textSize="25dp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_round"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
         android:id="@+id/btn_findPwd"/>
 
 </LinearLayout>
