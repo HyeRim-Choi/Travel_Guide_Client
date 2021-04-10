@@ -2,7 +2,6 @@ package api.callback;
 
 import android.util.Log;
 
-import com.chr.travel.LocationAccessActivity;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationResult;
 

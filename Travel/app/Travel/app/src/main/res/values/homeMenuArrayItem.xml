@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="packageItem">
+        <item>패키지 여행</item>
+        <item>가이드</item>
+        <item>여행객</item>
+        <item>공지사항</item>
+        <item>말말말</item>
+    </string-array>
+
+    <string-array name="packageGuide">
+        <item>패키지 여행</item>
+        <item>가이드</item>
+        <item>공지사항</item>
+        <item>말말말</item>
+    </string-array>
+
+    <string-array name="packageMember">
+        <item>패키지 여행</item>
+        <item>여행객</item>
+        <item>공지사항</item>
+        <item>말말말</item>
+    </string-array>
+
+    <string-array name="freeItem">
+        <item>자유 여행</item>
+        <item>지역별</item>
+        <item>테마별</item>
+    </string-array>
+</resources>

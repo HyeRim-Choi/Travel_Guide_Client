@@ -20,7 +20,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.chr.travel.NotificationActivity;
+import com.chr.travel.mpackage.NotificationActivity;
 import com.chr.travel.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 
