@@ -65,8 +65,8 @@ public class GroupActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.btn_start:
-                    btn_start.setVisibility(View.INVISIBLE);
-                    btn_end.setVisibility(View.VISIBLE);
+                    btn_start.setEnabled(false);
+                    btn_end.setEnabled(true);
 
                     // ************************* ???????????????? ******** 위치 얻는 코드 다시 만들어서 이동하는 액티비티 변경
                     //  가이드 위치 전달
@@ -76,8 +76,8 @@ public class GroupActivity extends AppCompatActivity {
                     break;
 
                 case R.id.btn_end:
-                    btn_start.setVisibility(View.VISIBLE);
-                    btn_end.setVisibility(View.INVISIBLE);
+                    btn_start.setEnabled(true);
+                    btn_end.setEnabled(false);
 
                     //서비스 종료하기
                     break;

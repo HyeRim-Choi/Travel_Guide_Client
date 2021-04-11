@@ -98,7 +98,7 @@
            android:layout_marginTop="20dp"
            android:textColor="@color/white"
            android:background="@drawable/btn_round"
-           android:visibility="invisible"
+           android:enabled="false"
            android:id="@+id/btn_end"/>
 
    </LinearLayout>
