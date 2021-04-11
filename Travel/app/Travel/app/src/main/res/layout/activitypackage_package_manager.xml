@@ -29,7 +29,7 @@
         <Button
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/group_addgroup"
+            android:background="@drawable/btn_groupadd"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="90dp"
             android:id="@+id/btn_addGroup"/>

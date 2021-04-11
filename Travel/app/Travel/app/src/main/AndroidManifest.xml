@@ -20,11 +20,7 @@
 
         </activity>
         <activity android:name=".mpackage.MapActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".mpackage.NotificationActivity" />
         <activity android:name=".mpackage.GroupActivity">
@@ -35,7 +31,11 @@
         <activity android:name=".login.FindIdActivity" />
         <activity android:name=".login.FindPwdActivity" />
         <activity android:name=".home.HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".login.LoginActivity">
 

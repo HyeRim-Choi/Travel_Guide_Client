@@ -2,22 +2,20 @@ package api.post;
 
 import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+
 
 import api.API_CHOICE;
-import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 
-// delete
-public class PostLocationSend extends BackLocationRequest {
+// change
+
+public class PostLocationSend extends PostRequest {
     public final int chk;
 
     AsyncTaskCallBack callBack;
@@ -28,11 +26,11 @@ public class PostLocationSend extends BackLocationRequest {
     /*ArrayList<String> userId;
     ArrayList<Double> latitude;
     ArrayList<Double> longitude;
-*/
+    */
 
-    public PostLocationSend(AsyncTaskCallBack callBack) {
-        super(callBack);
-        this.chk = API_CHOICE.LOCATION_SEND;
+    public PostLocationSend(Activity activity, AsyncTaskCallBack callBack) {
+        super(activity);
+        this.chk = API_CHOICE.LOCATION_REQ;
         this.callBack = callBack;
     }
 

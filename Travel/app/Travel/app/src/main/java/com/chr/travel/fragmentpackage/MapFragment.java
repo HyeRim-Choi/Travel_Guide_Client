@@ -14,6 +14,7 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+/* Map을 띄워주는 Fragment */
 
 public class MapFragment extends Fragment {
 

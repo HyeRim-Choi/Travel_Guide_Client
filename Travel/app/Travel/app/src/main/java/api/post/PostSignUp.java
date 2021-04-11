@@ -14,6 +14,7 @@ import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
+/* 회원가입 서버 통신 */
 
 public class PostSignUp extends PostRequest {
     public final int chk;

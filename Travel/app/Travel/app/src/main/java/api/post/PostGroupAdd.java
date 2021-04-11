@@ -14,6 +14,7 @@ import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
+/* 그룹을 생성하는 서버 통신 */
 
 public class PostGroupAdd extends PostRequest {
     public final int chk;
@@ -62,7 +63,6 @@ public class PostGroupAdd extends PostRequest {
         }
 
         callBack.onTaskDone(post_res_chk);
-
     }
 
 

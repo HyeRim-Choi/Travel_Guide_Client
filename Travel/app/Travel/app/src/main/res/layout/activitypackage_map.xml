@@ -28,7 +28,7 @@
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/refresh"
+            android:background="@drawable/btn_refresh"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="150dp"
             android:id="@+id/btn_refresh"/>

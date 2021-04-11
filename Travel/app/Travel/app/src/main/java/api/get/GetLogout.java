@@ -14,7 +14,9 @@ import java.util.ArrayList;
 
 import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
+import vo.LoginVO;
 
+/* 로그아웃을 하는 서버통신 */
 
 public class GetLogout extends GetRequest {
     public final int chk;
@@ -70,6 +72,16 @@ public class GetLogout extends GetRequest {
         switch (result) {
             case "ok":
                 get_res_chk = 1;
+                // 로그아웃이 되었다면 VO를 null로 만들기
+                LoginVO vo = LoginVO.getInstance();
+                vo.setPassword(null);
+                vo.setUserId(null);
+                vo.setIdx(0);
+                vo.setBirth(null);
+                vo.setRole(null);
+                vo.setEmail(null);
+                vo.setName(null);
+                vo.setTel(null);
                 break;
         }
     }

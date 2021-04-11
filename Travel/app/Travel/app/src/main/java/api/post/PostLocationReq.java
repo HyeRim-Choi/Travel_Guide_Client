@@ -14,6 +14,7 @@ import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
+// change?
 
 public class PostLocationReq extends PostRequest {
     public final int chk;

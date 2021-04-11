@@ -43,16 +43,24 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activityhome_home);
+    }
+
+    // 뒤로 돌아와서 Home에서 작업을 진행할 수 있으니 onResume에다 코드 삽입
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         vo = LoginVO.getInstance();
 
         // login 하지 않았다면
-        if(vo == null){
+        if(vo.getUserId() == null){
             Toast.makeText(HomeActivity.this,"로그인 후 이용해주세요", Toast.LENGTH_LONG).show();
             Intent i = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(i);
             finish();
+            return;
         }
+
 
         drawer_layout = findViewById(R.id.drawer_layout);
         drawer = findViewById(R.id.drawer);
@@ -70,12 +78,10 @@ public class HomeActivity extends AppCompatActivity {
 
         // 버튼들 클릭 시
         opendrawer.setOnClickListener(click);
-        //btn_package.setOnClickListener(click);
         btn_logout.setOnClickListener(click);
 
         /* Package Menu */
-        // !!!!!!!! getAuth(vo.getRole()) !!!!!!!!!!
-        ArrayAdapter packageMenu = ArrayAdapter.createFromResource(this, R.array.packageItem, R.layout.design_homemenuspinner);
+        ArrayAdapter packageMenu = ArrayAdapter.createFromResource(this, getAuth(vo.getRole()), R.layout.design_homemenuspinner);
         packageMenu.setDropDownViewResource(R.layout.design_homemenuspinner);
         //어댑터에 연결
         spinner_package_menu.setAdapter(packageMenu);
@@ -86,15 +92,14 @@ public class HomeActivity extends AppCompatActivity {
                 switch (position){
                     // 가이드 버튼을 눌렀을 때
                     case 1:
-                        // null 일 때 생각 에러 생각
-                        //if(vo.getRole().equals("manager")){
-                            // 매니저 액티비티로 이동
+                        if(vo.getRole().equals("manager")){
+                            //매니저 액티비티로 이동
                             Intent i = new Intent(HomeActivity.this, PackageManagerActivity.class);
                             startActivity(i);
-                        //}
-                        //else{
+                        }
+                        else{
                             // 여행객 액티비티로 이동
-                        //}
+                        }
                         break;
 
                     case 2:
@@ -148,7 +153,6 @@ public class HomeActivity extends AppCompatActivity {
         drawer_layout.setDrawerListener(listener);
     }
 
-
     /* drawer */
     //뒤로 가기로 서랍이 닫힐 수 있도록
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
@@ -182,7 +186,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    /* menu array */
+    /* Home Menu array */
     public int getAuth(String auth){
         // 가이드면 packageGuide Array를 return
         if(auth.equals("manager")){
@@ -197,13 +201,10 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-
-
     // 버튼들의 이벤트
     View.OnClickListener click = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent i;
 
             switch (v.getId()){
                 // 서랍 열기를 눌렀을 때
@@ -221,7 +222,6 @@ public class HomeActivity extends AppCompatActivity {
                             public void onTaskDone(Object... params) {
                                 if((Integer)params[0] == 1){
                                     Toast.makeText(HomeActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
-                                    vo = null;
                                     Intent i = new Intent(HomeActivity.this, LoginActivity.class);
                                     startActivity(i);
                                     finish();

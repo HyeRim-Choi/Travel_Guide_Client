@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 
+/* 가이드의 그룹들의 title을 가져오는 서버통신 */
 
 public class GetGroupSearch extends GetRequest {
     public final int chk;
     String info;
     String jsonString;
     AsyncTaskCallBack callBack;
+    // 매니저의 그룹들 title 저장
     public ArrayList<String> title;
 
     int get_res_chk = 0;

@@ -28,7 +28,7 @@
                 <Button
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/home_menu"
+                    android:background="@drawable/btn_menu"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="25dp"

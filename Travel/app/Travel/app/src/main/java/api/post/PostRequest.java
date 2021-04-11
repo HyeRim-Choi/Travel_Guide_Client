@@ -18,6 +18,8 @@ import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
+/* Post 서버 통신 doInBackground */
+
 public class PostRequest extends AsyncTask<JSONObject, Void, String> {
     Activity activity;
     URL url;

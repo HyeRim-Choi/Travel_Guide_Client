@@ -10,6 +10,7 @@ public class LoginVO {
     private String email;
     private String role;
     private  String birth;
+    private String tel;
     private  boolean gender;
 
     static LoginVO single;
@@ -87,5 +88,13 @@ public class LoginVO {
 
     public void setGender(boolean gender) {
         this.gender = gender;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 }

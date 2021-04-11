@@ -14,6 +14,7 @@ import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
+/* 비밀번호를 찾는 서버 통신 */
 
 public class PostFindPwd extends PostRequest {
     public final int chk;

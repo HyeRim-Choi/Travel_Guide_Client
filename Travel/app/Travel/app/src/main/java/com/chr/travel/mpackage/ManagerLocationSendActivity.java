@@ -32,6 +32,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import vo.LoginVO;
 
+/* change */
+
 public class ManagerLocationSendActivity extends AppCompatActivity {
     private static final String TAG = ManagerLocationSendActivity.class.getSimpleName();
 

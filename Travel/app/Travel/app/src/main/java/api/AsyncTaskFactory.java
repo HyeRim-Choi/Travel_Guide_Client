@@ -1,8 +1,6 @@
 package api;
 
 import android.app.Activity;
-
-import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 import api.post.*;
 import api.get.*;
@@ -49,26 +47,19 @@ public class AsyncTaskFactory{
              case API_CHOICE.GROUP_ADD:
                  return new PostGroupAdd(activity, callBack);
 
+                 // change?
              case API_CHOICE.LOCATION_REQ:
                  return new PostLocationReq(activity, callBack);
 
-
-            default:
-                return null;
-        }
-    }
-
-    // delete
-    // BackGround AsyncTask
-    public static BackLocationRequest getApiBackGroundTask(Activity activity, int chk, AsyncTaskCallBack callBack){
-        switch (chk){
+                 // change??
             case API_CHOICE.LOCATION_SEND:
-                return new PostLocationSend(callBack);
+                return new PostLocationSend(activity, callBack);
+
 
             default:
                 return null;
         }
-
     }
+
 
 }

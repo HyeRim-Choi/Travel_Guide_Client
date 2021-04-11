@@ -40,6 +40,8 @@ import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
+/* change */
+
 public class LocationAccessActivity extends AppCompatActivity {
     private static final String TAG = LocationAccessActivity.class.getSimpleName();
 

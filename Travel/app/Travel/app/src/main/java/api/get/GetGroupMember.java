@@ -15,11 +15,14 @@ import java.util.ArrayList;
 import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 
+/* Group Member들을 조회하는 서버 통신 */
+
 
 public class GetGroupMember extends GetRequest {
     public final int chk;
     String info;
     String jsonString;
+    // 해당 그룹에 존재하는 멤버들을 저장하는 ArrayList
     public ArrayList<String> groupMember;
     AsyncTaskCallBack callBack;
 

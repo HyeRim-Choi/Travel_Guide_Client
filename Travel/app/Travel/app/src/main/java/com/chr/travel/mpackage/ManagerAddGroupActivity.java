@@ -45,7 +45,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
         vo = LoginVO.getInstance();
 
         // login 하지 않았다면
-        if(vo == null){
+        if(vo.getUserId() == null){
             Toast.makeText(ManagerAddGroupActivity.this,"로그인 후 이용해주세요", Toast.LENGTH_LONG).show();
             Intent i = new Intent(ManagerAddGroupActivity.this, LoginActivity.class);
             startActivity(i);

@@ -21,6 +21,10 @@ import javax.net.ssl.HttpsURLConnection;
 import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 
+/* 위치를 백그라운드에서도 전달하는 서버 통신 */
+
+// delete? change?
+
 public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
     public final int chk;
     AsyncTaskCallBack callBack;

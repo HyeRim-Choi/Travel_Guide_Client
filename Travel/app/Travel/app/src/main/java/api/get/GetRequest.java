@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
+/* Get 서버 통신의 doInBackground */
+
 abstract public class GetRequest extends AsyncTask<String, Void, String> {
     final static String TAG = "AndroidNodeJS";
     Activity activity;

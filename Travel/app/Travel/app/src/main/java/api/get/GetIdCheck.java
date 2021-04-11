@@ -13,6 +13,8 @@ import java.net.URL;
 import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 
+/* 회원가입 시 아이디 중복 체크를 하는 서버 통신 */
+
 public class GetIdCheck extends GetRequest{
     public final int chk;
     String info;

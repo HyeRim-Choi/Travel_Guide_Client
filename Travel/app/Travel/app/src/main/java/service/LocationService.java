@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+/* 백그라운드에서 멤버들 위치 보내기 */
 
 public class LocationService extends Service {
 

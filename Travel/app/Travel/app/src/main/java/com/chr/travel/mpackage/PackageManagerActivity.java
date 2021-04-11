@@ -40,6 +40,7 @@ public class PackageManagerActivity extends AppCompatActivity {
     // login한 user 정보
     LoginVO vo;
 
+    // **** 그룹 업데이트 되는지 확인 후 delete 하기 *****
     // 그룹 정보 업데이트
     //SwipeRefreshLayout swipe;
 
@@ -49,28 +50,10 @@ public class PackageManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitypackage_package_manager);
 
-        vo = LoginVO.getInstance();
-
-        // login 하지 않았다면
-        if(vo == null){
-            Log.i("login", "login 안됨");
-            Toast.makeText(PackageManagerActivity.this,"로그인 후 이용해주세요", Toast.LENGTH_LONG).show();
-           Intent i = new Intent(PackageManagerActivity.this, LoginActivity.class);
-            startActivity(i);
-            finish();
-        }
-
-
-        txt_manager_actionbar = findViewById(R.id.txt_manager_actionbar);
-        btn_addGroup = findViewById(R.id.btn_addGroup);
-        manager_group_listView = findViewById(R.id.manager_group_listView);
         //swipe = findViewById(R.id.swipe);
 
 
-        btn_addGroup.setOnClickListener(click);
-
-
-        // swipe가 당겨지면 ( swipe안되면 생명주기로 해보기 )
+        // swipe가 당겨지면
        /*swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -85,16 +68,29 @@ public class PackageManagerActivity extends AppCompatActivity {
 
             }
         });*/
-
-
     }
 
-    // 매니저의 그룹 조회
+    // 뒤로 가기로 이 액티비티로 다시 돌아올 수 있으니 코드를 onResume에 삽입
   @Override
     protected void onResume() {
         super.onResume();
 
       vo = LoginVO.getInstance();
+
+      // login 하지 않았다면
+      if(vo.getUserId() == null){
+          Toast.makeText(PackageManagerActivity.this,"로그인 후 이용해주세요", Toast.LENGTH_LONG).show();
+          Intent i = new Intent(PackageManagerActivity.this, LoginActivity.class);
+          startActivity(i);
+          finish();
+      }
+
+      txt_manager_actionbar = findViewById(R.id.txt_manager_actionbar);
+      btn_addGroup = findViewById(R.id.btn_addGroup);
+      manager_group_listView = findViewById(R.id.manager_group_listView);
+
+      btn_addGroup.setOnClickListener(click);
+
 
        try {
            AsyncTaskFactory.getApiGetTask(PackageManagerActivity.this, API_CHOICE.GROUP_SEARCH, vo.getUserId(), new AsyncTaskCallBack() {
@@ -107,7 +103,7 @@ public class PackageManagerActivity extends AppCompatActivity {
 
                            @Override
                            public View getView(int position, View convertView, ViewGroup parent) {
-
+                                // ListView custom
                                View view = super.getView(position, convertView, parent);
                                TextView tv = (TextView) view.findViewById(android.R.id.text1);
                                tv.setTextColor(Color.BLACK);
@@ -127,7 +123,7 @@ public class PackageManagerActivity extends AppCompatActivity {
        }
 
 
-       // title 클릭 시 멤버 정보 받아오기
+       // title 클릭 시 멤버 정보 받아와서 GroupActivity로 이동
        manager_group_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
            @Override
            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -139,6 +135,7 @@ public class PackageManagerActivity extends AppCompatActivity {
                        public void onTaskDone(Object... params) {
                            if((Integer)params[0] == 1){
                                Intent i = new Intent(PackageManagerActivity.this, GroupActivity.class);
+                               // GroupActivity에 title, member들 전달
                                i.putExtra("title", title);
                                i.putExtra("members", (Serializable) params[1]);
                                startActivity(i);

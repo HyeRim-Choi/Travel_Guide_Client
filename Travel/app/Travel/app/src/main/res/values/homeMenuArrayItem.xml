@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!--delete-->
     <string-array name="packageItem">
         <item>패키지 여행</item>
         <item>가이드</item>

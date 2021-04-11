@@ -2,8 +2,11 @@ package com.chr.travel.login;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import android.text.Html;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -72,7 +75,8 @@ public class FindPwdActivity extends AppCompatActivity {
                             @Override
                             public void onTaskDone(Object... params) {
                                 if((Integer)params[0] == 1){
-                                    //Alert창 띄우기
+                                    // **** 확인 후 삭제 *****
+                                    /*
                                     AlertDialog.Builder dialog = new AlertDialog.Builder(FindPwdActivity.this);
                                     dialog.setMessage("작성하신 이메일로 가서 임시 비밀번호를 확인해주세요\n 비밀번호를 변경해주세요");
                                     dialog.setNegativeButton("확인", new DialogInterface.OnClickListener() {
@@ -82,7 +86,10 @@ public class FindPwdActivity extends AppCompatActivity {
                                         }
                                     });
 
-                                    dialog.show();
+                                    dialog.show();*/
+
+                                    //Alert창 띄우기
+                                    makeDialog();
                                 }
                             }
                         }).execute(postDataParam);
@@ -120,5 +127,33 @@ public class FindPwdActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    /* Alert창 */
+    private void makeDialog() {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(FindPwdActivity.this);
+        dialog.setMessage(Html.fromHtml("<font color='#FFFFFF'>작성하신 이메일로 가서 임시 비밀번호를 확인해주세요\n비밀번호를 변경해주세요</font>"));
+
+        dialog.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                finish();
+            }
+        });
+
+        AlertDialog alert = dialog.create();
+
+        alert.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+                alert.setIcon(R.drawable.img_alert);
+                alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#65acf3")));
+            }
+        });
+
+        alert.show();
     }
 }

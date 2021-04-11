@@ -81,12 +81,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     // 아이디, 비밀번호 다 입력했는지 확인
                     if(BlankCheck(id, pwd)){
-                        // node에 전달 할 정보 넣기
-
-                        // 기기마다 Token 전달해주기기
+                        // 기기마다 Token 전달해주기
                        FirebaseInstanceIDService fcm = new FirebaseInstanceIDService();
-                        fcm.onTokenRefresh();
+                       fcm.onTokenRefresh();
 
+                        // node에 전달 할 정보 넣기
                         try {
                             postDataParam.put("userId", id.trim());
                             postDataParam.put("password", pwd.trim());

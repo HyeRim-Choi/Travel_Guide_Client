@@ -13,7 +13,7 @@
         android:layout_height="150dp"
         android:layout_marginTop="30dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/group_addimg"/>
+        android:src="@drawable/img_group"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -72,7 +72,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Member"
+        android:text=""
         android:textSize="30dp"
         android:textColor="@color/white"
         android:layout_marginTop="30dp"

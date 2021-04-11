@@ -8,6 +8,8 @@ import android.widget.Button;
 
 import com.chr.travel.R;
 
+/* 멤버들의 현재 위치를 가져오는 Map Activity */
+
 public class MapActivity extends AppCompatActivity {
 
     Button btn_refresh;

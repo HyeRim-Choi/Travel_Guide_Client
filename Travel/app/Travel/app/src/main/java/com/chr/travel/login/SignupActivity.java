@@ -27,7 +27,6 @@ import api.callback.AsyncTaskCallBack;
 
 
 public class SignupActivity extends AppCompatActivity {
-    final static String TAG = "AndroidNodeJS";
 
     EditText et_name, et_id, et_pwd, et_checkPwd, et_email, et_tel;
     Button btn_checkId, btn_signUp, btn_birth;
@@ -168,7 +167,7 @@ public class SignupActivity extends AppCompatActivity {
                                 postDataParam.put("role", role.trim());
                             }
                             catch (JSONException e) {
-                                Log.e(TAG, "JSONEXception");
+                                Log.e("SignupActivity", "JSONEXception");
                             }
 
                             try {
@@ -176,6 +175,7 @@ public class SignupActivity extends AppCompatActivity {
                                     @Override
                                     public void onTaskDone(Object... params) {
                                         if((Integer)params[0] == 1){
+                                            Toast.makeText(SignupActivity.this, "회원가입이 되었습니다", Toast.LENGTH_SHORT).show();
                                             Intent i = new Intent(SignupActivity.this, LoginActivity.class);
                                             startActivity(i);
                                             finish();
@@ -195,7 +195,6 @@ public class SignupActivity extends AppCompatActivity {
                             return;
                         }
                     }
-
                      break;
             }
         }
@@ -222,7 +221,6 @@ public class SignupActivity extends AppCompatActivity {
         if(day.length() == 1){
             day = "0"+day;
         }
-
 
         txt_birth.setText(year.substring(0,4)+month+day);
     }
@@ -290,6 +288,7 @@ public class SignupActivity extends AppCompatActivity {
             return false;
         }
 
+        // 비밀번호 == 비밀번호 확인인지 확인
         if(pwd.equals(checkPwd)){
             check_pwd = true;
         }
@@ -297,8 +296,6 @@ public class SignupActivity extends AppCompatActivity {
             Toast.makeText(SignupActivity.this, "비밀번호가 다르게 입력되었습니다", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-
 
         return true;
     };

@@ -14,6 +14,7 @@ import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
+/* 아이디 찾기를 하는 서버 통신 */
 
 public class PostFindId extends PostRequest {
     public final int chk;

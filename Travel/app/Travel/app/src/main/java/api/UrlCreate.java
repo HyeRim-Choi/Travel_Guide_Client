@@ -55,10 +55,12 @@ public class UrlCreate {
                  url += "/group";
                  return url;
 
+             // url change?
              case API_CHOICE.LOCATION_REQ:
                  url += "/push/alarm";
                  return url;
 
+            // url change?
               case API_CHOICE.LOCATION_SEND:
                   url += "/location";
                   return url;

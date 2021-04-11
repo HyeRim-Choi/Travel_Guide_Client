@@ -15,6 +15,7 @@ import android.widget.Button;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/* Hash Key 받기 */
 public class GetApiHashKeyActivity extends AppCompatActivity {
 
     Button btn_location;

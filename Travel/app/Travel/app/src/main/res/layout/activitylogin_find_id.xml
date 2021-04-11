@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/login_bag"/>
+            android:src="@drawable/img_bag"/>
 
         <TextView
             android:layout_width="match_parent"

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 
+/* Group생성 시 IdCheck 서버 통신 */
 
 public class GetGroupIdCheck extends GetRequest {
     public final int chk;

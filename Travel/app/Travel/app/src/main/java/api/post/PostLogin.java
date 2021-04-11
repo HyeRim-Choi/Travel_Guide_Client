@@ -14,6 +14,7 @@ import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
+/* 로그인을 진행하는 서버 통신 */
 
 public class PostLogin extends PostRequest {
     public final int chk;
@@ -74,6 +75,7 @@ public class PostLogin extends PostRequest {
 
             // 응답이 로그인 성공이라면
             case "ok_login":
+                // 회원 정보 VO에 담기
                 LoginVO vo = LoginVO.getInstance();
                 post_res_chk = 1;
                 try {
@@ -85,6 +87,7 @@ public class PostLogin extends PostRequest {
                     vo.setRole(jsonObject.getJSONObject("user").getString("role"));
                     vo.setBirth(jsonObject.getJSONObject("user").getString("birth"));
                     vo.setGender(jsonObject.getJSONObject("user").getBoolean("gender"));
+                    vo.setTel(jsonObject.getJSONObject("user").getString("phoneNum"));
                 }
                 catch (JSONException e) {
                     e.printStackTrace();

@@ -24,6 +24,8 @@ import api.callback.AsyncTaskCallBack;
 
 public class GroupActivity extends AppCompatActivity {
 
+    private static final int FIRST_ACTIVITY_REQUEST_CODE = 0;
+
     TextView txt_title, txt_member;
     Button btn_notify, btn_board, btn_start, btn_end;
 
@@ -38,7 +40,9 @@ public class GroupActivity extends AppCompatActivity {
 
         // 인텐트 가져오기
         Intent intent = getIntent();
+        // title
         title = intent.getStringExtra("title");
+        // member
         member = intent.getStringArrayListExtra("members");
 
         txt_member = findViewById(R.id.txt_memeber);
@@ -61,13 +65,14 @@ public class GroupActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.btn_start:
-                    //  가이드 위치 전달
                     btn_start.setVisibility(View.INVISIBLE);
                     btn_end.setVisibility(View.VISIBLE);
 
+                    // ************************* ???????????????? ******** 위치 얻는 코드 다시 만들어서 이동하는 액티비티 변경
+                    //  가이드 위치 전달
                     // '네' 클릭 시 LocationAccessActivity로 이동
                     Intent intent = new Intent(getApplicationContext(), ManagerLocationSendActivity.class);
-                    startActivityForResult(intent, 0);;
+                    startActivityForResult(intent, FIRST_ACTIVITY_REQUEST_CODE);
                     break;
 
                 case R.id.btn_end:
@@ -84,15 +89,9 @@ public class GroupActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // 결과를 반환하는 액티비티가 FIRST_ACTIVITY_REQUEST_CODE 요청코드로 시작된 경우가 아니거나
-        // 결과 데이터가 빈 경우라면, 메소드 수행을 바로 반환함.
-        if (requestCode != 0 || data == null)
+        // 결과 데이터가 빈 경우라면, 메소드 수행을 바로 반환
+        if (requestCode != FIRST_ACTIVITY_REQUEST_CODE || data == null)
             return;
-
-         /* SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-            Date date = new Date();
-            String time = format.format(date);
-            Log.i("LocationAccessActivity", time);*/
-
 
         //  서버에 아이디, 위치 전송
         JSONObject postDataParam = new JSONObject();
