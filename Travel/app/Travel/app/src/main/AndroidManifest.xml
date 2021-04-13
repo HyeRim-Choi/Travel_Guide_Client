@@ -83,7 +83,7 @@
             </intent-filter>
         </service>
 
-        <service android:name="service.LocationService"
+        <service android:name="service.location.LocationService"
             android:enabled="true"
             android:exported="true"/>
 

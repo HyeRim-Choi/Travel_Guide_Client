@@ -1,4 +1,4 @@
-package service;
+package service.location;
 
 import android.app.Service;
 import android.content.Intent;

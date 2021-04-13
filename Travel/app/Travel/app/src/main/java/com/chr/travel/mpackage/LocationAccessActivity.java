@@ -41,6 +41,7 @@ import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
 /* change */
+// BackLocationRequest 동작하는지 확인 후 delete
 
 public class LocationAccessActivity extends AppCompatActivity {
     private static final String TAG = LocationAccessActivity.class.getSimpleName();
@@ -76,15 +77,19 @@ public class LocationAccessActivity extends AppCompatActivity {
     private void checkLocationPermission() {
         int accessForeLocation = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int accessBackLocation = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+        // 위치 접근이 허가되었다면
         if (accessForeLocation == PackageManager.PERMISSION_GRANTED && accessBackLocation == PackageManager.PERMISSION_GRANTED) {
             checkLocationSetting();
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GPS_UTIL_LOCATION_PERMISSION_REQUEST_CODE);
+        }
+
+        // 위치 권한이 허가되지 않았다면 1
+        else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, GPS_UTIL_LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
 
 
-    // 위치 정보에 접근할 수 있는 권한 설정
+    // 위치 정보에 접근할 수 있는 권한 설정 2
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == GPS_UTIL_LOCATION_PERMISSION_REQUEST_CODE) {
@@ -210,7 +215,7 @@ public class LocationAccessActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            try {
+            /*try {
                 new BackLocationRequest(new AsyncTaskCallBack() {
                     @Override
                     public void onTaskDone(Object... params) {
@@ -222,7 +227,7 @@ public class LocationAccessActivity extends AppCompatActivity {
             }
             catch (Exception e){
                 e.printStackTrace();
-            }
+            }*/
 
         }
 

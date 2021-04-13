@@ -13,7 +13,8 @@ import java.net.URL;
 import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 
-// change
+// change? delete?
+// Back 되는지 확인 후 지우기
 
 public class PostLocationSend extends PostRequest {
     public final int chk;

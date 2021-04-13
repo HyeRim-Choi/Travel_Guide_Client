@@ -9,19 +9,30 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 
 import com.chr.travel.R;
 import com.chr.travel.login.FindIdActivity;
 import com.chr.travel.mpackage.LocationAccessActivity;
 
+import api.API_CHOICE;
+import api.AsyncTaskFactory;
+import api.background.BackLocationRequest;
+import api.callback.AsyncTaskCallBack;
+import vo.LoginVO;
+
 /* 알림 클릭 시 들어오는 Activity */
 
 public class  NotificationActivity extends AppCompatActivity {
+
+    LoginVO vo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitypackage_notification);
+
+        vo = LoginVO.getInstance();
 
         makeDialog();
     }
@@ -38,8 +49,23 @@ public class  NotificationActivity extends AppCompatActivity {
 
                 // ********* ????????? 위치 얻는 코드 변경 후 이동하는 액티비티 변경 *********
                 // '네' 클릭 시 LocationAccessActivity로 이동
-                Intent intent = new Intent(getApplicationContext(), LocationAccessActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(getApplicationContext(), LocationAccessActivity.class);
+                startActivity(intent);*/
+
+                try {
+                    AsyncTaskFactory.getApiBackTask(NotificationActivity.this, API_CHOICE.LOCATION_SEND, vo.getUserId(), new AsyncTaskCallBack() {
+                        @Override
+                        public void onTaskDone(Object... params) {
+                            if((Integer)params[0] == 1){
+                                Log.i("NotificationActivity", "위치 보내기 성공");
+                            }
+                        }
+                    }).execute();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 dialog.cancel();
                 finish();
 
@@ -60,6 +86,7 @@ public class  NotificationActivity extends AppCompatActivity {
             @Override
             public void onShow(DialogInterface arg0) {
                 alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+                alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.WHITE);
                 alert.setIcon(R.drawable.img_alert);
                 alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#65acf3")));
             }

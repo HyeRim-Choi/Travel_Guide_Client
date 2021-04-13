@@ -1,8 +1,12 @@
 package api.background;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.chr.travel.mpackage.GroupActivity;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -14,34 +18,45 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
+import service.location.GpsTracker;
 
 /* 위치를 백그라운드에서도 전달하는 서버 통신 */
-
-// delete? change?
 
 public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
     public final int chk;
     AsyncTaskCallBack callBack;
+    Activity activity;
     URL url;
+    String info;
 
     boolean flag = false;
 
+    // 위치 가져오는 class
+    GpsTracker gpsTracker;
 
-    public BackLocationRequest(AsyncTaskCallBack callBack) {
+
+    public BackLocationRequest(Activity activity, String info, AsyncTaskCallBack callBack) {
+        this.activity = activity;
         this.chk = API_CHOICE.LOCATION_SEND;
         this.callBack = callBack;
+        this.info = info;
+        gpsTracker = new GpsTracker(activity);
     }
 
 
     @Override
     protected void onPreExecute() {
         String serverURLStr = api.UrlCreate.postUrl(chk);
+        // 여기에 넣어야 하나?
+        //gpsTracker = new GpsTracker(activity);
         try {
             url = new URL(serverURLStr);
             Log.i("test", "url : " + url);
@@ -58,6 +73,28 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
         while(flag)
         {
             try{
+                gpsTracker.getLocation();
+                double latitude = gpsTracker.getLatitude(); // 위도
+                double longitude = gpsTracker.getLongitude(); //경도
+
+                SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+                String time = format.format(date);
+                Log.i("LocationAccessActivity", time);
+
+                //  서버에 아이디, 위치 전송
+                JSONObject postDataParam = new JSONObject();
+
+                try {
+                    postDataParam.put("userId", info);
+                    postDataParam.put("latitude", latitude);
+                    postDataParam.put("longitude", longitude);
+                    postDataParam.put("date", time.substring(0,10));
+                    postDataParam.put("time", time.substring(11));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 // 연결
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(1000000 /* milliseconds */);
@@ -69,7 +106,8 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                String str = getPostDataString(postDataParams[0]);
+
+                String str = getPostDataString(postDataParam);
                 Log.e("params", "Post String = " + str);
                 writer.write(str);
 
@@ -109,7 +147,7 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
 
             try
             {
-                Thread.sleep(30000);//Your Interval after which you want to refresh the screen
+                Thread.sleep(30000);
             }
             catch (InterruptedException e)
             {
@@ -149,6 +187,8 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
 
         return result.toString();
     }
+
+    // post에서 flag = false로 바꿀까? pre -> back -> post 순서가 맞나?
 
     @Override
     protected void onCancelled() {
