@@ -20,7 +20,7 @@
 
         <activity android:name=".tpackage.PackageTravelerActivity"></activity>
         <activity android:name=".mpackage.PlaceAddActivity" />
-        <activity android:name=".mpackage.MapActivity" />
+        <activity android:name=".mpackage.MapTravelerLocationActivity" />
         <activity android:name=".mpackage.NotificationActivity" />
         <activity android:name=".mpackage.GroupActivity" />
         <activity android:name=".GetApiHashKeyActivity" />

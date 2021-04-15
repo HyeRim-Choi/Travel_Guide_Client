@@ -59,6 +59,9 @@ public class AsyncTaskFactory{
              case API_CHOICE.LOCATION_REQ:
                  return new PostLocationReq(activity, callBack);
 
+            case API_CHOICE.MANAGER_ADD_PLACE:
+                return new PostManagerPlaceAdd(activity, null);
+
              default:
                 return null;
 

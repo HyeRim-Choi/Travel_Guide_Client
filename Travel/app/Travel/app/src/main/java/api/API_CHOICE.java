@@ -18,5 +18,6 @@ public final class API_CHOICE {
     public static final int GROUP_ADD = 6;
     public static final int LOCATION_REQ = 11;
     public static final int LOCATION_SEND = 12;
+    public static final int MANAGER_ADD_PLACE = 15;
 
 }

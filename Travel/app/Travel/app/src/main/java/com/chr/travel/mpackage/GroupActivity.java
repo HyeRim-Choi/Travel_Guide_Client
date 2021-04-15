@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import api.API_CHOICE;
 import api.AsyncTaskFactory;
 import api.callback.AsyncTaskCallBack;
-import service.location.GpsTracker;
 
 /* 매니저 그룹 목록 가져오기 */
 
@@ -67,7 +66,7 @@ public class GroupActivity extends AppCompatActivity {
 
                 // title 클릭 시 멤버들의 현재 위치를 Map에 띄우기
                 case R.id.btn_title:
-                    Intent i = new Intent(GroupActivity.this, MapActivity.class);
+                    Intent i = new Intent(GroupActivity.this, MapTravelerLocationActivity.class);
                     i.putExtra("title", title);
                     startActivity(i);
                     break;

@@ -4,12 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.chr.travel.R;
-import com.chr.travel.fragmentpackage.MapFragment;
+import com.chr.travel.fragmentpackage.MapTravelerLocationFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import api.callback.AsyncTaskCallBack;
 
 /* 멤버들의 현재 위치를 가져오는 Map Activity */
 
-public class MapActivity extends AppCompatActivity {
+public class MapTravelerLocationActivity extends AppCompatActivity {
 
     Button btn_refresh;
 
@@ -30,12 +29,12 @@ public class MapActivity extends AppCompatActivity {
     String info;
 
     // MapFragment
-    MapFragment mapFragment;
+    MapTravelerLocationFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activitypackage_map);
+        setContentView(R.layout.activitypackage_map_traveler_location);
 
         Intent i = getIntent();
         info = i.getStringExtra("title");
@@ -61,14 +60,14 @@ public class MapActivity extends AppCompatActivity {
                 case R.id.btn_refresh:
                     // 새로고침 버튼 클릭 시
                     try {
-                        AsyncTaskFactory.getApiGetTask(MapActivity.this, API_CHOICE.MEMBER_LOCATION_RELOAD_SEND, info, new AsyncTaskCallBack() {
+                        AsyncTaskFactory.getApiGetTask(MapTravelerLocationActivity.this, API_CHOICE.MEMBER_LOCATION_RELOAD_SEND, info, new AsyncTaskCallBack() {
                             @Override
                             public void onTaskDone(Object... params) {
                                 // 서버 통신 성공 시 멤버들의 위치를 받아서 지도에 띄우기
                                 if((Integer)params[0] == 1){
 
                                     // MapFragment로 선택된 항목번호 멤버들 위치 정보가 있는 ArrayList 전달
-                                    mapFragment = new MapFragment((ArrayList<Map>) params[1]);
+                                    mapFragment = new MapTravelerLocationFragment((ArrayList<Map>) params[1]);
                                     getSupportFragmentManager().beginTransaction().replace(R.id.frag_map, mapFragment).commit();
 
                                 }

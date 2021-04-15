@@ -19,7 +19,7 @@ import java.util.Map;
 
 /* Map을 띄워주는 Fragment */
 
-public class MapFragment extends Fragment {
+public class MapTravelerLocationFragment extends Fragment {
 
     // 멤버 위치 정보
     ArrayList<Map> travelerLocation;
@@ -27,8 +27,19 @@ public class MapFragment extends Fragment {
     // 지도 마커
     MapPOIItem marker;
 
-    public MapFragment(ArrayList<Map> travelerLocation) {
+    // 지도
+    MapView mapView;
+
+    // userId의 수
+    int cnt = 0;
+    // latitude의 합
+    double sumIat = 0.0;
+    // longitude의 합
+    double sumLong = 0.0;
+
+    public MapTravelerLocationFragment(ArrayList<Map> travelerLocation) {
         this.travelerLocation = travelerLocation;
+        cnt = travelerLocation.size();
     }
 
 
@@ -36,18 +47,22 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragmentpackage_map, container, false);
 
-        MapView mapView = new MapView(getActivity());
+        View v =  inflater.inflate(R.layout.fragmentpackage_map_traveler_location, container, false);
 
+        mapView = new MapView(getActivity());
+
+        // 지도 띄우기
         ViewGroup mapViewContainer = (ViewGroup) v.findViewById(R.id.map_view);
         mapViewContainer.addView(mapView);
 
         for(int i=0;i<travelerLocation.size();i++) {
             String userId = (String) travelerLocation.get(i).get("userId");
-            double latitude = (double) travelerLocation.get(i).get("latitude");
-            double longitude = (double) travelerLocation.get(i).get("longitude");
+            double latitude = Double.parseDouble((String) travelerLocation.get(i).get("latitude"));
+            double longitude = Double.parseDouble((String) travelerLocation.get(i).get("longitude"));
+
+            sumIat+=latitude;
+            sumLong+=longitude;
 
             // 마커 띄우기
             marker = new MapPOIItem();
@@ -59,14 +74,8 @@ public class MapFragment extends Fragment {
             mapView.addPOIItem(marker);
         }
 
-
-        /* Marker */
-        // 이걸로 지도 터치 시 마커띄워서 텓스트 띄우기
-        //MapPoint MARKER_POINT = MapPoint.mapPointWithGeoCoord(37.7285214, 126.73497484);
-
-
-
-
+        // 화면 중앙에 표시 될 위치
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(sumIat/cnt, sumLong/cnt), true);
 
         return v;
     }

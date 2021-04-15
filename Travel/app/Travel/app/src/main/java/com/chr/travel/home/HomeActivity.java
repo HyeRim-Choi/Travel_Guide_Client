@@ -15,10 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.chr.travel.GetApiHashKeyActivity;
 import com.chr.travel.login.LoginActivity;
 import com.chr.travel.R;
-import com.chr.travel.mpackage.MapActivity;
 import com.chr.travel.mpackage.PackageManagerActivity;
 import com.chr.travel.mpackage.PlaceAddActivity;
 import com.chr.travel.tpackage.PackageTravelerActivity;
