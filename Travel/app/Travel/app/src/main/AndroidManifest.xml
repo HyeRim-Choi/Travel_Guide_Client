@@ -48,7 +48,8 @@
         <!-- kakao API -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="5388dfebf1555a140f1277f2222bb5cc" /> <!-- firebase -->
+            android:value="API KEY" />
+        <!-- firebase -->
         <service
             android:name="service.fcm.FireBaseMessagingService"
             android:exported="false"
