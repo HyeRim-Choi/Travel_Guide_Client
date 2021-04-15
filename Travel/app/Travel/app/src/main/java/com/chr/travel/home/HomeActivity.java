@@ -18,7 +18,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.chr.travel.GetApiHashKeyActivity;
 import com.chr.travel.login.LoginActivity;
 import com.chr.travel.R;
+import com.chr.travel.mpackage.MapActivity;
 import com.chr.travel.mpackage.PackageManagerActivity;
+import com.chr.travel.mpackage.PlaceAddActivity;
+import com.chr.travel.tpackage.PackageTravelerActivity;
 
 import api.API_CHOICE;
 import api.AsyncTaskFactory;
@@ -89,16 +92,19 @@ public class HomeActivity extends AppCompatActivity {
         spinner_package_menu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Intent i;
                 switch (position){
                     // 가이드 버튼을 눌렀을 때
                     case 1:
                         if(vo.getRole().equals("manager")){
                             //매니저 액티비티로 이동
-                            Intent i = new Intent(HomeActivity.this, PackageManagerActivity.class);
+                            i = new Intent(HomeActivity.this, PackageManagerActivity.class);
                             startActivity(i);
                         }
                         else{
                             // 여행객 액티비티로 이동
+                            i = new Intent(HomeActivity.this, PackageTravelerActivity.class);
+                            startActivity(i);
                         }
                         break;
 
@@ -108,6 +114,12 @@ public class HomeActivity extends AppCompatActivity {
 
                     case 3:
                         // 채팅 창으로 이동
+                        break;
+
+                    case 4:
+                        // 장소를 추가하는 창으로 이동
+                        i = new Intent(HomeActivity.this, PlaceAddActivity.class);
+                        startActivity(i);
                         break;
                 }
             }

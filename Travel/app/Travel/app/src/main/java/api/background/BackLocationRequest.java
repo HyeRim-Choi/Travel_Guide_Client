@@ -3,6 +3,7 @@ package api.background;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.chr.travel.mpackage.GroupActivity;
 
@@ -36,6 +37,14 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
     Activity activity;
     URL url;
     String info;
+    double latitude, longitude;
+
+    // 서버로부터 서버 통신 종료 후 받는 JSON 형식의 데이터
+    JSONObject jsonObject;
+    // 서버와의 통신 잘 마쳤는지 판단하는 chk
+    int post_res_chk = 0;
+    // 서비스 시작인지 종료인지 구분하기 위한 chk
+    int serviceChk;
 
     boolean flag = false;
 
@@ -43,20 +52,20 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
     GpsTracker gpsTracker;
 
 
-    public BackLocationRequest(Activity activity, String info, AsyncTaskCallBack callBack) {
+    public BackLocationRequest(Activity activity, String info, int serviceChk, AsyncTaskCallBack callBack) {
         this.activity = activity;
         this.chk = API_CHOICE.LOCATION_SEND;
         this.callBack = callBack;
         this.info = info;
-        gpsTracker = new GpsTracker(activity);
+        this.serviceChk = serviceChk;
     }
 
 
     @Override
     protected void onPreExecute() {
         String serverURLStr = api.UrlCreate.postUrl(chk);
-        // 여기에 넣어야 하나?
-        //gpsTracker = new GpsTracker(activity);
+        gpsTracker = new GpsTracker(activity);
+        Log.i("BackLocationRequest", "111");
         try {
             url = new URL(serverURLStr);
             Log.i("test", "url : " + url);
@@ -73,27 +82,13 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
         while(flag)
         {
             try{
+                Log.i("BackLocationRequest", "222");
                 gpsTracker.getLocation();
-                double latitude = gpsTracker.getLatitude(); // 위도
-                double longitude = gpsTracker.getLongitude(); //경도
+                latitude = gpsTracker.getLatitude(); // 위도
+                longitude = gpsTracker.getLongitude(); //경도
 
-                SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-                Date date = new Date();
-                String time = format.format(date);
-                Log.i("LocationAccessActivity", time);
-
-                //  서버에 아이디, 위치 전송
-                JSONObject postDataParam = new JSONObject();
-
-                try {
-                    postDataParam.put("userId", info);
-                    postDataParam.put("latitude", latitude);
-                    postDataParam.put("longitude", longitude);
-                    postDataParam.put("date", time.substring(0,10));
-                    postDataParam.put("time", time.substring(11));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                // 서버에 data 전송
+                JSONObject postDataParam = sendJsonInfo(serviceChk);
 
                 // 연결
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -121,9 +116,10 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
                 int responseCode = conn.getResponseCode();
                 Log.i("test",""+responseCode);
 
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                // 가이드가 자유시간 종료를 누르면 500에러를 받아 백그라운드 실행을 종료
+                if (responseCode != HttpsURLConnection.HTTP_OK) {
 
-                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                   BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     StringBuffer sb = new StringBuffer("");
                     String line = "";
 
@@ -132,13 +128,8 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
                         sb.append(line);
                         break;
                     }
-
                     in.close();
                     return sb.toString();
-
-                }
-                else {
-                    return new String("Server Error : " + responseCode);
                 }
             }
             catch (Exception e) {
@@ -147,6 +138,7 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
 
             try
             {
+                Log.i("BackLocationRequest", "333");
                 Thread.sleep(30000);
             }
             catch (InterruptedException e)
@@ -160,6 +152,40 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
 
     }
 
+    // Json 형식 만들기
+    private JSONObject sendJsonInfo(int serviceChk){
+        JSONObject postDataParam = new JSONObject();
+
+        if(serviceChk == 1){
+            SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String time = format.format(date);
+
+            try {
+                postDataParam.put("userId", info);
+                postDataParam.put("latitude", latitude);
+                postDataParam.put("longitude", longitude);
+                postDataParam.put("date", time.substring(0,10));
+                postDataParam.put("time", time.substring(11));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else{
+            try {
+                postDataParam.put("userId", "end");
+                postDataParam.put("title", info);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return postDataParam;
+    }
+
+
+    // 서버한테 보내는 데이터 형식 만들기
     private String getPostDataString(JSONObject params) throws Exception {
 
         StringBuilder result = new StringBuilder();
@@ -188,8 +214,44 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
         return result.toString();
     }
 
-    // post에서 flag = false로 바꿀까? pre -> back -> post 순서가 맞나?
 
+    // 백그라운드 종료 후 돌아오는 곳
+    @Override
+    protected void onPostExecute(String jsonString) {
+        Log.i("response", "res : " + jsonString);
+        if (jsonString == null)
+            return;
+
+        try {
+            Log.i("BackLocationRequest", "444");
+            jsonObject = new JSONObject(jsonString);
+            String result = jsonObject.getString("approve");
+            resultResponse(result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        callBack.onTaskDone(post_res_chk);
+    }
+
+
+    public void resultResponse(String result){
+        switch (result) {
+            // 여행객 위치 보내기 종료 시
+            case "ok":
+                post_res_chk = 1;
+                Toast.makeText(activity, "위치 보내기를 종료 했습니다", Toast.LENGTH_SHORT).show();
+                break;
+
+            // 여행객 위치 보내기 종료 실패 시
+            default :
+                Toast.makeText(activity, "위치 보내기를 종료하지 못했습니다", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+
+    // 서버 에러보내기 성공 확인 후 delete
     @Override
     protected void onCancelled() {
         super.onCancelled();

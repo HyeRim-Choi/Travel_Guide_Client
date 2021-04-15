@@ -26,6 +26,12 @@ public class AsyncTaskFactory{
             case API_CHOICE.LOGOUT:
                 return new GetLogout(activity, info, callBack);
 
+            case API_CHOICE.TRAVELER_GROUP_SEARCH:
+                return new GetTravelerGroupSearch(activity, info, callBack);
+
+            case API_CHOICE.MEMBER_LOCATION_RELOAD_SEND:
+                return new GetMemberReloadLocation(activity, info, callBack);
+
             default:
                 return null;
         }
@@ -49,7 +55,7 @@ public class AsyncTaskFactory{
              case API_CHOICE.GROUP_ADD:
                  return new PostGroupAdd(activity, callBack);
 
-                 // change?
+                 // 가이드가 멤버들에게 알림을 띄워서 위치 요청하기
              case API_CHOICE.LOCATION_REQ:
                  return new PostLocationReq(activity, callBack);
 
@@ -60,13 +66,12 @@ public class AsyncTaskFactory{
     }
 
 
-
     // BackGround AsyncTask
-    public static BackLocationRequest getApiBackTask(Activity activity,int chk, String info,AsyncTaskCallBack callBack){
+    public static BackLocationRequest getApiBackTask(Activity activity,int chk, String info, int serviceChk, AsyncTaskCallBack callBack){
         switch (chk){
-            // change??
+            // 백그라운드로 여행객들이 가이드에게 위치 보내기
             case API_CHOICE.LOCATION_SEND:
-                return new BackLocationRequest(activity, info, callBack);
+                return new BackLocationRequest(activity, info, serviceChk, callBack);
 
             default:
                 return null;

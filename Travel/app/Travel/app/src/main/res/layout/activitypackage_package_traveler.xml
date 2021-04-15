@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mpackage.PackageManagerActivity"
+    tools:context=".tpackage.PackageTravelerActivity"
     android:orientation="vertical">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,22 +16,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="가이드님의 Group"
+            android:text="내가 존재하는 그룹"
             android:textSize="25dp"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
-            android:id="@+id/txt_manager_actionbar"/>
+            android:id="@+id/txt_traveler_actionbar"/>
 
-
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/btn_groupadd"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="80dp"
-            android:id="@+id/btn_addGroup"/>
 
     </LinearLayout>
 
@@ -43,6 +34,6 @@
         android:dividerHeight="2dp"
         android:divider="@color/black"
         android:background="@color/appColor"
-        android:id="@+id/manager_group_listView"/>
+        android:id="@+id/traveler_group_listView"/>
 
 </LinearLayout>

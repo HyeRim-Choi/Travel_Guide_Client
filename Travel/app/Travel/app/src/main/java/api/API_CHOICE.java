@@ -7,6 +7,8 @@ public final class API_CHOICE {
     public static final int GROUP_ID_CHECK = 8;
     public static final int GROUP_MEMBER = 9;
     public static final int LOGOUT = 10;
+    public static final int TRAVELER_GROUP_SEARCH = 13;
+    public static final int MEMBER_LOCATION_RELOAD_SEND = 14;
 
     //POST
     public static final int SIGNUP = 2;

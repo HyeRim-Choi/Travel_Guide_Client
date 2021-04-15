@@ -13,61 +13,42 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel">
-        <activity android:name=".mpackage.LocationAccessActivity">
 
-        </activity>
-        <activity android:name=".mpackage.MapActivity">
-
-        </activity>
+        <activity android:name=".tpackage.PackageTravelerActivity"></activity>
+        <activity android:name=".mpackage.PlaceAddActivity" />
+        <activity android:name=".mpackage.MapActivity" />
         <activity android:name=".mpackage.NotificationActivity" />
-        <activity android:name=".mpackage.GroupActivity">
-
-        </activity>
-        <activity android:name=".GetApiHashKeyActivity"></activity>
+        <activity android:name=".mpackage.GroupActivity" />
+        <activity android:name=".GetApiHashKeyActivity" />
         <activity android:name=".login.BirthPickerActivity" />
         <activity android:name=".login.FindIdActivity" />
         <activity android:name=".login.FindPwdActivity" />
-        <activity android:name=".home.HomeActivity">
+        <activity android:name=".home.HomeActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.LogoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.LoginActivity">
-
-        </activity>
-        <activity android:name=".login.LogoActivity">
-
-        </activity>
-        <activity android:name=".mpackage.ManagerAddGroupActivity">
-
-        </activity>
-        <activity android:name=".mpackage.PackageManagerActivity">
-
-        </activity>
+        <activity android:name=".mpackage.ManagerAddGroupActivity" />
+        <activity android:name=".mpackage.PackageManagerActivity" />
         <activity android:name=".login.SignupActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".mpackage.ManagerLocationSendActivity"/>
-
-        <!-- ??? -->
-       <!-- <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/plus" />-->
-        <!-- ??? -->
-        <meta-data
+        <activity android:name=".MainActivity" /> <!-- ??? -->
+        <!--
+ <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/black" />
-
-        <!--kakao API-->
+        -->
+        <!-- kakao API -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="5388dfebf1555a140f1277f2222bb5cc" />
-
-        <!-- firebase -->
+            android:value="5388dfebf1555a140f1277f2222bb5cc" /> <!-- firebase -->
         <service
             android:name="service.fcm.FireBaseMessagingService"
             android:exported="false"
@@ -76,17 +57,11 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name="service.fcm.FirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
-        <service android:name="service.location.LocationService"
-            android:enabled="true"
-            android:exported="true"/>
-
     </application>
 
 </manifest>

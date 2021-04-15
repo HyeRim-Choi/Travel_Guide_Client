@@ -14,7 +14,7 @@ import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
-// change?
+/* 여행객들에게 알림 보내서 위치 요청하기(/push/alarm) */
 
 public class PostLocationReq extends PostRequest {
     public final int chk;

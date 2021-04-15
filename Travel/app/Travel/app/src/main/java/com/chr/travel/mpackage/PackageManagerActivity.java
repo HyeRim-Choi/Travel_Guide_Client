@@ -3,7 +3,6 @@ package com.chr.travel.mpackage;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,7 +28,7 @@ import vo.LoginVO;
 
 /* 패키지 매니저 권한일때의 액티비티 */
 
-public class PackageManagerActivity extends AppCompatActivity {
+public class PackageManagerActivity extends AppCompatActivity{
 
     TextView txt_manager_actionbar;
     Button btn_addGroup;
@@ -40,9 +39,6 @@ public class PackageManagerActivity extends AppCompatActivity {
     // login한 user 정보
     LoginVO vo;
 
-    // **** 그룹 업데이트 되는지 확인 후 delete 하기 *****
-    // 그룹 정보 업데이트
-    //SwipeRefreshLayout swipe;
 
 
     @Override
@@ -50,24 +46,6 @@ public class PackageManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitypackage_package_manager);
 
-        //swipe = findViewById(R.id.swipe);
-
-
-        // swipe가 당겨지면
-       /*swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipe.setRefreshing(true);
-                //당겼다가 손을 떼는 순간 호출되는 메서드
-
-
-                //arrayList = new ArrayList<>();
-                //서버통신이 마무리 되면 디스크를 제거
-                swipe.setRefreshing(false);
-
-
-            }
-        });*/
     }
 
     // 뒤로 가기로 이 액티비티로 다시 돌아올 수 있으니 코드를 onResume에 삽입
@@ -75,7 +53,7 @@ public class PackageManagerActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-      vo = LoginVO.getInstance();
+       vo = LoginVO.getInstance();
 
       // login 하지 않았다면
       if(vo.getUserId() == null){
@@ -107,11 +85,12 @@ public class PackageManagerActivity extends AppCompatActivity {
                                View view = super.getView(position, convertView, parent);
                                TextView tv = (TextView) view.findViewById(android.R.id.text1);
                                tv.setTextColor(Color.BLACK);
-                               tv.setPadding(20, 40, 0, 40);
+                               tv.setPadding(50, 50, 0, 50);
                                return view;
                            }
                        };
                        manager_group_listView.setAdapter(adapter);
+
                    }
                }
            }).execute();
@@ -164,6 +143,5 @@ public class PackageManagerActivity extends AppCompatActivity {
             }
         }
     };
-
 
 }

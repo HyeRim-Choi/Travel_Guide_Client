@@ -2,7 +2,7 @@ package api;
 
 
 public class UrlCreate {
-    private static final String ip = "";
+    private static final String ip = "192.168.129.130";
     private static final int port = 3001;
 
     public static String getUrl(int chk, String info) {
@@ -27,6 +27,15 @@ public class UrlCreate {
             case API_CHOICE.LOGOUT:
                 url += "/auth/logout/" + info;
                 return url;
+
+            case API_CHOICE.TRAVELER_GROUP_SEARCH:
+                url += "/group/myGroup/" + info;
+                return url;
+
+            case API_CHOICE.MEMBER_LOCATION_RELOAD_SEND:
+                url += "/location/reload/" + info;
+                return url;
+
             default:
                 return "";
         }
@@ -55,12 +64,10 @@ public class UrlCreate {
                  url += "/group";
                  return url;
 
-             // url change?
              case API_CHOICE.LOCATION_REQ:
                  url += "/push/alarm";
                  return url;
 
-            // url change?
               case API_CHOICE.LOCATION_SEND:
                   url += "/location";
                   return url;

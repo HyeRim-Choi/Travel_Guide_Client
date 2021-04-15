@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,12 +11,9 @@ import android.text.Html;
 import android.util.Log;
 
 import com.chr.travel.R;
-import com.chr.travel.login.FindIdActivity;
-import com.chr.travel.mpackage.LocationAccessActivity;
 
 import api.API_CHOICE;
 import api.AsyncTaskFactory;
-import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
@@ -34,6 +30,7 @@ public class  NotificationActivity extends AppCompatActivity {
 
         vo = LoginVO.getInstance();
 
+        // Alert창 띄우기
         makeDialog();
     }
 
@@ -47,17 +44,13 @@ public class  NotificationActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                // ********* ????????? 위치 얻는 코드 변경 후 이동하는 액티비티 변경 *********
-                // '네' 클릭 시 LocationAccessActivity로 이동
-                /*Intent intent = new Intent(getApplicationContext(), LocationAccessActivity.class);
-                startActivity(intent);*/
-
+                // 백그라운드로 여행객들 위치 가이드에게 전송하기
                 try {
-                    AsyncTaskFactory.getApiBackTask(NotificationActivity.this, API_CHOICE.LOCATION_SEND, vo.getUserId(), new AsyncTaskCallBack() {
+                    AsyncTaskFactory.getApiBackTask(NotificationActivity.this, API_CHOICE.LOCATION_SEND, vo.getUserId(), 1, new AsyncTaskCallBack() {
                         @Override
                         public void onTaskDone(Object... params) {
                             if((Integer)params[0] == 1){
-                                Log.i("NotificationActivity", "위치 보내기 성공");
+                                Log.i("NotificationActivity", "위치 보내기 종료 성공");
                             }
                         }
                     }).execute();
