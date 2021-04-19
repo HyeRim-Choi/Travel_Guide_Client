@@ -70,11 +70,11 @@ public class AsyncTaskFactory{
 
 
     // BackGround AsyncTask
-    public static BackLocationRequest getApiBackTask(Activity activity,int chk, String info, int serviceChk, AsyncTaskCallBack callBack){
+    public static BackLocationRequest getApiBackTask(Activity activity,int chk, String info, AsyncTaskCallBack callBack){
         switch (chk){
             // 백그라운드로 여행객들이 가이드에게 위치 보내기
             case API_CHOICE.LOCATION_SEND:
-                return new BackLocationRequest(activity, info, serviceChk, callBack);
+                return new BackLocationRequest(activity, info);
 
             default:
                 return null;

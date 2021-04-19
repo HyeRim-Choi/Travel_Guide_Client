@@ -1,13 +1,16 @@
 package com.chr.travel.mpackage;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -35,8 +38,6 @@ import api.API_CHOICE;
 import api.AsyncTaskFactory;
 
 /* 매니저가 장소를 추가하는 액티비티 */
-
-// MapView.MapViewEventListener : 나연이가 클릭 위치 클릭 시 텍스트 입력 받는 그거 해달라고 하면 추가하기
 
 public class PlaceAddActivity extends AppCompatActivity{
 
@@ -76,14 +77,78 @@ public class PlaceAddActivity extends AppCompatActivity{
         mapView.setPOIItemEventListener(marker_click);
 
         // 지도 EventListener
-        //mapView.setMapViewEventListener(this);
+        mapView.setMapViewEventListener(map_click);
 
     }
+
+    /* MapViewEventListener */
+    MapView.MapViewEventListener map_click = new MapView.MapViewEventListener() {
+        @Override
+        public void onMapViewInitialized(MapView mapView) {
+            Log.i("MapViewClick", "터치1");
+        }
+
+        // 지도 클릭 시 반응
+        @Override
+        public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
+            Log.i("MapViewClick", "터치1");
+        }
+
+        // 지도 줌, 아웃 시
+        @Override
+        public void onMapViewZoomLevelChanged(MapView mapView, int i) {
+            Log.i("MapViewClick", "터치2");
+        }
+
+        // 지도 클릭 시 반응
+        @Override
+        public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
+            // 전에 클릭한 장소에 마커가 있다면 지우기
+            if(marker!=null){
+                mapView.removePOIItem(marker);
+            }
+
+            // 클릭 한 곳 마커 띄우기
+            showMarker(mapPoint.getMapPointGeoCoord().latitude, mapPoint.getMapPointGeoCoord().longitude);
+
+        }
+
+        @Override
+        public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
+            Log.i("MapViewClick", "터치4");
+        }
+
+        @Override
+        public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
+            Log.i("MapViewClick", "터치5");
+        }
+
+        // 지도 클릭 시 반응
+        @Override
+        public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
+            Log.i("MapViewClick", "터치6");
+        }
+
+        // 지도 클릭 시 반응
+        @Override
+        public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
+            Log.i("MapViewClick", "터치7");
+        }
+
+        // 지도 클릭 시 반응
+        // 지도 줌, 아웃 시
+        @Override
+        public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
+            Log.i("MapViewClick", "터치8");
+        }
+    };
+
 
     /* POIItemEventListener */
     MapView.POIItemEventListener marker_click = new MapView.POIItemEventListener() {
 
         // 마커 클릭 시
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
             // 서버에게 search, latitude, longitude 보내기 위해 Alert 창 띄우기
@@ -116,6 +181,7 @@ public class PlaceAddActivity extends AppCompatActivity{
                 // 검색 버튼 클릭 시
                 case R.id.btn_search:
 
+                    // 전에 검색한 장소에 머커가 있다면 지우기
                     if(marker!=null){
                         mapView.removePOIItem(marker);
                     }
@@ -176,22 +242,42 @@ public class PlaceAddActivity extends AppCompatActivity{
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
     }
 
+
     /* Alert창 */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void makeDialog() {
+        // 장소 이름 지정하는 EditText
+        EditText et = new EditText(PlaceAddActivity.this);
+        et.setTextColor(Color.WHITE);
+        et.setHint("     장소 이름 지정해주세요(터치)\n     장소 이름을 지정하지 않으면 '" + search + "' 로 저장됨");
+        et.setHintTextColor(Color.WHITE);
+        et.setTextCursorDrawable(null);
+        et.setTextSize((float) 14.4);
+        et.setBackgroundTintList(ColorStateList.valueOf(Color.argb(0,0,0,0)));
+
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(PlaceAddActivity.this);
-        // 가운데로 안오면 글씨를 배경과 같은 색으로 해서 좀 집어넣기
         dialog.setTitle(Html.fromHtml("<b><font color='#FFFFFF'>" + search + "</font></b>"));
         dialog.setMessage(Html.fromHtml("<font color='#FFFFFF'>장소를 저장하시겠습니까?</font>"));
+        // EditText 추가
+        dialog.setView(et);
+
 
         dialog.setPositiveButton("네", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String place = et.getText().toString();
+
+                // 장소 이름 지정하지 않았으면 검색 한 이름으로 장소 저장
+                if(place == null || place.isEmpty()){
+                    place = search.trim();
+                }
+
                 JSONObject postDataParam = new JSONObject();
 
                 try {
                     // node에 전달 할 정보 넣기
-                    postDataParam.put("name", search.trim());
+                    postDataParam.put("name", place);
                     postDataParam.put("latitude", latitude);
                     postDataParam.put("longitude", longitude);
                 }
@@ -232,59 +318,4 @@ public class PlaceAddActivity extends AppCompatActivity{
         alert.show();
     }
 
-
-    /* MapViewEventListener */
-   /* @Override
-    public void onMapViewInitialized(MapView mapView) {
-
-    }
-
-    // 지도 클릭 시 반응
-    @Override
-    public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
-        // 클릭 한 곳 마커 띄우기
-        showMarker(mapPoint.getMapPointGeoCoord().latitude, mapPoint.getMapPointGeoCoord().longitude);
-
-    }
-
-    // 지도 줌, 아웃 시
-    @Override
-    public void onMapViewZoomLevelChanged(MapView mapView, int i) {
-
-    }
-
-    // 지도 클릭 시 반응
-    @Override
-    public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    // 지도 클릭 시 반응
-    @Override
-    public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    // 지도 클릭 시 반응
-    @Override
-    public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    // 지도 클릭 시 반응
-    // 지도 줌, 아웃 시
-    @Override
-    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-
-    }*/
 }

@@ -37,12 +37,19 @@
     </LinearLayout>
 
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="2dp"
-        android:divider="@color/black"
-        android:background="@color/appColor"
-        android:id="@+id/manager_group_listView"/>
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:fillViewport="true">
+
+       <ListView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:dividerHeight="2dp"
+           android:divider="@color/black"
+           android:background="@color/appColor"
+           android:id="@+id/manager_group_listView"/>
+
+   </ScrollView>
 
 </LinearLayout>

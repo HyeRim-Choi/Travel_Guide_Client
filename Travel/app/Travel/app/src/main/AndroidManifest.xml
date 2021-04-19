@@ -40,15 +40,11 @@
         <activity android:name=".mpackage.PackageManagerActivity" />
         <activity android:name=".login.SignupActivity" />
         <activity android:name=".MainActivity" /> <!-- ??? -->
-        <!--
- <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/black" />
-        -->
+
         <!-- kakao API -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="API KEY" />
+            android:value="" />
         <!-- firebase -->
         <service
             android:name="service.fcm.FireBaseMessagingService"

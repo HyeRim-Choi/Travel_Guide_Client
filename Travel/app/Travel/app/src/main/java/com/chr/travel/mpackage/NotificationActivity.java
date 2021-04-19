@@ -14,6 +14,7 @@ import com.chr.travel.R;
 
 import api.API_CHOICE;
 import api.AsyncTaskFactory;
+import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
@@ -22,6 +23,8 @@ import vo.LoginVO;
 public class  NotificationActivity extends AppCompatActivity {
 
     LoginVO vo;
+
+    public static BackLocationRequest backLocationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class  NotificationActivity extends AppCompatActivity {
         makeDialog();
     }
 
+
     /* Alert창 */
     private void makeDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -45,19 +49,15 @@ public class  NotificationActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 // 백그라운드로 여행객들 위치 가이드에게 전송하기
-                try {
-                    AsyncTaskFactory.getApiBackTask(NotificationActivity.this, API_CHOICE.LOCATION_SEND, vo.getUserId(), 1, new AsyncTaskCallBack() {
-                        @Override
-                        public void onTaskDone(Object... params) {
-                            if((Integer)params[0] == 1){
-                                Log.i("NotificationActivity", "위치 보내기 종료 성공");
-                            }
-                        }
-                    }).execute();
+               /* try {
+                    AsyncTaskFactory.getApiBackTask(NotificationActivity.this, API_CHOICE.LOCATION_SEND, vo.getUserId().execute();
                 }
                 catch (Exception e){
                     e.printStackTrace();
-                }
+                }*/
+
+                // 백그라운드로 여행객들 위치 가이드에게 전송하기
+                backLocationRequest = (BackLocationRequest) new BackLocationRequest(NotificationActivity.this, vo.getUserId()).execute();
 
                 dialog.cancel();
                 finish();

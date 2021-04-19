@@ -110,8 +110,9 @@ public class GroupActivity extends AppCompatActivity {
                     btn_start.setVisibility(View.VISIBLE);
                     btn_end.setVisibility(View.INVISIBLE);
 
+
                     // 여행객들 위치 받기 종료
-                    try {
+                   /* try {
                         AsyncTaskFactory.getApiBackTask(GroupActivity.this, API_CHOICE.LOCATION_SEND, title , 2, new AsyncTaskCallBack() {
                             @Override
                             public void onTaskDone(Object... params) {
@@ -124,8 +125,18 @@ public class GroupActivity extends AppCompatActivity {
                     }
                     catch (Exception e){
                         e.printStackTrace();
-                    }
+                    }*/
 
+
+                    // 여행객들 위치 받기 종료
+                    NotificationActivity.backLocationRequest.flag = false;
+                    try {
+                        NotificationActivity.backLocationRequest.cancel(true);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    
 
                     break;
             }
