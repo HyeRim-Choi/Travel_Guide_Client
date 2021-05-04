@@ -32,6 +32,12 @@ public class AsyncTaskFactory{
             case API_CHOICE.MEMBER_LOCATION_RELOAD_SEND:
                 return new GetMemberReloadLocation(activity, info, callBack);
 
+            case API_CHOICE.MEMBER_LOCATION_SEND_DONE:
+                return new GetMemberLocationSendDone(activity, info);
+
+            case API_CHOICE.MANAGER_SHOW_PLACE:
+                return new GetManagerShowPlace(activity, "", callBack);
+
             default:
                 return null;
         }
@@ -55,10 +61,6 @@ public class AsyncTaskFactory{
              case API_CHOICE.GROUP_ADD:
                  return new PostGroupAdd(activity, callBack);
 
-                 // 가이드가 멤버들에게 알림을 띄워서 위치 요청하기
-             case API_CHOICE.LOCATION_REQ:
-                 return new PostLocationReq(activity, callBack);
-
             case API_CHOICE.MANAGER_ADD_PLACE:
                 return new PostManagerPlaceAdd(activity, null);
 
@@ -68,18 +70,6 @@ public class AsyncTaskFactory{
         }
     }
 
-
-    // BackGround AsyncTask
-    public static BackLocationRequest getApiBackTask(Activity activity,int chk, String info, AsyncTaskCallBack callBack){
-        switch (chk){
-            // 백그라운드로 여행객들이 가이드에게 위치 보내기
-            case API_CHOICE.LOCATION_SEND:
-                return new BackLocationRequest(activity, info);
-
-            default:
-                return null;
-        }
-    }
 
 
 }

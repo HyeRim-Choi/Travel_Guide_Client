@@ -68,6 +68,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
 
+    // ViewPager
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+
 
 
     // ????

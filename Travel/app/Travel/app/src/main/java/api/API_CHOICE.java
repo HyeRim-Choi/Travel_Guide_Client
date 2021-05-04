@@ -9,6 +9,8 @@ public final class API_CHOICE {
     public static final int LOGOUT = 10;
     public static final int TRAVELER_GROUP_SEARCH = 13;
     public static final int MEMBER_LOCATION_RELOAD_SEND = 14;
+    public static final int MEMBER_LOCATION_SEND_DONE = 16;
+    public static final int MANAGER_SHOW_PLACE = 17;
 
     //POST
     public static final int SIGNUP = 2;

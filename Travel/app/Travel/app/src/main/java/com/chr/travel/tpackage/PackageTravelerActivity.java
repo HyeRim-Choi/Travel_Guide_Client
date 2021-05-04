@@ -97,11 +97,26 @@ public class PackageTravelerActivity extends AppCompatActivity {
         }
 
 
-        // title 클릭 시 무슨 창이 나오게 하지?
+        // title 클릭 시
         traveler_group_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               // title 클릭 시
+                String title = adapter.getItem(i).toString();
+
+                try {
+                    AsyncTaskFactory.getApiGetTask(PackageTravelerActivity.this, API_CHOICE.GROUP_MEMBER, title, new AsyncTaskCallBack() {
+                        @Override
+                        public void onTaskDone(Object... params) {
+                            Intent i = new Intent(PackageTravelerActivity.this, VisualizationActivity.class);
+                            // VisualizationActivity title 전달
+                            i.putExtra("title", title);
+                            startActivity(i);
+                        }
+                    }).execute();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }

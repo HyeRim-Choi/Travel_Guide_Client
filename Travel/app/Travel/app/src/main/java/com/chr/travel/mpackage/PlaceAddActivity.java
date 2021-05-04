@@ -2,9 +2,13 @@ package com.chr.travel.mpackage;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -31,11 +35,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import api.API_CHOICE;
 import api.AsyncTaskFactory;
+import api.callback.AsyncTaskCallBack;
+import service.location.GpsTracker;
 
 /* 매니저가 장소를 추가하는 액티비티 */
 
@@ -56,10 +64,17 @@ public class PlaceAddActivity extends AppCompatActivity{
     // 마커
     MapPOIItem marker;
 
+    // 가이드가 저장한 장소 마커
+    MapPOIItem managerSavePlace;
+
+    GpsTracker gpsTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitypackage_place_add);
+
+        gpsTracker = new GpsTracker(PlaceAddActivity.this);
 
         mapView = new MapView(this);
 
@@ -73,11 +88,52 @@ public class PlaceAddActivity extends AppCompatActivity{
         ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.map_view);
         mapViewContainer.addView(mapView);
 
+        if(gpsTracker.getLocation() != null){
+            showMarker(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        }
+
         // 지도 Marker EventListener
         mapView.setPOIItemEventListener(marker_click);
 
         // 지도 EventListener
         mapView.setMapViewEventListener(map_click);
+
+    }
+
+    // 가이드가 저장한 서브 장소들 위치 띄우기
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            AsyncTaskFactory.getApiGetTask(PlaceAddActivity.this, API_CHOICE.MANAGER_SHOW_PLACE, "", new AsyncTaskCallBack() {
+                @Override
+                public void onTaskDone(Object... params) {
+                    ArrayList<Map> place = (ArrayList) params[0];
+
+                    for(int i=0;i<place.size();i++) {
+                        String name = (String) place.get(i).get("name");
+                        double latitude = Double.parseDouble((String) place.get(i).get("latitude"));
+                        double longitude = Double.parseDouble((String) place.get(i).get("longitude"));
+
+
+                        // 마커 띄우기
+                        managerSavePlace = new MapPOIItem();
+                        managerSavePlace.setItemName(name);
+                        managerSavePlace.setTag(0);
+                        managerSavePlace.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude));
+                        managerSavePlace.setMarkerType(MapPOIItem.MarkerType.BluePin);
+                        managerSavePlace.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+                        mapView.addPOIItem(managerSavePlace);
+                    }
+                }
+            }).execute();
+        }
+
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
 
     }
 

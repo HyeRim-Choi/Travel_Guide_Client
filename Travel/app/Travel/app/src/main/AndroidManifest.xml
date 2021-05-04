@@ -17,8 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel">
-
-        <activity android:name=".tpackage.PackageTravelerActivity"></activity>
+        <activity android:name=".tpackage.VisualizationActivity"></activity>
+        <activity android:name=".tpackage.PackageTravelerActivity" />
         <activity android:name=".mpackage.PlaceAddActivity" />
         <activity android:name=".mpackage.MapTravelerLocationActivity" />
         <activity android:name=".mpackage.NotificationActivity" />
@@ -40,7 +40,6 @@
         <activity android:name=".mpackage.PackageManagerActivity" />
         <activity android:name=".login.SignupActivity" />
         <activity android:name=".MainActivity" /> <!-- ??? -->
-
         <!-- kakao API -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
