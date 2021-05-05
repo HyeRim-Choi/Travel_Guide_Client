@@ -89,8 +89,8 @@ public class PackageManagerActivity extends AppCompatActivity{
                                return view;
                            }
                        };
-                       manager_group_listView.setAdapter(adapter);
 
+                       manager_group_listView.setAdapter(adapter);
                    }
                }
            }).execute();

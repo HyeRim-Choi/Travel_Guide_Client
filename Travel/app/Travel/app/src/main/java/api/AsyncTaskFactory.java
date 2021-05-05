@@ -38,6 +38,12 @@ public class AsyncTaskFactory{
             case API_CHOICE.MANAGER_SHOW_PLACE:
                 return new GetManagerShowPlace(activity, "", callBack);
 
+            case API_CHOICE.MANAGER_ROUTE_PLACE_SEARCH:
+                return new GetManagerPlaceRouteSearch(activity, info, callBack);
+
+            case API_CHOICE.GROUP_TRIP_DATE:
+                return new GetGroupTripDate(activity, info, callBack);
+
             default:
                 return null;
         }

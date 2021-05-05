@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.BirthPickerActivity"
+    tools:context=".mpackage.TripDatePickerActivity"
     android:background="@color/appColor">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="생년월일"
+        android:text=""
         android:textSize="30dp"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:gravity="center"
         android:layout_marginTop="60dp"
-        android:id="@+id/txt_birth"/>
+        android:id="@+id/txt_tripDate"/>
 
     <DatePicker
         android:layout_width="match_parent"

@@ -17,7 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel">
-        <activity android:name=".tpackage.VisualizationActivity"></activity>
+        <activity android:name=".mpackage.TripDatePickerActivity"></activity>
+        <activity android:name=".mpackage.RegisterRouteActivity"></activity>
+        <activity android:name=".tpackage.VisualizationActivity" />
         <activity android:name=".tpackage.PackageTravelerActivity" />
         <activity android:name=".mpackage.PlaceAddActivity" />
         <activity android:name=".mpackage.MapTravelerLocationActivity" />

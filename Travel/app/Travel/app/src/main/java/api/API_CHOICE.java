@@ -11,6 +11,8 @@ public final class API_CHOICE {
     public static final int MEMBER_LOCATION_RELOAD_SEND = 14;
     public static final int MEMBER_LOCATION_SEND_DONE = 16;
     public static final int MANAGER_SHOW_PLACE = 17;
+    public static final int MANAGER_ROUTE_PLACE_SEARCH = 18;
+    public static final int GROUP_TRIP_DATE = 20;
 
     //POST
     public static final int SIGNUP = 2;
@@ -21,5 +23,6 @@ public final class API_CHOICE {
     public static final int LOCATION_REQ = 11;
     public static final int LOCATION_SEND = 12;
     public static final int MANAGER_ADD_PLACE = 15;
+    public static final int MANAGER_ROUTE_PLACE = 19;
 
 }

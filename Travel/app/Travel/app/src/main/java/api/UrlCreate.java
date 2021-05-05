@@ -44,6 +44,14 @@ public class UrlCreate {
                 url += "/map/place";
                 return url;
 
+            case API_CHOICE.MANAGER_ROUTE_PLACE_SEARCH:
+                url += "/location/places/" + info;
+                return url;
+
+            case API_CHOICE.GROUP_TRIP_DATE:
+                url += "/group/route/" + info;
+                return url;
+
             default:
                 return "";
         }

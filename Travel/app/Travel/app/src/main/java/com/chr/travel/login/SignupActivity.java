@@ -205,8 +205,6 @@ public class SignupActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // 결과를 반환하는 액티비티가 FIRST_ACTIVITY_REQUEST_CODE 요청코드로 시작된 경우가 아니거나
-        // 결과 데이터가 빈 경우라면, 메소드 수행을 바로 반환함.
         if (requestCode != 1000 || data == null)
             return;
 

@@ -120,10 +120,9 @@ public class PlaceAddActivity extends AppCompatActivity{
                         // 마커 띄우기
                         managerSavePlace = new MapPOIItem();
                         managerSavePlace.setItemName(name);
-                        managerSavePlace.setTag(0);
+                        managerSavePlace.setTag(1);
                         managerSavePlace.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude));
-                        managerSavePlace.setMarkerType(MapPOIItem.MarkerType.BluePin);
-                        managerSavePlace.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+                        managerSavePlace.setMarkerType(MapPOIItem.MarkerType.YellowPin);
                         mapView.addPOIItem(managerSavePlace);
                     }
                 }
@@ -159,6 +158,7 @@ public class PlaceAddActivity extends AppCompatActivity{
         // 지도 클릭 시 반응
         @Override
         public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
+
             // 전에 클릭한 장소에 마커가 있다면 지우기
             if(marker!=null){
                 mapView.removePOIItem(marker);
@@ -208,7 +208,9 @@ public class PlaceAddActivity extends AppCompatActivity{
         @Override
         public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
             // 서버에게 search, latitude, longitude 보내기 위해 Alert 창 띄우기
-            makeDialog();
+            if(mapView.getPOIItems().length == 5){
+                makeDialog();
+            }
         }
 
         @Override
@@ -290,8 +292,8 @@ public class PlaceAddActivity extends AppCompatActivity{
         marker.setItemName(search);
         marker.setTag(0);
         marker.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude));
-        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양
-        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양
+        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본 마커
+        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커 클릭 시
         mapView.addPOIItem(marker);
 
         // 화면 중앙에 표시 될 위치

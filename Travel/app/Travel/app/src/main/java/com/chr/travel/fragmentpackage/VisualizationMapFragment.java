@@ -21,7 +21,7 @@ public class VisualizationMapFragment extends Fragment {
 
 
     public VisualizationMapFragment() {
-
+        // 서버와 통신하여 데이터 가져와서 처리
     }
 
 
@@ -39,7 +39,7 @@ public class VisualizationMapFragment extends Fragment {
         mapViewContainer.addView(mapView);
 
 
-        // 서버와 통신하여 데이터 가져와서 처리
+
 
 
        return v;

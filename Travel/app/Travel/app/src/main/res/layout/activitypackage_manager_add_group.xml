@@ -1,83 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mpackage.ManagerAddGroupActivity"
-    android:background="@color/appColor"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/img_group"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="그룹추가 창"
-        android:textSize="35dp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp"/>
-
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/et_title"
-        android:inputType="text"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/white"
-        android:textColorHint="@color/white"
-        android:textCursorDrawable="@null"
-        android:hint="그룹 이름"
-        android:textSize="30dp"/>
+    android:background="@color/appColor">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/img_group"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="그룹추가 창"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="65dp"
+            android:layout_marginBottom="30dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/et_userId"
-            android:hint="그룹으로 초대 할 아이디를 입력하세요"
+            android:id="@+id/et_title"
             android:inputType="text"
-            android:layout_weight="2"
             android:textColor="@color/white"
             android:backgroundTint="@color/white"
             android:textColorHint="@color/white"
             android:textCursorDrawable="@null"
-            android:textSize="20dp"/>
+            android:layout_marginBottom="15dp"
+            android:hint="그룹 이름"
+            android:textSize="30dp"/>
 
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="추가"
-            android:textSize="25dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:text="출발 날짜"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_round"
+                android:id="@+id/btn_startDate"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="출발 날짜를 지정해주세요."
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:id="@+id/txt_startDate"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:text="도착 날짜"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_round"
+                android:id="@+id/btn_endDate"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="도착 날짜를 지정해주세요."
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:id="@+id/txt_endDate"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/et_userId"
+                android:hint="그룹으로 초대 할 아이디를 입력하세요"
+                android:inputType="text"
+                android:layout_weight="2"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/white"
+                android:textColorHint="@color/white"
+                android:textCursorDrawable="@null"
+                android:textSize="20dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="추가"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_round"
+                android:layout_weight="4"
+                android:id="@+id/btn_addId"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20dp"
             android:textColor="@color/white"
-            android:background="@drawable/btn_round"
-            android:layout_weight="4"
-            android:id="@+id/btn_addId"/>
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:id="@+id/txt_addId"/>
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="30dp"
-        android:textColor="@color/white"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:id="@+id/txt_addId"/>
 
     <Button
         android:layout_width="300dp"
@@ -85,10 +149,9 @@
         android:text="그룹 생성"
         android:textSize="25dp"
         android:textColor="@color/white"
-        android:layout_gravity="center"
-        android:layout_marginTop="170dp"
+        android:layout_gravity="bottom |center_horizontal"
         android:background="@drawable/btn_round"
         android:id="@+id/btn_addGroup"/>
 
 
-</LinearLayout>
+</FrameLayout>

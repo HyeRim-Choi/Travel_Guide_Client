@@ -13,7 +13,7 @@ public class VisualizationAdapter extends FragmentStateAdapter {
     private static int NUM_ITEMS=3;
 
     // TabLayout에 표시 될 제목
-    private String tabTitles[] = new String[] { "지도", "나이", "성별" };
+    private String tabTitles[] = new String[] { "경로", "나이", "성별" };
 
     public VisualizationAdapter(FragmentActivity fa) {
         super(fa);

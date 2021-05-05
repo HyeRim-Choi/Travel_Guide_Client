@@ -54,10 +54,14 @@ abstract public class GetRequest extends AsyncTask<String, Void, String> {
             Log.i("resCode","resCode : "+resCode);
 
             if (resCode != HttpsURLConnection.HTTP_OK) {
+
                 Log.e(TAG, "HttpsURLConnection ResponseCode: " + resCode);
                 conn.disconnect();
+
                 return null;
+
             }
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = null;
             while (true) {
