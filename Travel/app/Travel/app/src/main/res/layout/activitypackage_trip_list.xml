@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mpackage.operation.PackageManagerActivity"
+    tools:context=".mpackage.plan.TripListActivity"
     android:orientation="vertical">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="가이드님이 운영하는 여행"
-            android:textSize="23dp"
+            android:text="여행 상품 목록"
+            android:textSize="25dp"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:layout_gravity="center"
@@ -29,29 +28,29 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="1.8"
-            android:background="@drawable/btn_groupadd"
-            android:layout_marginTop="8dp"
+            android:background="@drawable/btn_register_trip"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="80dp"
-            android:id="@+id/btn_addGroup"/>
+            android:id="@+id/btn_registerTripSchedule"/>
 
     </LinearLayout>
 
 
-   <ScrollView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:fillViewport="true">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-       <ListView
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:dividerHeight="2dp"
-           android:divider="@color/black"
-           android:background="@color/appColor"
-           android:id="@+id/manager_group_listView"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="2dp"
+            android:divider="@color/black"
+            android:background="@color/appColor"
+            android:id="@+id/trip_list"/>
 
-   </ScrollView>
+    </ScrollView>
 
 </LinearLayout>

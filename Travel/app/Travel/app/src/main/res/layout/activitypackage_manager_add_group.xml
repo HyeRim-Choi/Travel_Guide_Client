@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mpackage.ManagerAddGroupActivity"
+    tools:context=".mpackage.operation.ManagerAddGroupActivity"
     android:background="@color/appColor">
 
     <LinearLayout
@@ -57,6 +57,31 @@
             android:layout_marginBottom="10dp">
 
             <Button
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:text="운영 여행 지정"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_round"
+                android:id="@+id/btn_registerTrip"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="운영하려는 여행을 지정해주세요."
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:id="@+id/txt_registerTrip"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <Button
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="출발 날짜"
@@ -73,6 +98,7 @@
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:id="@+id/txt_startDate"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -151,6 +177,7 @@
         android:textColor="@color/white"
         android:layout_gravity="bottom |center_horizontal"
         android:background="@drawable/btn_round"
+        android:layout_marginBottom="10dp"
         android:id="@+id/btn_addGroup"/>
 
 

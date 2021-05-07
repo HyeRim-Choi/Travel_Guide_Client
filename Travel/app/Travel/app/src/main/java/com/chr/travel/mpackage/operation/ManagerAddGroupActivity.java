@@ -1,8 +1,7 @@
-package com.chr.travel.mpackage;
+package com.chr.travel.mpackage.operation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.chr.travel.R;
-import com.chr.travel.login.BirthPickerActivity;
 import com.chr.travel.login.LoginActivity;
 
 import org.json.JSONException;
@@ -29,8 +27,8 @@ import vo.LoginVO;
 public class ManagerAddGroupActivity extends AppCompatActivity {
 
     EditText et_title, et_userId;
-    Button btn_addGroup, btn_addId, btn_startDate, btn_endDate;
-    TextView txt_addId, txt_startDate, txt_endDate;
+    Button btn_addGroup, btn_addId, btn_startDate, btn_endDate, btn_registerTrip;
+    TextView txt_addId, txt_startDate, txt_endDate, txt_registerTrip;
 
     String title, id;
 
@@ -63,15 +61,18 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
         btn_addId = findViewById(R.id.btn_addId);
         btn_startDate = findViewById(R.id.btn_startDate);
         btn_endDate = findViewById(R.id.btn_endDate);
+        btn_registerTrip = findViewById(R.id.btn_registerTrip);
         txt_addId = findViewById(R.id.txt_addId);
         txt_startDate = findViewById(R.id.txt_startDate);
         txt_endDate = findViewById(R.id.txt_endDate);
+        txt_registerTrip = findViewById(R.id.txt_registerTrip);
 
 
         btn_addGroup.setOnClickListener(click);
         btn_addId.setOnClickListener(click);
         btn_startDate.setOnClickListener(click);
         btn_endDate.setOnClickListener(click);
+        btn_registerTrip.setOnClickListener(click);
     }
 
     View.OnClickListener click = new View.OnClickListener() {
@@ -120,6 +121,27 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                         break;
                     }
 
+
+                 // 운영 여행 지정 버튼 클릭 시
+                case R.id.btn_registerTrip:
+                    // 여행 목록으로 이동
+
+                    break;
+
+                    // 출발 날짜 클릭 시
+                case R.id.btn_startDate:
+                    i = new Intent(getApplicationContext(), TripDatePickerActivity.class);
+                    i.putExtra("date", START_DATE);
+                    startActivityForResult(i,START_DATE);
+                    break;
+
+                // 도착 날짜 클릭 시
+                case R.id.btn_endDate:
+                    i = new Intent(getApplicationContext(), TripDatePickerActivity.class);
+                    i.putExtra("date", END_DATE);
+                    startActivityForResult(i,END_DATE);
+                    break;
+
                 // 아이디 추가 버튼 클릭 시
                 case R.id.btn_addId:
                     postDataParam = new JSONObject();
@@ -156,19 +178,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                     }
                     break;
 
-                // 출발 날짜 클릭 시
-                case R.id.btn_startDate:
-                    i = new Intent(getApplicationContext(), TripDatePickerActivity.class);
-                    i.putExtra("date", START_DATE);
-                    startActivityForResult(i,START_DATE);
-                    break;
 
-                // 도착 날짜 클릭 시
-                case R.id.btn_endDate:
-                    i = new Intent(getApplicationContext(), TripDatePickerActivity.class);
-                    i.putExtra("date", END_DATE);
-                    startActivityForResult(i,END_DATE);
-                    break;
             }
         }
     };

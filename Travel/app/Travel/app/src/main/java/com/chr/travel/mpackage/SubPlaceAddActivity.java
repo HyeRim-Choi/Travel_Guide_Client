@@ -2,13 +2,9 @@ package com.chr.travel.mpackage;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,7 +21,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.chr.travel.R;
-import com.chr.travel.login.FindIdActivity;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -47,7 +42,7 @@ import service.location.GpsTracker;
 
 /* 매니저가 장소를 추가하는 액티비티 */
 
-public class PlaceAddActivity extends AppCompatActivity{
+public class SubPlaceAddActivity extends AppCompatActivity{
 
     EditText et_place;
     Button btn_search;
@@ -72,9 +67,9 @@ public class PlaceAddActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activitypackage_place_add);
+        setContentView(R.layout.activitypackage_sub_place_add);
 
-        gpsTracker = new GpsTracker(PlaceAddActivity.this);
+        gpsTracker = new GpsTracker(SubPlaceAddActivity.this);
 
         mapView = new MapView(this);
 
@@ -106,7 +101,7 @@ public class PlaceAddActivity extends AppCompatActivity{
         super.onResume();
 
         try {
-            AsyncTaskFactory.getApiGetTask(PlaceAddActivity.this, API_CHOICE.MANAGER_SHOW_PLACE, "", new AsyncTaskCallBack() {
+            AsyncTaskFactory.getApiGetTask(SubPlaceAddActivity.this, API_CHOICE.MANAGER_SHOW_PLACE, "", new AsyncTaskCallBack() {
                 @Override
                 public void onTaskDone(Object... params) {
                     ArrayList<Map> place = (ArrayList) params[0];
@@ -248,7 +243,7 @@ public class PlaceAddActivity extends AppCompatActivity{
 
                     // 검색 창이 비어있다면
                     if(search == null || search.isEmpty()){
-                        Toast.makeText(PlaceAddActivity.this, "장소를 검색해주세요", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SubPlaceAddActivity.this, "장소를 검색해주세요", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -305,7 +300,7 @@ public class PlaceAddActivity extends AppCompatActivity{
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void makeDialog() {
         // 장소 이름 지정하는 EditText
-        EditText et = new EditText(PlaceAddActivity.this);
+        EditText et = new EditText(SubPlaceAddActivity.this);
         et.setTextColor(Color.WHITE);
         et.setHint("     장소 이름 지정해주세요(터치)\n     장소 이름을 지정하지 않으면 '" + search + "' 로 저장됨");
         et.setHintTextColor(Color.WHITE);
@@ -314,7 +309,7 @@ public class PlaceAddActivity extends AppCompatActivity{
         et.setBackgroundTintList(ColorStateList.valueOf(Color.argb(0,0,0,0)));
 
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(PlaceAddActivity.this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(SubPlaceAddActivity.this);
         dialog.setTitle(Html.fromHtml("<b><font color='#FFFFFF'>" + search + "</font></b>"));
         dialog.setMessage(Html.fromHtml("<font color='#FFFFFF'>장소를 저장하시겠습니까?</font>"));
         // EditText 추가
@@ -345,7 +340,7 @@ public class PlaceAddActivity extends AppCompatActivity{
 
                 // 서버 통신
                 try {
-                    AsyncTaskFactory.getApiPostTask(PlaceAddActivity.this, API_CHOICE.MANAGER_ADD_PLACE, null).execute(postDataParam);
+                    AsyncTaskFactory.getApiPostTask(SubPlaceAddActivity.this, API_CHOICE.MANAGER_ADD_PLACE, null).execute(postDataParam);
                 }
                 catch (Exception e){
                     e.printStackTrace();

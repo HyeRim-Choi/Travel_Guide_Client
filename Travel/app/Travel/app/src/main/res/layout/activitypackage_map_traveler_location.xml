@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mpackage.MapTravelerLocationActivity"
+    tools:context=".mpackage.operation.MapTravelerLocationActivity"
     android:orientation="vertical">
 
     <!--상단의 타이틀바처럼 사용한 영역 지정-->

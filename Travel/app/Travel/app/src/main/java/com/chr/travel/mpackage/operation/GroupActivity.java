@@ -1,4 +1,4 @@
-package com.chr.travel.mpackage;
+package com.chr.travel.mpackage.operation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.chr.travel.R;
+import com.chr.travel.mpackage.RegisterRouteActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ public class GroupActivity extends AppCompatActivity {
     // 알림 보내기
     PostLocationReq postLocationReq;
 
-    private static final int FIRST_ACTIVITY_REQUEST_CODE = 0;
+    private static final int REGISTER_ROUTE_REQUEST_CODE = 0;
 
 
     @Override
@@ -165,7 +166,8 @@ public class GroupActivity extends AppCompatActivity {
                                     Intent i = new Intent(GroupActivity.this, RegisterRouteActivity.class);
                                     i.putExtra("startDate", startDate);
                                     i.putExtra("endDate", endDate);
-                                    startActivityForResult(i, FIRST_ACTIVITY_REQUEST_CODE);
+                                    i.putExtra("title", title);
+                                    startActivityForResult(i, REGISTER_ROUTE_REQUEST_CODE);
                                 }
                            }
                        }).execute();
@@ -174,7 +176,6 @@ public class GroupActivity extends AppCompatActivity {
                    catch (Exception e){
                        e.printStackTrace();
                    }
-
 
                     break;
 
@@ -188,29 +189,18 @@ public class GroupActivity extends AppCompatActivity {
     };
 
 
-    // 일정 등록 결과 반환 -> 일정 등로 버튼 INvisivible로 만들기?
+    // 일정 등록 결과 반환
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        String place = "";
-
-        if (requestCode != FIRST_ACTIVITY_REQUEST_CODE || data == null){
+        if (requestCode != REGISTER_ROUTE_REQUEST_CODE){
             return;
         }
 
-        String routePlaces = data.getStringExtra("routePlaces");
+        //txt_route에 하나라도 있으면 일정 수정으로 변경
 
-        for(int i = 0; i<routePlaces.length(); i++){
-
-            if(routePlaces.charAt(i) == ','){
-                place += '\n';
-                continue;
-            }
-
-            place += routePlaces.charAt(i);
-        }
-
+        btn_registerRoute.setText("일정 수정");
 
     }
 

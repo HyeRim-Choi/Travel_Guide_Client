@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mpackage.RegisterRouteActivity"
-    android:background="@color/appColor"
-    android:orientation="vertical">
+    android:background="@color/appColor">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="match_parent"
@@ -30,47 +29,35 @@
 
     </FrameLayout>
 
-    <LinearLayout
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:fillViewport="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="2dp"
+            android:divider="@color/white"
+            android:background="@color/appColor"
+            android:id="@+id/trip_schedule"/>
+
+    </ScrollView>
+
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="2020-10-01"
-                android:textSize="25dp"
-                android:textColor="@color/white"
-                android:layout_marginTop="30dp"
-                android:gravity="center"
-                android:id="@+id/txt_date"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="저장"
-                android:textColor="@color/white"
-                android:background="@drawable/btn_round"
-                android:id="@+id/btn_save"/>
-
-        </LinearLayout>
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:textSize="20dp"
+        android:text="완료"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_round"
+        android:id="@+id/btn_finish" />
 
 
-    </LinearLayout>
-
-
-
-
-
-
-
-
-
-</LinearLayout>
+</FrameLayout>

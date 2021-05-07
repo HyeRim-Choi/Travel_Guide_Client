@@ -1,4 +1,4 @@
-package com.chr.travel.mpackage;
+package com.chr.travel.mpackage.operation;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,7 +26,7 @@ import api.AsyncTaskFactory;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
 
-/* 패키지 매니저 권한일때의 액티비티 */
+/* 패키지 매니저 권한일때의 액티비티(자신의 여행 운영) */
 
 public class PackageManagerActivity extends AppCompatActivity{
 
@@ -67,9 +67,12 @@ public class PackageManagerActivity extends AppCompatActivity{
       btn_addGroup = findViewById(R.id.btn_addGroup);
       manager_group_listView = findViewById(R.id.manager_group_listView);
 
+      txt_manager_actionbar.setText(vo.getUserId() + "님이 운영하는 여행");
+
       btn_addGroup.setOnClickListener(click);
 
 
+      // 가이드 자신이 운영하는 여행 목록만 보여지도록
        try {
            AsyncTaskFactory.getApiGetTask(PackageManagerActivity.this, API_CHOICE.GROUP_SEARCH, vo.getUserId(), new AsyncTaskCallBack() {
                @Override

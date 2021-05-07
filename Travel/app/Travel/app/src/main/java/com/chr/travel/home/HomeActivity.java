@@ -17,8 +17,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.chr.travel.login.LoginActivity;
 import com.chr.travel.R;
-import com.chr.travel.mpackage.PackageManagerActivity;
-import com.chr.travel.mpackage.PlaceAddActivity;
+import com.chr.travel.mpackage.operation.PackageManagerActivity;
+import com.chr.travel.mpackage.SubPlaceAddActivity;
+import com.chr.travel.mpackage.plan.TripListActivity;
 import com.chr.travel.tpackage.PackageTravelerActivity;
 
 import api.API_CHOICE;
@@ -82,8 +83,8 @@ public class HomeActivity extends AppCompatActivity {
         btn_logout.setOnClickListener(click);
 
         /* Package Menu */
-        ArrayAdapter packageMenu = ArrayAdapter.createFromResource(this, getAuth(vo.getRole()), R.layout.design_homemenuspinner);
-        packageMenu.setDropDownViewResource(R.layout.design_homemenuspinner);
+        ArrayAdapter packageMenu = ArrayAdapter.createFromResource(this, getAuth(vo.getRole()), R.layout.design_home_menu_spinner);
+        packageMenu.setDropDownViewResource(R.layout.design_home_menu_spinner);
         //어댑터에 연결
         spinner_package_menu.setAdapter(packageMenu);
 
@@ -92,8 +93,18 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Intent i;
                 switch (position){
-                    // 가이드 버튼을 눌렀을 때
+                    // 공지사항으로 이동
                     case 1:
+
+                        break;
+
+                    // 채팅 창으로 이동
+                    case 2:
+
+                        break;
+
+                    // 가이드 : 여행 운영, 여행객 : 여행 일정 버튼 클릭 시
+                    case 3:
                         if(vo.getRole().equals("manager")){
                             //매니저 액티비티로 이동
                             i = new Intent(HomeActivity.this, PackageManagerActivity.class);
@@ -106,19 +117,21 @@ public class HomeActivity extends AppCompatActivity {
                         }
                         break;
 
-                    case 2:
-                        // 공지사항으로 이동
-                        break;
 
-                    case 3:
-                        // 채팅 창으로 이동
-                        break;
-
+                    // 여행 목록 클릭 시
                     case 4:
-                        // 장소를 추가하는 창으로 이동
-                        i = new Intent(HomeActivity.this, PlaceAddActivity.class);
+                        i = new Intent(HomeActivity.this, TripListActivity.class);
                         startActivity(i);
                         break;
+
+
+                    // 자유시간 장소 추가 클릭 시
+                    case 5:
+                        // 서브 관광지 장소를 추가하는 창으로 이동
+                        i = new Intent(HomeActivity.this, SubPlaceAddActivity.class);
+                        startActivity(i);
+                        break;
+
                 }
             }
             @Override
@@ -127,8 +140,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
         /* Free Travel Menu */
-        ArrayAdapter freeMenu = ArrayAdapter.createFromResource(this, R.array.freeItem, R.layout.design_homemenuspinner);
-        packageMenu.setDropDownViewResource(R.layout.design_homemenuspinner);
+        ArrayAdapter freeMenu = ArrayAdapter.createFromResource(this, R.array.freeItem, R.layout.design_home_menu_spinner);
+        packageMenu.setDropDownViewResource(R.layout.design_home_menu_spinner);
         //어댑터에 연결
         spinner_free_menu.setAdapter(freeMenu);
 

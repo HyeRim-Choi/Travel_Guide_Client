@@ -17,14 +17,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel">
-        <activity android:name=".mpackage.TripDatePickerActivity"></activity>
-        <activity android:name=".mpackage.RegisterRouteActivity"></activity>
+        <activity android:name=".mpackage.plan.RegisterTimePlaceActivity"></activity>
+        <activity android:name=".mpackage.plan.RegisterTripDetailScheduleActivity" />
+        <activity android:name=".mpackage.plan.RegisterTripScheduleActivity" />
+        <activity android:name=".mpackage.plan.TripDetailsActivity" />
+        <activity android:name=".mpackage.plan.TripListActivity" />
+        <activity android:name=".mpackage.PlaceSearchActivity" />
+        <activity android:name=".mpackage.operation.TripDatePickerActivity" />
+        <activity android:name=".mpackage.RegisterRouteActivity" />
         <activity android:name=".tpackage.VisualizationActivity" />
         <activity android:name=".tpackage.PackageTravelerActivity" />
-        <activity android:name=".mpackage.PlaceAddActivity" />
-        <activity android:name=".mpackage.MapTravelerLocationActivity" />
-        <activity android:name=".mpackage.NotificationActivity" />
-        <activity android:name=".mpackage.GroupActivity" />
+        <activity android:name=".mpackage.SubPlaceAddActivity" />
+        <activity android:name=".mpackage.operation.MapTravelerLocationActivity" />
+        <activity android:name=".mpackage.operation.NotificationActivity" />
+        <activity android:name=".mpackage.operation.GroupActivity" />
         <activity android:name=".GetApiHashKeyActivity" />
         <activity android:name=".login.BirthPickerActivity" />
         <activity android:name=".login.FindIdActivity" />
@@ -38,15 +44,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mpackage.ManagerAddGroupActivity" />
-        <activity android:name=".mpackage.PackageManagerActivity" />
+        <activity android:name=".mpackage.operation.ManagerAddGroupActivity" />
+        <activity android:name=".mpackage.operation.PackageManagerActivity" />
         <activity android:name=".login.SignupActivity" />
         <activity android:name=".MainActivity" /> <!-- ??? -->
         <!-- kakao API -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="" />
-        <!-- firebase -->
+            android:value="" /> <!-- firebase -->
         <service
             android:name="service.fcm.FireBaseMessagingService"
             android:exported="false"

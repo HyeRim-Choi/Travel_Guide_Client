@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mpackage.plan.RegisterTripDetailScheduleActivity"
+    android:background="@color/appColor">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/linear"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_calendar"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1일차"
+                android:textSize="35dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:id="@+id/txt_day"
+                android:layout_marginTop="40dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_add"
+            android:layout_below="@id/linear"
+            android:id="@+id/btn_add"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_add"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="17dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:id="@+id/txt_schedule"/>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="저장"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_round"
+        android:layout_gravity="bottom |center"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/btn_save"/>
+
+
+</FrameLayout>

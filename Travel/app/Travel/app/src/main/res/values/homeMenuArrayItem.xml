@@ -3,18 +3,19 @@
     <!--패키지 여행 가이드 메뉴-->
     <string-array name="packageGuide">
         <item>패키지 여행</item>
-        <item>가이드</item>
         <item>공지사항</item>
         <item>말말말</item>
-        <item>장소 추가</item>
+        <item>여행 운영</item>
+        <item>여행 목록</item>
+        <item>자유시간 장소 추가</item>
     </string-array>
 
     <!--패키지 여행 여행객 메뉴-->
     <string-array name="packageMember">
         <item>패키지 여행</item>
-        <item>여행객</item>
         <item>공지사항</item>
         <item>말말말</item>
+        <item>여행 일정</item>
     </string-array>
 
     <!--자유 여행 메뉴-->

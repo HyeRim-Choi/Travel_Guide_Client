@@ -1,4 +1,4 @@
-package com.chr.travel.mpackage;
+package com.chr.travel.mpackage.operation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,8 +13,6 @@ import android.util.Log;
 
 import com.chr.travel.R;
 
-import api.API_CHOICE;
-import api.AsyncTaskFactory;
 import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;

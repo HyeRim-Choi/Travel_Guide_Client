@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mpackage.PlaceSearchActivity"
+    android:background="@color/appColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:id="@+id/linear">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:inputType="text"
+            android:hint="관광지 검색"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/white"
+            android:textColorHint="@color/white"
+            android:textCursorDrawable="@null"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:id="@+id/et_place"/>
+
+        <Button
+            android:layout_width="95dp"
+            android:layout_height="50dp"
+            android:text="검색"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_round"
+            android:layout_gravity="center"
+            android:id="@+id/btn_search"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:layout_below="@id/linear"
+        android:id="@+id/scroll"
+        android:fillViewport="true">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="2dp"
+            android:divider="@color/black"
+            android:id="@+id/listView_place"/>
+
+    </ScrollView>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/scroll">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:id="@+id/txt_date"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:id="@+id/txt_addRoute"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="관광지 저장"
+            android:textSize="25dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:layout_gravity="bottom |center_horizontal"
+            android:background="@drawable/btn_round"
+            android:id="@+id/btn_saveRoute"/>
+
+    </FrameLayout>
+
+
+</RelativeLayout>

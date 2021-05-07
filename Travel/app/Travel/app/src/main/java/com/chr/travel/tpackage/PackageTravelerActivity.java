@@ -9,17 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chr.travel.R;
 import com.chr.travel.login.LoginActivity;
-import com.chr.travel.mpackage.GroupActivity;
-import com.chr.travel.mpackage.PackageManagerActivity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import api.API_CHOICE;
