@@ -79,7 +79,7 @@ public class PackageManagerActivity extends AppCompatActivity{
                public void onTaskDone(Object... params) {
                    // 그룹조회 성공 시
                    if((Integer)params[0] == 1){
-                       // 공부해서 Adapter class 만들어서 정리하기
+
                        adapter = new ArrayAdapter(PackageManagerActivity.this, android.R.layout.simple_list_item_1, (List) params[1]) {
 
                            @Override

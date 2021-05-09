@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.chr.travel.R;
 import com.chr.travel.login.LoginActivity;
+import com.chr.travel.mpackage.plan.TripListActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +37,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
 
     private static final int START_DATE = 1;
     private static final int END_DATE = 2;
+    private static final int REGISTER_TRIP = 3;
 
     // login한 user 정보
     LoginVO vo;
@@ -122,11 +124,15 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                     }
 
 
+
                  // 운영 여행 지정 버튼 클릭 시
                 case R.id.btn_registerTrip:
                     // 여행 목록으로 이동
-
+                    i = new Intent(getApplicationContext(), TripListActivity.class);
+                    // TripDetails에서 운영하기 버튼 클릭 시 돌아오기
+                    startActivityForResult(i, REGISTER_TRIP);
                     break;
+
 
                     // 출발 날짜 클릭 시
                 case R.id.btn_startDate:
@@ -178,7 +184,6 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                     }
                     break;
 
-
             }
         }
     };
@@ -192,25 +197,43 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
             return;
         }
 
-        String year = data.getStringExtra("yy");
-        String month = data.getStringExtra("mm");
-        String day = data.getStringExtra("dd");
+        switch (requestCode){
+
+            // 출발 날짜, 도착 날짜 지정 후 돌아오는 곳
+            case START_DATE:
+            case END_DATE:
+
+                String year = data.getStringExtra("yy");
+                String month = data.getStringExtra("mm");
+                String day = data.getStringExtra("dd");
 
 
-        if(month.length() == 1){
-            month = "0"+month;
+                if(month.length() == 1){
+                    month = "0"+month;
+                }
+
+                if(day.length() == 1){
+                    day = "0"+day;
+                }
+
+                if(requestCode == START_DATE){
+                    txt_startDate.setText(year + "-" + month + "-" + day);
+                }
+                else{
+                    txt_endDate.setText(year + "-" + month + "-" + day);
+                }
+
+                break;
+
+
+            // 운영 여행 지정 후 돌아오는 곳
+            case REGISTER_TRIP:
+                txt_registerTrip.setText("가져온 제목 표시");
+                break;
+
         }
 
-        if(day.length() == 1){
-            day = "0"+day;
-        }
 
-        if(requestCode == START_DATE){
-            txt_startDate.setText(year + "-" + month + "-" + day);
-        }
-        else{
-            txt_endDate.setText(year + "-" + month + "-" + day);
-        }
 
 
     }

@@ -44,6 +44,9 @@ public class AsyncTaskFactory{
             case API_CHOICE.GROUP_TRIP_DATE:
                 return new GetGroupTripDate(activity, info, callBack);
 
+            case API_CHOICE.MANAGER_REGISTERED_ROUTE_TITLE:
+                return new GetRegisteredRouteTitle(activity, "", callBack);
+
             default:
                 return null;
         }
@@ -69,6 +72,9 @@ public class AsyncTaskFactory{
 
             case API_CHOICE.MANAGER_ADD_PLACE:
                 return new PostManagerPlaceAdd(activity, null);
+
+             case API_CHOICE.MANAGER_REGISTER_ROUTE:
+                 return new PostManagerRegisterRoute(activity, null);
 
              default:
                 return null;

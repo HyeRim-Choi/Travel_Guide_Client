@@ -27,7 +27,7 @@ import api.post.PostLocationReq;
 public class GroupActivity extends AppCompatActivity {
 
     TextView txt_member;
-    Button btn_notify, btn_board, btn_start, btn_end, btn_title, btn_registerRoute, btn_showRoute;
+    Button btn_notify, btn_board, btn_start, btn_end, btn_title, btn_registerRoute, btn_showSchedule;
 
     String title, startDate, endDate;;
     ArrayList<String> member;
@@ -59,7 +59,7 @@ public class GroupActivity extends AppCompatActivity {
         btn_start = findViewById(R.id.btn_start);
         btn_end = findViewById(R.id.btn_end);
         btn_registerRoute = findViewById(R.id.btn_registerRoute);
-        btn_showRoute = findViewById(R.id.btn_showRoute);
+        btn_showSchedule = findViewById(R.id.btn_showSchedule);
 
         btn_title.setText(title);
 
@@ -73,7 +73,7 @@ public class GroupActivity extends AppCompatActivity {
         btn_end.setOnClickListener(click);
         btn_title.setOnClickListener(click);
         btn_registerRoute.setOnClickListener(click);
-        btn_showRoute.setOnClickListener(click);
+        btn_showSchedule.setOnClickListener(click);
     }
 
 
@@ -152,7 +152,7 @@ public class GroupActivity extends AppCompatActivity {
                     break;
 
 
-                // 일정 등록 클릭 시
+                // 일정 등록 클릭 시 *** delete ***
                case R.id.btn_registerRoute:
 
                    try {
@@ -181,8 +181,9 @@ public class GroupActivity extends AppCompatActivity {
 
 
                 // 일정 보기 클릭 시
-                case R.id.btn_showRoute:
+                case R.id.btn_showSchedule:
                     // 일정 보여주는 창으로 이동
+                    // ** 출발 날짜, 도착 날짜 받아서 일정 쭈루룩 보여주기
                     break;
             }
         }

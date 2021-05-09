@@ -6,7 +6,7 @@ public class UrlCreate {
     private static final int port = 3001;
 
     public static String getUrl(int chk, String info) {
-        String url = String.format("http://%s:%d", ip, port);
+        String url = String.format("http://%s", ip);
         switch (chk) {
             case API_CHOICE.IDCHECK:
                 url += "/auth/join/" + info;
@@ -52,13 +52,17 @@ public class UrlCreate {
                 url += "/group/route/" + info;
                 return url;
 
+            case API_CHOICE.MANAGER_REGISTERED_ROUTE_TITLE:
+                url += "/route/title";
+                return url;
+
             default:
                 return "";
         }
     }
 
     public static String postUrl(int chk){
-        String url = String.format("http://%s:%d", ip, port);
+        String url = String.format("http://%s", ip);
         switch (chk){
             case API_CHOICE.SIGNUP:
                 url += "/auth/join";
@@ -90,6 +94,10 @@ public class UrlCreate {
 
             case API_CHOICE.MANAGER_ADD_PLACE:
                 url += "/map/addPlace";
+                return url;
+
+            case API_CHOICE.MANAGER_REGISTER_ROUTE:
+                url += "/route";
                 return url;
 
             default:

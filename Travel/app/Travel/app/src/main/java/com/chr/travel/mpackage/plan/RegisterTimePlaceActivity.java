@@ -171,13 +171,23 @@ public class RegisterTimePlaceActivity extends AppCompatActivity {
                 android.R.style.Theme_Holo_Light_Dialog,new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                String hour = Integer.toString(hourOfDay);
+                String min = Integer.toString(minute);
+
+                if(min.length() == 1){
+                    min = "0" + min;
+                }
+
+                if(hour.length() == 1){
+                    hour = "0" + hour;
+                }
 
                 if(chk == 1){
-                    txt_start.setText(hourOfDay + "시 " + minute + "분");
+                    txt_start.setText(hour + ":" + min);
                 }
 
                 else{
-                    txt_end.setText(hourOfDay + "시 " + minute + "분");
+                    txt_end.setText(hour + ":" + min);
                 }
 
             }
@@ -204,6 +214,8 @@ public class RegisterTimePlaceActivity extends AppCompatActivity {
                 place = spot;
                 freeTimeChk = true;
 
+                btn_search.setVisibility(View.INVISIBLE);
+
                 Toast.makeText(RegisterTimePlaceActivity.this, "자유시간으로 저장되었습니다", Toast.LENGTH_SHORT).show();
             }
         });
@@ -214,6 +226,8 @@ public class RegisterTimePlaceActivity extends AppCompatActivity {
 
                 place = spot;
                 freeTimeChk = false;
+
+                btn_search.setVisibility(View.INVISIBLE);
 
                 Toast.makeText(RegisterTimePlaceActivity.this, "저장되었습니다", Toast.LENGTH_SHORT).show();
             }

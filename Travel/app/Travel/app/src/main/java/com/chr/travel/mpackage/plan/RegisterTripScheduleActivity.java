@@ -2,6 +2,7 @@ package com.chr.travel.mpackage.plan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +16,16 @@ import android.widget.Toast;
 
 import com.chr.travel.R;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import adapter.AdapterRegisterTripSchedule;
 import adapter.RegisterTripSchedule;
+import api.post.PostManagerRegisterRoute;
 
 /* 여행 상품을 등록하는 액티비티 */
 
@@ -37,8 +42,8 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
     int night, day;
     String title, introduce, information;
-    Map map;
     ArrayList daySchedule;
+    ArrayList<String> list;
 
 
     @Override
@@ -47,7 +52,6 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
         setContentView(R.layout.activitypackage_register_trip_schedule);
 
         daySchedule = new ArrayList();
-
     }
 
 
@@ -75,6 +79,7 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
     // 버튼 클릭 이벤트
     View.OnClickListener click = new View.OnClickListener() {
+        @SuppressLint("LongLogTag")
         @Override
         public void onClick(View v) {
           switch (v.getId()){
@@ -108,11 +113,30 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
                   // 빈 칸을 다 채웠다면
                   if(BlankCheck()){
-                      // 제목, 1. 여행일정 2. 여행일정, 소개 글, 메모 서버로 보내기
-                      /*Log.i("daySchedule1", String.valueOf(daySchedule));
-                      Log.i("daySchedule1", title);
-                      Log.i("daySchedule1", information);
-                      Log.i("daySchedule1", introduce);*/
+                      JSONObject postDataParam = new JSONObject();
+                      JSONArray jsonArray = new JSONArray();
+
+                      // 보낼 데이터들 저장
+                      try {
+                          // node에 전달 할 정보 넣기
+                          postDataParam.put("title", title);
+                          postDataParam.put("schedule", daySchedule);
+                          postDataParam.put("introduce", introduce);
+                          postDataParam.put("memo", information);
+
+                      }
+                      catch (JSONException e) {
+                          Log.e("RegisterTripScheduleActivity", "JSONEXception");
+                      }
+
+                      // 서버 통신
+                      try {
+                         new PostManagerRegisterRoute(RegisterTripScheduleActivity.this,  null).execute(postDataParam);
+                      }
+
+                      catch (Exception e){
+                          e.printStackTrace();
+                      }
                   }
                   break;
           }
@@ -123,6 +147,9 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
     // 확인 버튼 클릭 시 일 수 계산하여 1일차, 2일차 목록 띄우기
     public void makeListView(int day){
 
+        Log.i("dayScheduleList", String.valueOf(list));
+        Log.i("makeList", "come in");
+
         data = new ArrayList<>();
 
         for(int i = 1; i <= day ; i++){
@@ -130,14 +157,15 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
             registerTripSchedule.setDay(i + "일차");
 
-
-            if(map != null && map.keySet().equals("" + i)){
+            // 일정 등록이 되었으면 버튼이 '완료'로 바꿔지도록
+            /*if(list != null && list.get(0).get("day").equals(""+i)){
                 registerTripSchedule.setBtn("완료");
             }
             else{
                 registerTripSchedule.setBtn("일정 등록");
-            }
+            }*/
 
+            registerTripSchedule.setBtn("일정 등록");
             data.add(registerTripSchedule);
         }
 
@@ -183,17 +211,19 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        map = new HashMap();
+
+        list = new ArrayList<>();
 
         if (requestCode != REGISTER_SCHEDULE_REQUEST_CODE || data == null){
             return;
         }
 
-        map = (Map) data.getSerializableExtra("daySchedule");
+        list = (ArrayList<String>) data.getSerializableExtra("daySchedule");
+        Log.i("dayScheduleList", String.valueOf(list));
 
-        daySchedule.add(map);
+        daySchedule.add(list);
 
-        Log.i("daySchedule", String.valueOf(daySchedule));
+        Log.i("dayScheduleMap", String.valueOf(daySchedule));
 
     }
 
