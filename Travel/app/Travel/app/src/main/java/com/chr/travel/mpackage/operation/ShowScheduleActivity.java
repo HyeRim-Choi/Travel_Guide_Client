@@ -1,4 +1,4 @@
-package com.chr.travel.mpackage.plan;
+package com.chr.travel.mpackage.operation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,28 +11,28 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.chr.travel.R;
-import com.chr.travel.mpackage.operation.ManagerAddGroupActivity;
+import com.chr.travel.tpackage.VisualizationActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
-/* 해당 여행 상품의 세부정보를 보여주는 액티비티 */
+import api.API_CHOICE;
+import api.AsyncTaskFactory;
+import api.callback.AsyncTaskCallBack;
 
-public class TripDetailsActivity extends AppCompatActivity {
+/* 그룹 여행(상품) 일정을 보여주는 액티비티 */
 
-    TextView txt_title, txt_information, txt_point, txt_term, txt_schedule;
-    Button btn_operateTrip, btn_close;
+public class ShowScheduleActivity extends AppCompatActivity {
 
-    String title, information, memo;
+    TextView txt_guide, txt_point, txt_term, txt_information, txt_schedule;
+    Button btn_close, btn_freeTime;
+
+    String information, memo, startDate, endDate, title;
     ArrayList<String> schedule;
 
     int day;
@@ -40,39 +40,36 @@ public class TripDetailsActivity extends AppCompatActivity {
     ArrayList<Map> dayScheduleList;
     ArrayList<ArrayList> scheduleList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activitypackage_trip_details);
+        setContentView(R.layout.activitypackage_show_schedule);
 
-        txt_title = findViewById(R.id.txt_title);
+        txt_guide = findViewById(R.id.txt_guide);
         txt_point = findViewById(R.id.txt_point);
-        txt_information = findViewById(R.id.txt_information);
         txt_term = findViewById(R.id.txt_term);
+        txt_information = findViewById(R.id.txt_information);
         txt_schedule = findViewById(R.id.txt_schedule);
-        btn_operateTrip = findViewById(R.id.btn_operateTrip);
         btn_close = findViewById(R.id.btn_close);
+        btn_freeTime = findViewById(R.id.btn_freeTime);
 
         schedule = new ArrayList<>();
         scheduleList = new ArrayList<>();
-
 
         // 인텐트 가져오기
         Intent intent = getIntent();
         // title
         title = intent.getStringExtra("title");
-        // introduce
+        // information
         information = intent.getStringExtra("information");
         // memo
         memo = intent.getStringExtra("memo");
         // schedule
         schedule = intent.getStringArrayListExtra("schedule");
 
-        Log.i("result1", "json : " + schedule);
 
         // JSONArray를 여행 일정으로 보여줄 수 있는 상태로 만들기
-        for(int i=0;i<schedule.size();i++) {
+        for(int i = 0 ; i < schedule.size() ; i++) {
             try {
 
                 JSONArray daySchedule = new JSONArray(schedule.get(i));
@@ -136,15 +133,36 @@ public class TripDetailsActivity extends AppCompatActivity {
 
         }
 
-
         txt_point.setText(memo);
         txt_information.setText(information);
         txt_term.setText( day - 1 + "박 " + day + "일");
-        txt_title.setText(title);
 
-
-        btn_operateTrip.setOnClickListener(click);
+        btn_freeTime.setOnClickListener(click);
         btn_close.setOnClickListener(click);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            AsyncTaskFactory.getApiGetTask(ShowScheduleActivity.this, API_CHOICE.GROUP_TRIP_DATE, title, new AsyncTaskCallBack() {
+                @Override
+                public void onTaskDone(Object... params) {
+                    if((Integer)params[0] == 1){
+                        startDate = (String) params[1];
+                        endDate = (String) params[2];
+                        Log.i("ShowSchedule", " " + startDate + " " + endDate);
+                        txt_term.append("\n" + "(" + startDate + " ~ " + endDate + ")");
+                    }
+                }
+            }).execute();
+        }
+
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -152,24 +170,23 @@ public class TripDetailsActivity extends AppCompatActivity {
     View.OnClickListener click = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             switch (v.getId()){
 
-                // 여행 운영하기 클릭 시
-                case R.id.btn_operateTrip:
-                    // 여행 상품 이름을(title) 가지고 TripListActivity 이동
-                    Intent i = new Intent(TripDetailsActivity.this, ManagerAddGroupActivity.class);
-                    i.putExtra("product", title);
-                    startActivity(i);
-                    finish();
-
+                // 자유시간 시각화 버튼 클릭 시
+                case R.id.btn_freeTime:
+                    Intent i = new Intent(ShowScheduleActivity.this, VisualizationActivity.class);
+                    //startForResult(i
                     break;
 
                 // 닫기 버튼 클릭 시
                 case R.id.btn_close:
-                    // 여행 상품 목록 창으로 돌아가기
+
+                    Intent resultIntent = new Intent();
+                    setResult(RESULT_OK, resultIntent);
                     finish();
+
                     break;
+
             }
         }
     };

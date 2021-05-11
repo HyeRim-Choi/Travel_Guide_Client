@@ -146,7 +146,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="소개 글"
+                        android:text="상품 특징"
                         android:textSize="25dp"
                         android:textColor="@color/white"
                         android:textStyle="bold"
@@ -160,13 +160,13 @@
                         android:id="@+id/et_introduce"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
-                        android:hint="여행 상품을 소개하는 글을 작성해주세요"
-                        android:inputType="text"
+                        android:hint="여행 상품의 특징을 작성해주세요"
                         android:background="@drawable/edittext_rounded_corner_rectangle"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
                         android:textCursorDrawable="@null"
-                        android:textSize="20dp"/>
+                        android:textSize="20dp"
+                        android:singleLine="false"/>
 
                 </LinearLayout>
 
@@ -181,7 +181,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="메모"
+                        android:text="상세 정보"
                         android:textSize="25dp"
                         android:textColor="@color/white"
                         android:textStyle="bold"
@@ -195,8 +195,7 @@
                         android:id="@+id/et_information"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
-                        android:hint="그룹 구성원의 정보, 메모등을 작성해주세요"
-                        android:inputType="text"
+                        android:hint="그룹 구성원의 정보, 체크 사항등을 작성해주세요"
                         android:background="@drawable/edittext_rounded_corner_rectangle"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"

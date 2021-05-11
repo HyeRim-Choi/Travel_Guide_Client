@@ -2,6 +2,7 @@ package com.chr.travel.mpackage.operation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +32,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
     Button btn_addGroup, btn_addId, btn_startDate, btn_endDate, btn_registerTrip;
     TextView txt_addId, txt_startDate, txt_endDate, txt_registerTrip;
 
-    String title, id;
+    String title, id, product;
 
     JSONObject postDataParam;
 
@@ -57,6 +58,11 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
             finish();
         }
 
+        // 인텐트 가져오기
+        Intent intent = getIntent();
+        // product name
+        product = intent.getStringExtra("product");
+
         et_title = findViewById(R.id.et_title);
         et_userId = findViewById(R.id.et_userId);
         btn_addGroup = findViewById(R.id.btn_addGroup);
@@ -69,6 +75,10 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
         txt_endDate = findViewById(R.id.txt_endDate);
         txt_registerTrip = findViewById(R.id.txt_registerTrip);
 
+        // TripDetailsActivity 에서 운영하기 버튼을 클릭하여 넘어 온 거면 product name 세팅
+        if(product != null){
+            txt_registerTrip.setText(product);
+        }
 
         btn_addGroup.setOnClickListener(click);
         btn_addId.setOnClickListener(click);
@@ -92,14 +102,17 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                     String ids = txt_addId.getText().toString();
                     String startDate = txt_startDate.getText().toString();
                     String endDate = txt_endDate.getText().toString();
+                    product = txt_registerTrip.getText().toString();
 
-                    if (BlankCheck(title, ids, startDate, endDate)) {
+
+                    if (BlankCheck(title, ids, startDate, endDate, product)) {
                         try {
                             postDataParam.put("title", title);
                             postDataParam.put("userId", ids);
                             postDataParam.put("manager",vo.getUserId());
                             postDataParam.put("startDate", startDate);
                             postDataParam.put("endDate", endDate);
+                            postDataParam.put("product", product);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -110,9 +123,11 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                                 public void onTaskDone(Object... params) {
                                     // 그룹 생성 성공하면
                                     if((Integer)params[0] == 1){
+
                                         Intent i = new Intent(ManagerAddGroupActivity.this, PackageManagerActivity.class);
                                         startActivity(i);
                                         finish();
+
                                     }
                                 }
                             }).execute(postDataParam);
@@ -120,30 +135,30 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                         catch (Exception e){
                             e.printStackTrace();
                         }
-                        break;
                     }
+                    break;
 
 
 
                  // 운영 여행 지정 버튼 클릭 시
                 case R.id.btn_registerTrip:
                     // 여행 목록으로 이동
-                    i = new Intent(getApplicationContext(), TripListActivity.class);
-                    // TripDetails에서 운영하기 버튼 클릭 시 돌아오기
-                    startActivityForResult(i, REGISTER_TRIP);
+                    i = new Intent(ManagerAddGroupActivity.this, TripListActivity.class);
+                   startActivity(i);
+                   finish();
                     break;
 
 
                     // 출발 날짜 클릭 시
                 case R.id.btn_startDate:
-                    i = new Intent(getApplicationContext(), TripDatePickerActivity.class);
+                    i = new Intent(ManagerAddGroupActivity.this, TripDatePickerActivity.class);
                     i.putExtra("date", START_DATE);
                     startActivityForResult(i,START_DATE);
                     break;
 
                 // 도착 날짜 클릭 시
                 case R.id.btn_endDate:
-                    i = new Intent(getApplicationContext(), TripDatePickerActivity.class);
+                    i = new Intent(ManagerAddGroupActivity.this, TripDatePickerActivity.class);
                     i.putExtra("date", END_DATE);
                     startActivityForResult(i,END_DATE);
                     break;
@@ -226,10 +241,12 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                 break;
 
 
+            // ***** 수정
             // 운영 여행 지정 후 돌아오는 곳
-            case REGISTER_TRIP:
-                txt_registerTrip.setText("가져온 제목 표시");
-                break;
+            /*case REGISTER_TRIP:
+                product = data.getStringExtra("product");
+                txt_registerTrip.setText(product);
+                break;*/
 
         }
 
@@ -239,7 +256,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
     }
 
     // 정보 다 입력했는지 확인하는 함수
-    public boolean BlankCheck(String title, String ids, String startDate, String endDate){
+    public boolean BlankCheck(String title, String ids, String startDate, String endDate, String product){
 
         if(title.isEmpty() || title == null){
             Toast.makeText(ManagerAddGroupActivity.this, "그룹 이름을 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -255,6 +272,10 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
         }
         if(endDate.isEmpty() || endDate == null){
             Toast.makeText(ManagerAddGroupActivity.this, "도착 날짜를 지정해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(product.isEmpty() || product == null){
+            Toast.makeText(ManagerAddGroupActivity.this, "운영 할 여행 상품을 지정해주세요", Toast.LENGTH_SHORT).show();
             return false;
         }
 

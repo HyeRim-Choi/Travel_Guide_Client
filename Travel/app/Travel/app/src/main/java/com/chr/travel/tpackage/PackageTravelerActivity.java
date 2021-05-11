@@ -15,7 +15,11 @@ import android.widget.Toast;
 
 import com.chr.travel.R;
 import com.chr.travel.login.LoginActivity;
+import com.chr.travel.mpackage.operation.GroupActivity;
+import com.chr.travel.mpackage.operation.PackageManagerActivity;
+import com.chr.travel.mpackage.operation.ShowScheduleActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import api.API_CHOICE;
@@ -28,6 +32,8 @@ public class PackageTravelerActivity extends AppCompatActivity {
     TextView txt_traveler_actionbar;
     ListView traveler_group_listView;
     ArrayAdapter adapter;
+
+    String product;
 
 
     // login한 user 정보
@@ -68,7 +74,7 @@ public class PackageTravelerActivity extends AppCompatActivity {
                 public void onTaskDone(Object... params) {
                     // 그룹조회 성공 시
                     if((Integer)params[0] == 1){
-                        // 공부해서 Adapter class 만들어서 정리하기
+
                         adapter = new ArrayAdapter(PackageTravelerActivity.this, android.R.layout.simple_list_item_1, (List) params[1]) {
 
                             @Override
@@ -103,10 +109,14 @@ public class PackageTravelerActivity extends AppCompatActivity {
                     AsyncTaskFactory.getApiGetTask(PackageTravelerActivity.this, API_CHOICE.GROUP_MEMBER, title, new AsyncTaskCallBack() {
                         @Override
                         public void onTaskDone(Object... params) {
-                            Intent i = new Intent(PackageTravelerActivity.this, VisualizationActivity.class);
-                            // VisualizationActivity title 전달
-                            i.putExtra("title", title);
-                            startActivity(i);
+                            if((Integer)params[0] == 1){
+                                /*Intent i = new Intent(PackageManagerActivity.this, GroupActivity.class);
+                                // GroupActivity에 title, member들 전달
+                                i.putExtra("title", title);
+                                i.putExtra("members", (Serializable) params[1]);
+                                i.putExtra("product", (String) params[2]);
+                                startActivity(i);*/
+                            }
                         }
                     }).execute();
                 }

@@ -16,10 +16,13 @@ import android.widget.TextView;
 
 import com.chr.travel.R;
 import com.chr.travel.mpackage.operation.GroupActivity;
+import com.chr.travel.mpackage.operation.ManagerAddGroupActivity;
 import com.chr.travel.mpackage.operation.PackageManagerActivity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import api.API_CHOICE;
 import api.AsyncTaskFactory;
@@ -29,6 +32,8 @@ import vo.LoginVO;
 /* 공유되어있는 여행 상품 목록 */
 
 public class TripListActivity extends AppCompatActivity {
+
+    private static final int TRIP_LIST_ACTIVITY_REQUEST_CODE = 5;
 
 
     Button btn_registerTripSchedule;
@@ -93,14 +98,17 @@ public class TripListActivity extends AppCompatActivity {
                 String title = adapter.getItem(position).toString();
 
                 try {
-                    AsyncTaskFactory.getApiGetTask(TripListActivity.this, 77, title, new AsyncTaskCallBack() {
+                    AsyncTaskFactory.getApiGetTask(TripListActivity.this, API_CHOICE.REGISTERED_ROUTE_DETAILS, title, new AsyncTaskCallBack() {
                         @Override
                         public void onTaskDone(Object... params) {
                             if((Integer)params[0] == 1){
                                 Intent i = new Intent(TripListActivity.this, TripDetailsActivity.class);
                                 // TripDetailsActivity에 title, 여행일정, 세부정보를 보낸다
                                 i.putExtra("title", title);
-                                //i.putExtra("members", (Serializable) params[1]);
+                                i.putExtra("information", (String) params[1]);
+                                i.putExtra("memo", (String) params[2]);
+                                i.putExtra("schedule", (Serializable) params[3]);
+                                //startActivityForResult(i, TRIP_LIST_ACTIVITY_REQUEST_CODE);
                                 startActivity(i);
                             }
                         }
@@ -131,4 +139,25 @@ public class TripListActivity extends AppCompatActivity {
             }
         }
     };
+
+    // TripDetailsActivity 결과 반환
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        String product = "";
+
+        if (requestCode != TRIP_LIST_ACTIVITY_REQUEST_CODE || data == null){
+            return;
+        }
+
+        product = data.getStringExtra("product");
+
+        Intent i = new Intent(TripListActivity.this, ManagerAddGroupActivity.class);
+        i.putExtra("product", product);
+        startActivity(i);
+        finish();
+
+    }*/
+
 }

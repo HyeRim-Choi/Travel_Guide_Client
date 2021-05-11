@@ -30,6 +30,8 @@ import vo.LoginVO;
 
 public class PackageManagerActivity extends AppCompatActivity{
 
+    private static final int PACKAGE_MANAGER_ACTIVITY_REQUEST_CODE = 7;
+
     TextView txt_manager_actionbar;
     Button btn_addGroup;
     ListView manager_group_listView;
@@ -120,6 +122,7 @@ public class PackageManagerActivity extends AppCompatActivity{
                                // GroupActivity에 title, member들 전달
                                i.putExtra("title", title);
                                i.putExtra("members", (Serializable) params[1]);
+                               i.putExtra("product", (String) params[2]);
                                startActivity(i);
                            }
                        }

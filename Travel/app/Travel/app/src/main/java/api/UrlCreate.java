@@ -56,6 +56,14 @@ public class UrlCreate {
                 url += "/route/title";
                 return url;
 
+            case API_CHOICE.REGISTERED_ROUTE_DETAILS:
+                url += "/route/" + info;
+                return url;
+
+            case API_CHOICE.GROUP_REGISTERED_ROUTE_DETAILS:
+                url += "/group/schedule/" + info;
+                return url;
+
             default:
                 return "";
         }

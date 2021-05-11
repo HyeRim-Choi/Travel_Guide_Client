@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 
 import adapter.AdapterRegisterTripSchedule;
 import adapter.RegisterTripSchedule;
+import api.API_CHOICE;
+import api.AsyncTaskFactory;
 import api.post.PostManagerRegisterRoute;
 
 /* 여행 상품을 등록하는 액티비티 */
@@ -45,6 +48,7 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
     ArrayList daySchedule;
     ArrayList<String> list;
 
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,8 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
         btn_confirm.setOnClickListener(click);
         btn_register.setOnClickListener(click);
+
+        makeListView(day);
 
     }
 
@@ -105,6 +111,9 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
                   // 1일차, 2일차 목록 띄우기
                   makeListView(day);
 
+                  // 확인 버튼 안보이게 하기
+                  btn_confirm.setVisibility(View.INVISIBLE);
+
                   break;
 
 
@@ -113,8 +122,15 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
                   // 빈 칸을 다 채웠다면
                   if(BlankCheck()){
+
+                      // 저장소 비우기
+                      SharedPreferences pref = getSharedPreferences("SCHEDULE", MODE_PRIVATE);
+                      SharedPreferences.Editor editor = pref.edit();
+                      editor.clear();
+                      editor.commit();
+
+
                       JSONObject postDataParam = new JSONObject();
-                      JSONArray jsonArray = new JSONArray();
 
                       // 보낼 데이터들 저장
                       try {
@@ -131,7 +147,7 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
                       // 서버 통신
                       try {
-                         new PostManagerRegisterRoute(RegisterTripScheduleActivity.this,  null).execute(postDataParam);
+                          AsyncTaskFactory.getApiPostTask(RegisterTripScheduleActivity.this, API_CHOICE.MANAGER_REGISTER_ROUTE, null).execute(postDataParam);
                       }
 
                       catch (Exception e){
@@ -147,6 +163,8 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
     // 확인 버튼 클릭 시 일 수 계산하여 1일차, 2일차 목록 띄우기
     public void makeListView(int day){
 
+        String schedule = "";
+
         Log.i("dayScheduleList", String.valueOf(list));
         Log.i("makeList", "come in");
 
@@ -157,15 +175,24 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
             registerTripSchedule.setDay(i + "일차");
 
-            // 일정 등록이 되었으면 버튼이 '완료'로 바꿔지도록
-            /*if(list != null && list.get(0).get("day").equals(""+i)){
-                registerTripSchedule.setBtn("완료");
+            // 해당하는 일차에 일정을 등록을 했다면 일정 등록 버튼을 수정 버튼으로 바꾸기 위해 저장소 불러오기
+            try {
+                pref = getSharedPreferences("SCHEDULE", MODE_PRIVATE);
+                schedule = pref.getString("day" + i, "");
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+            // 일정 등록이 되었으면 버튼이 '일정 수정'로 바꿔지도록
+            if(schedule == null || schedule.isEmpty()){
+                registerTripSchedule.setBtn("일정 등록");
             }
             else{
-                registerTripSchedule.setBtn("일정 등록");
-            }*/
+                registerTripSchedule.setBtn("일정 수정");
+            }
 
-            registerTripSchedule.setBtn("일정 등록");
             data.add(registerTripSchedule);
         }
 
@@ -175,8 +202,6 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
         // ListView가 ScrollView안에 속하게 되면 이중 스크롤 현상이 발생되어 높이를 강제로 할당해야한다
         listViewHeightSet(adapterRegisterTripSchedule, trip_schedule);
-
-        btn_confirm.setVisibility(View.INVISIBLE);
     }
 
     // ListView 높이 강제 할당
@@ -220,6 +245,8 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
         list = (ArrayList<String>) data.getSerializableExtra("daySchedule");
         Log.i("dayScheduleList", String.valueOf(list));
+
+        // ** 나중 수정사항) list를 JSON형식으로 바꿔서 json.put("~", list)를 다시 string으로 바꿔서 array에 저장해서 보낸다
 
         daySchedule.add(list);
 

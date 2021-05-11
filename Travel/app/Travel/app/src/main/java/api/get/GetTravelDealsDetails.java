@@ -2,36 +2,39 @@ package api.get;
 
 import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import api.API_CHOICE;
 import api.callback.AsyncTaskCallBack;
 
-/* Group Member와 그룹에 해당하는 상품 이름을 조회하는 서버 통신 */
+/* 해당 여행 상품의 세부정보를 받는 서버 통신 */
 
 
-public class GetGroupMember extends GetRequest {
+public class GetTravelDealsDetails extends GetRequest {
     public final int chk;
     String info;
     String jsonString;
     // 해당 그룹에 존재하는 멤버들을 저장하는 ArrayList
-    public ArrayList<String> groupMember;
-    String product;
+    public ArrayList<String> schedule;
+    String introduce, memo;
     AsyncTaskCallBack callBack;
 
+    JSONObject jsonObject;
     int get_res_chk = 0;
 
-    public GetGroupMember(Activity activity, String info, AsyncTaskCallBack callBack) {
+    public GetTravelDealsDetails(Activity activity, String info, AsyncTaskCallBack callBack) {
         super(activity);
-        this.chk = API_CHOICE.GROUP_MEMBER;
+        this.chk = API_CHOICE.REGISTERED_ROUTE_DETAILS;
         this.info = info;
         this.callBack = callBack;
     }
@@ -59,7 +62,6 @@ public class GetGroupMember extends GetRequest {
         if (jsonString == null)
             return;
 
-        JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(jsonString);
             String result = jsonObject.getString("approve");
@@ -68,31 +70,38 @@ public class GetGroupMember extends GetRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(get_res_chk, groupMember, product);
+        callBack.onTaskDone(get_res_chk, introduce, memo, schedule);
 
     }
 
     public void resultResponse(String result){
         switch (result) {
 
-            // 해당 그룹에 존재하는 멤버 받기
-            case "ok_mem_receive":
+            case "ok":
                 get_res_chk = 1;
-                groupMember = new ArrayList<>();
+                schedule = new ArrayList<>();
+
                 try{
-                    JSONObject res1 = new JSONObject(jsonString);
-                    product = res1.getString("product");
-                    JSONObject productName = new JSONObject(product);
-                    product = productName.getString("title");
-                    JSONArray res2 = res1.getJSONArray("userMem");
-                    for(int i=0;i<res2.length();i++){
-                        JSONObject jObj = (JSONObject)res2.get(i);
-                        String userId = jObj.getString("userId");
-                        groupMember.add(userId);
+                    JSONObject product = jsonObject.getJSONObject("product");
+                    introduce = product.getString("introduce");
+                    memo = product.getString("memo");
+
+                    JSONArray route = jsonObject.getJSONArray("route");
+
+                    for(int i = 0 ; i < route.length() ; i++){
+
+                        JSONArray jObj = (JSONArray)route.get(i);
+
+                        schedule.add(jObj.toString());
+
                     }
-                }catch(JSONException e) {
+
+                    Log.i("GetTravelDealsDetails", "schedule : " + schedule);
+                }
+                catch(JSONException e) {
                     e.printStackTrace();
                 }
+
                 break;
         }
     }

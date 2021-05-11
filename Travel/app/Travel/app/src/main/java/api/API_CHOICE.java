@@ -14,6 +14,8 @@ public final class API_CHOICE {
     public static final int MANAGER_ROUTE_PLACE_SEARCH = 18;
     public static final int GROUP_TRIP_DATE = 19;
     public static final int MANAGER_REGISTERED_ROUTE_TITLE = 21;
+    public static final int REGISTERED_ROUTE_DETAILS = 22;
+    public static final int GROUP_REGISTERED_ROUTE_DETAILS = 23;
 
     //POST
     public static final int SIGNUP = 2;

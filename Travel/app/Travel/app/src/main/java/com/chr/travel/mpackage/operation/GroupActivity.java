@@ -10,11 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.chr.travel.R;
-import com.chr.travel.mpackage.RegisterRouteActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import api.API_CHOICE;
@@ -26,10 +26,12 @@ import api.post.PostLocationReq;
 
 public class GroupActivity extends AppCompatActivity {
 
-    TextView txt_member;
-    Button btn_notify, btn_board, btn_start, btn_end, btn_title, btn_registerRoute, btn_showSchedule;
+    private static final int GROUP_ACTIVITY_REQUEST_CODE = 5;
 
-    String title, startDate, endDate;;
+    TextView txt_member;
+    Button btn_notify, btn_board, btn_start, btn_end, btn_title, btn_showSchedule;
+
+    String title, product;
     ArrayList<String> member;
 
     JSONObject postDataParam;
@@ -37,7 +39,6 @@ public class GroupActivity extends AppCompatActivity {
     // 알림 보내기
     PostLocationReq postLocationReq;
 
-    private static final int REGISTER_ROUTE_REQUEST_CODE = 0;
 
 
     @Override
@@ -52,13 +53,14 @@ public class GroupActivity extends AppCompatActivity {
         title = intent.getStringExtra("title");
         // member
         member = intent.getStringArrayListExtra("members");
+        //product
+        product = intent.getStringExtra("product");
 
 
         txt_member = findViewById(R.id.txt_memeber);
         btn_title = findViewById(R.id.btn_title);
         btn_start = findViewById(R.id.btn_start);
         btn_end = findViewById(R.id.btn_end);
-        btn_registerRoute = findViewById(R.id.btn_registerRoute);
         btn_showSchedule = findViewById(R.id.btn_showSchedule);
 
         btn_title.setText(title);
@@ -72,7 +74,6 @@ public class GroupActivity extends AppCompatActivity {
         btn_start.setOnClickListener(click);
         btn_end.setOnClickListener(click);
         btn_title.setOnClickListener(click);
-        btn_registerRoute.setOnClickListener(click);
         btn_showSchedule.setOnClickListener(click);
     }
 
@@ -152,59 +153,36 @@ public class GroupActivity extends AppCompatActivity {
                     break;
 
 
-                // 일정 등록 클릭 시 *** delete ***
-               case R.id.btn_registerRoute:
-
-                   try {
-                       AsyncTaskFactory.getApiGetTask(GroupActivity.this, API_CHOICE.GROUP_TRIP_DATE, title, new AsyncTaskCallBack() {
-                           @Override
-                           public void onTaskDone(Object... params) {
-                                if((Integer)params[0] == 1){
-                                    startDate = (String) params[1];
-                                    endDate = (String) params[2];
-
-                                    Intent i = new Intent(GroupActivity.this, RegisterRouteActivity.class);
-                                    i.putExtra("startDate", startDate);
-                                    i.putExtra("endDate", endDate);
-                                    i.putExtra("title", title);
-                                    startActivityForResult(i, REGISTER_ROUTE_REQUEST_CODE);
-                                }
-                           }
-                       }).execute();
-                   }
-
-                   catch (Exception e){
-                       e.printStackTrace();
-                   }
-
-                    break;
-
-
-                // 일정 보기 클릭 시
+                // 여행 정보 보기 클릭 시
                 case R.id.btn_showSchedule:
                     // 일정 보여주는 창으로 이동
-                    // ** 출발 날짜, 도착 날짜 받아서 일정 쭈루룩 보여주기
+
+
+                    try {
+                        AsyncTaskFactory.getApiGetTask(GroupActivity.this, API_CHOICE.GROUP_REGISTERED_ROUTE_DETAILS, title, new AsyncTaskCallBack() {
+                            @Override
+                            public void onTaskDone(Object... params) {
+                                if((Integer)params[0] == 1){
+                                    Intent i = new Intent(GroupActivity.this, ShowScheduleActivity.class);
+                                    // ShowScheduleActivity에 그룹 이름, 여행일정, 세부정보를 보낸다
+                                    i.putExtra("title", title);
+                                    i.putExtra("information", (String) params[1]);
+                                    i.putExtra("memo", (String) params[2]);
+                                    i.putExtra("schedule", (Serializable) params[3]);
+                                    //i.putExtra("guide", params[4]);
+                                    startActivityForResult(i, GROUP_ACTIVITY_REQUEST_CODE);
+                                }
+                            }
+                        }).execute();
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                     break;
             }
         }
     };
-
-
-    // 일정 등록 결과 반환
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode != REGISTER_ROUTE_REQUEST_CODE){
-            return;
-        }
-
-        //txt_route에 하나라도 있으면 일정 수정으로 변경
-
-        btn_registerRoute.setText("일정 수정");
-
-    }
-
 
 
 

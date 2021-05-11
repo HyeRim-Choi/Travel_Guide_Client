@@ -47,6 +47,12 @@ public class AsyncTaskFactory{
             case API_CHOICE.MANAGER_REGISTERED_ROUTE_TITLE:
                 return new GetRegisteredRouteTitle(activity, "", callBack);
 
+            case API_CHOICE.REGISTERED_ROUTE_DETAILS:
+                return new GetTravelDealsDetails(activity, info, callBack);
+
+            case API_CHOICE.GROUP_REGISTERED_ROUTE_DETAILS:
+                return new GetGroupTravelDetails(activity, info, callBack);
+
             default:
                 return null;
         }

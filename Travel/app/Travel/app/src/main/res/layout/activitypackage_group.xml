@@ -106,32 +106,15 @@
        android:layout_gravity="bottom"
        android:layout_marginBottom="10dp">
 
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal">
-
-          <Button
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textSize="20dp"
-              android:text="일정 등록"
-              android:textColor="@color/white"
-              android:background="@drawable/btn_round"
-              android:id="@+id/btn_registerRoute"/>
-
-          <Button
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:textSize="20dp"
-              android:text="일정 보기"
-              android:textColor="@color/white"
-              android:background="@drawable/btn_round"
-              android:id="@+id/btn_showSchedule"/>
-
-      </LinearLayout>
+       <Button
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:textSize="20dp"
+           android:text="여행 정보 보기"
+           android:textColor="@color/white"
+           android:background="@drawable/btn_round"
+           android:id="@+id/btn_showSchedule"/>
 
        <Button
            android:layout_width="match_parent"

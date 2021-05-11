@@ -71,7 +71,7 @@
                 android:layout_marginLeft="15dp"
                 android:text="운영하려는 여행을 지정해주세요."
                 android:textColor="@color/white"
-                android:textSize="18dp"
+                android:textSize="15dp"
                 android:id="@+id/txt_registerTrip"/>
         </LinearLayout>
 

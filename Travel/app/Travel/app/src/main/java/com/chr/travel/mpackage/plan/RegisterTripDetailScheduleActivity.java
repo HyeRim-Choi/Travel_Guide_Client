@@ -3,6 +3,7 @@ package com.chr.travel.mpackage.plan;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -29,22 +30,18 @@ public class RegisterTripDetailScheduleActivity extends AppCompatActivity{
     TextView txt_day, txt_schedule;
     Button btn_add, btn_save;
 
-    String day, start, end, place;
+    String day, start, end, place, schedule;
     boolean freeTimeChk;
     ArrayList<String> daySchedule;
     JSONObject postDataParam;
+
+    // 일정 등록을 하고 수정 버튼을 눌렀을 시 여행 일정을 불러오기 위해 저장하는 곳
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitypackage_register_trip_detail_schedule);
-
-        daySchedule = new ArrayList();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         Intent intent = getIntent();
         day = intent.getStringExtra("day");
@@ -58,9 +55,18 @@ public class RegisterTripDetailScheduleActivity extends AppCompatActivity{
 
         txt_day.setText(day);
 
+        pref = getSharedPreferences("SCHEDULE", MODE_PRIVATE);
+
+        // 수정 버튼을 클릭하고 들어오면 등록했던 일정이 보여지도록 세팅팅
+       schedule = pref.getString("day" + String.valueOf(day.charAt(0)), "");
+        txt_schedule.setText(schedule);
+
+        daySchedule = new ArrayList();
+
         btn_add.setOnClickListener(click);
         btn_save.setOnClickListener(click);
     }
+
 
     // 버튼 클릭 이벤트
     View.OnClickListener click = new View.OnClickListener() {
@@ -76,6 +82,11 @@ public class RegisterTripDetailScheduleActivity extends AppCompatActivity{
 
                 // 저장 버튼 클릭 시
                 case R.id.btn_save:
+                    // 저장소에 일정 담기
+                    schedule = txt_schedule.getText().toString();
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putString("day" + String.valueOf(day.charAt(0)), schedule);
+                    edit.commit();
 
                     // 일정 시작시간, 일정 종료시간, 장소, 자유시간 체크 들고 이동
                     Intent resultIntent = new Intent();
@@ -121,7 +132,6 @@ public class RegisterTripDetailScheduleActivity extends AppCompatActivity{
        catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         daySchedule.add(postDataParam.toString());
 

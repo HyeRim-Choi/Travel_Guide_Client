@@ -4,35 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mpackage.plan.TripDetailsActivity"
+    tools:context=".mpackage.operation.ShowScheduleActivity"
     android:background="@color/appColor">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="제목"
-            android:textSize="35dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:id="@+id/txt_title"
-            android:layout_marginTop="20dp"/>
+            android:orientation="horizontal"
+            android:id="@+id/linear">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/img_travel_itinerary"/>
+
+            <Button
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:text="자유시간 정보"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_round"
+                android:layout_marginTop="70dp"
+                android:id="@+id/btn_freeTime"/>
+
+        </LinearLayout>
+
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txt_title"
-            android:layout_marginTop="30dp"
+            android:layout_below="@id/linear"
+            android:layout_marginTop="10dp"
             android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -52,7 +70,39 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="상품 특징"
+                            android:text="여행 가이드"
+                            android:textSize="25dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="~~~~~~~"
+                            android:textSize="15dp"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="50dp"
+                            android:id="@+id/txt_guide"
+                            />
+                    </TableRow>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black"/>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="여행 특징"
                             android:textSize="25dp"
                             android:textStyle="bold"
                             android:textColor="@color/white"
@@ -120,19 +170,24 @@
                             android:textStyle="bold"
                             android:textSize="25dp"
                             android:textColor="@color/white"
-                            android:layout_marginTop="10dp"
-                            />
+                            android:layout_marginTop="10dp" />
 
-                        <TextView
+                        <HorizontalScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text=""
-                            android:textSize="20dp"
-                            android:textColor="@color/white"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="50dp"
-                            android:id="@+id/txt_term"
-                            />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text=""
+                                android:textSize="15dp"
+                                android:textColor="@color/white"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="50dp"
+                                android:id="@+id/txt_term" />
+
+                        </HorizontalScrollView>
+
                     </TableRow>
 
                     <View
@@ -163,9 +218,9 @@
                             android:textColor="@color/white"
                             android:layout_marginTop="10dp"
                             android:layout_marginLeft="50dp"
-                            android:id="@+id/txt_schedule"
-                            />
+                            android:id="@+id/txt_schedule"/>
                     </TableRow>
+
 
                     <View
                         android:layout_width="match_parent"
@@ -179,43 +234,19 @@
 
         </ScrollView>
 
+
     </RelativeLayout>
 
 
-
-
-    <LinearLayout
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="여행 운영하기"
-            android:textSize="25dp"
-            android:textColor="@color/white"
-            android:background="@drawable/btn_round"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/btn_operateTrip"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="닫기"
-            android:textSize="25dp"
-            android:textColor="@color/white"
-            android:background="@drawable/btn_round"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/btn_close"/>
-
-
-    </LinearLayout>
-
-
+        android:text="닫기"
+        android:textSize="25dp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_round"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/btn_close"/>
 
 </FrameLayout>

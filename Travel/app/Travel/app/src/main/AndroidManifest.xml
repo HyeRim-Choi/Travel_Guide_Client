@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel">
-        <activity android:name=".mpackage.plan.RegisterTimePlaceActivity"></activity>
+        <activity android:name=".mpackage.operation.ShowScheduleActivity"></activity>
+        <activity android:name=".mpackage.plan.RegisterTimePlaceActivity" />
         <activity android:name=".mpackage.plan.RegisterTripDetailScheduleActivity" />
         <activity android:name=".mpackage.plan.RegisterTripScheduleActivity" />
         <activity android:name=".mpackage.plan.TripDetailsActivity" />

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="가이드님이 운영하는 여행"
-            android:textSize="23dp"
+            android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:layout_gravity="center"
@@ -29,7 +29,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="1.8"
             android:background="@drawable/btn_groupadd"
             android:layout_marginTop="8dp"
