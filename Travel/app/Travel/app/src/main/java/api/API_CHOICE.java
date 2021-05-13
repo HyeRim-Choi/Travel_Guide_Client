@@ -27,5 +27,6 @@ public final class API_CHOICE {
     public static final int LOCATION_SEND = 12;
     public static final int MANAGER_ADD_PLACE = 15;
     public static final int MANAGER_REGISTER_ROUTE = 20;
+    public static final int VISUALIZATION = 24;
 
 }

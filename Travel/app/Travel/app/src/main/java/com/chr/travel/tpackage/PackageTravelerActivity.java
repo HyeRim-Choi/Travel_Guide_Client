@@ -29,6 +29,8 @@ import vo.LoginVO;
 
 public class PackageTravelerActivity extends AppCompatActivity {
 
+    private static final int PACKAGE_TRAVELER_ACTIVITY_REQUEST_CODE = 9;
+
     TextView txt_traveler_actionbar;
     ListView traveler_group_listView;
     ArrayAdapter adapter;
@@ -106,16 +108,19 @@ public class PackageTravelerActivity extends AppCompatActivity {
                 String title = adapter.getItem(i).toString();
 
                 try {
-                    AsyncTaskFactory.getApiGetTask(PackageTravelerActivity.this, API_CHOICE.GROUP_MEMBER, title, new AsyncTaskCallBack() {
+                    AsyncTaskFactory.getApiGetTask(PackageTravelerActivity.this, API_CHOICE.GROUP_REGISTERED_ROUTE_DETAILS, title, new AsyncTaskCallBack() {
                         @Override
                         public void onTaskDone(Object... params) {
                             if((Integer)params[0] == 1){
-                                /*Intent i = new Intent(PackageManagerActivity.this, GroupActivity.class);
-                                // GroupActivity에 title, member들 전달
+                                Intent i = new Intent(PackageTravelerActivity.this, ShowScheduleActivity.class);
+                                // ShowScheduleActivity에 그룹 이름, 여행일정, 세부정보를 보낸다
                                 i.putExtra("title", title);
-                                i.putExtra("members", (Serializable) params[1]);
-                                i.putExtra("product", (String) params[2]);
-                                startActivity(i);*/
+                                i.putExtra("information", (String) params[1]);
+                                i.putExtra("memo", (String) params[2]);
+                                i.putExtra("schedule", (Serializable) params[3]);
+                                i.putExtra("guideName",(String) params[4]);
+                                i.putExtra("guideId",(String) params[5]);
+                                startActivityForResult(i, PACKAGE_TRAVELER_ACTIVITY_REQUEST_CODE);
                             }
                         }
                     }).execute();

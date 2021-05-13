@@ -2,7 +2,7 @@ package api;
 
 
 public class UrlCreate {
-    private static final String ip = "";
+    private static final String ip = "13.125.136.146";
     private static final int port = 3001;
 
     public static String getUrl(int chk, String info) {
@@ -106,6 +106,10 @@ public class UrlCreate {
 
             case API_CHOICE.MANAGER_REGISTER_ROUTE:
                 url += "/route";
+                return url;
+
+            case API_CHOICE.VISUALIZATION:
+                url += "/map";
                 return url;
 
             default:

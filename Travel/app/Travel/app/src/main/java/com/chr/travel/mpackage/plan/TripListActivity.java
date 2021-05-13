@@ -108,8 +108,7 @@ public class TripListActivity extends AppCompatActivity {
                                 i.putExtra("information", (String) params[1]);
                                 i.putExtra("memo", (String) params[2]);
                                 i.putExtra("schedule", (Serializable) params[3]);
-                                //startActivityForResult(i, TRIP_LIST_ACTIVITY_REQUEST_CODE);
-                                startActivity(i);
+                                startActivityForResult(i, TRIP_LIST_ACTIVITY_REQUEST_CODE);
                             }
                         }
                     }).execute();

@@ -8,47 +8,49 @@
     android:background="@color/appColor"
     android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp"
+        android:background="@color/appColor"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+        <Spinner
+            android:id="@+id/spinner_age"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:dropDownWidth="200dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/img_landscape"/>
+            android:spinnerMode="dropdown"/>
+
+        <Spinner
+            android:id="@+id/spinner_gender"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:dropDownWidth="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:spinnerMode="dropdown"/>
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="title"
-            android:textSize="30dp"
+            android:layout_width="95dp"
+            android:layout_height="50dp"
+            android:text="검색"
+            android:textSize="20dp"
             android:textColor="@color/white"
-            android:background="#00ff0000"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginTop="40dp"
-            android:id="@+id/btn_title"/>
+            android:background="@drawable/btn_round"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/btn_search"/>
 
-    </FrameLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/sliding_tabs"
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/map_frag_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabBackground="?attr/colorButtonNormal"
-        app:tabIndicatorColor="?attr/colorAccent"
-        app:tabIndicatorHeight="5dp"
-        android:layout_marginTop="10dp"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="?android:textColorPrimary"
-        app:tabTextColor="?android:textColorSecondary" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"/>
+        android:layout_height="wrap_content"/>
 
 
 

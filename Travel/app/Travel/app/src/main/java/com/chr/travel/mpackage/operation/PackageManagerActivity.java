@@ -144,7 +144,7 @@ public class PackageManagerActivity extends AppCompatActivity{
                 // 그룹 생성 버튼 클릭 시
                 case R.id.btn_addGroup:
                     Intent i = new Intent(PackageManagerActivity.this, ManagerAddGroupActivity.class);
-                    startActivity(i);
+                    startActivityForResult(i, PACKAGE_MANAGER_ACTIVITY_REQUEST_CODE);
                     break;
             }
         }

@@ -169,7 +169,8 @@ public class GroupActivity extends AppCompatActivity {
                                     i.putExtra("information", (String) params[1]);
                                     i.putExtra("memo", (String) params[2]);
                                     i.putExtra("schedule", (Serializable) params[3]);
-                                    //i.putExtra("guide", params[4]);
+                                    i.putExtra("guideName",(String) params[4]);
+                                    i.putExtra("guideId",(String) params[5]);
                                     startActivityForResult(i, GROUP_ACTIVITY_REQUEST_CODE);
                                 }
                             }

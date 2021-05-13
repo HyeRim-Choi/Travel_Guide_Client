@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Travel">
-        <activity android:name=".mpackage.operation.ShowScheduleActivity"></activity>
+        <activity android:name=".tpackage.FreeTimeListActivity"></activity>
+        <activity android:name=".mpackage.operation.ShowScheduleActivity" />
         <activity android:name=".mpackage.plan.RegisterTimePlaceActivity" />
         <activity android:name=".mpackage.plan.RegisterTripDetailScheduleActivity" />
         <activity android:name=".mpackage.plan.RegisterTripScheduleActivity" />
@@ -52,7 +53,7 @@
         <!-- kakao API -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="" /> <!-- firebase -->
+            android:value="5388dfebf1555a140f1277f2222bb5cc" /> <!-- firebase -->
         <service
             android:name="service.fcm.FireBaseMessagingService"
             android:exported="false"

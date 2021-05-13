@@ -2,7 +2,6 @@ package com.chr.travel.mpackage.operation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -123,11 +122,9 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                                 public void onTaskDone(Object... params) {
                                     // 그룹 생성 성공하면
                                     if((Integer)params[0] == 1){
-
                                         Intent i = new Intent(ManagerAddGroupActivity.this, PackageManagerActivity.class);
                                         startActivity(i);
                                         finish();
-
                                     }
                                 }
                             }).execute(postDataParam);
@@ -136,6 +133,7 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
+
                     break;
 
 
@@ -144,8 +142,8 @@ public class ManagerAddGroupActivity extends AppCompatActivity {
                 case R.id.btn_registerTrip:
                     // 여행 목록으로 이동
                     i = new Intent(ManagerAddGroupActivity.this, TripListActivity.class);
-                   startActivity(i);
-                   finish();
+                    startActivity(i);
+                    finish();
                     break;
 
 

@@ -23,7 +23,7 @@ public class GetGroupTravelDetails extends GetRequest {
     String jsonString;
     // 해당 그룹에 존재하는 멤버들을 저장하는 ArrayList
     public ArrayList<String> schedule;
-    String introduce, memo;
+    String introduce, memo, name, id;
     AsyncTaskCallBack callBack;
 
     JSONObject jsonObject;
@@ -67,7 +67,7 @@ public class GetGroupTravelDetails extends GetRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(get_res_chk, introduce, memo, schedule);
+        callBack.onTaskDone(get_res_chk, introduce, memo, schedule, name, id);
 
     }
 
@@ -82,6 +82,9 @@ public class GetGroupTravelDetails extends GetRequest {
                     JSONObject product = jsonObject.getJSONObject("product");
                     introduce = product.getString("introduce");
                     memo = product.getString("memo");
+
+                    name = jsonObject.getString("name");
+                    id = jsonObject.getString("Id");
 
                     JSONArray route = jsonObject.getJSONArray("route");
 

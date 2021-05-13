@@ -27,6 +27,8 @@ public class GetManagerPlaceRouteSearch extends GetRequest {
 
     // 관광지 데이터 받기
     ArrayList<String> place;
+    
+    int pos_res_chk;
 
 
     public GetManagerPlaceRouteSearch(Activity activity, String info, AsyncTaskCallBack callBack) {
@@ -34,6 +36,8 @@ public class GetManagerPlaceRouteSearch extends GetRequest {
         this.chk = API_CHOICE.MANAGER_ROUTE_PLACE_SEARCH;
         this.info = info;
         this.callBack = callBack;
+
+        pos_res_chk = 0;
     }
 
     // request
@@ -67,7 +71,7 @@ public class GetManagerPlaceRouteSearch extends GetRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(place);
+        callBack.onTaskDone(pos_res_chk, place);
     }
 
 
@@ -76,6 +80,8 @@ public class GetManagerPlaceRouteSearch extends GetRequest {
         switch (result) {
 
             case "ok":
+                pos_res_chk = 1;
+
                 place = new ArrayList<>();
 
                 try{

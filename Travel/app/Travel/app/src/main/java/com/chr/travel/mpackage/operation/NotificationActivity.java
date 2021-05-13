@@ -72,7 +72,6 @@ public class  NotificationActivity extends AppCompatActivity {
                    }).execute();
 
 
-
                    dialog.cancel();
                    finish();
 

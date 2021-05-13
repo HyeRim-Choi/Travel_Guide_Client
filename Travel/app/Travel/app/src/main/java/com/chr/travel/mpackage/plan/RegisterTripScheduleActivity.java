@@ -112,7 +112,7 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
                   makeListView(day);
 
                   // 확인 버튼 안보이게 하기
-                  btn_confirm.setVisibility(View.INVISIBLE);
+                  //btn_confirm.setVisibility(View.INVISIBLE);
 
                   break;
 

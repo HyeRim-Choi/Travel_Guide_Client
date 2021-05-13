@@ -82,6 +82,9 @@ public class AsyncTaskFactory{
              case API_CHOICE.MANAGER_REGISTER_ROUTE:
                  return new PostManagerRegisterRoute(activity, null);
 
+            case API_CHOICE.VISUALIZATION:
+                return new PostVisualization(activity, callBack);
+
              default:
                 return null;
 

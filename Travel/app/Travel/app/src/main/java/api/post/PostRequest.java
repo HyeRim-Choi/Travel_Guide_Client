@@ -66,7 +66,6 @@ public class PostRequest extends AsyncTask<JSONObject, Void, String> {
                 String line = "";
 
                 while ((line = in.readLine()) != null) {
-
                     sb.append(line);
                     break;
                 }

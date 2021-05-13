@@ -1,18 +1,14 @@
 package com.chr.travel.fragmentpackage;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.chr.travel.R;
 
@@ -26,9 +22,15 @@ import net.daum.mf.map.api.MapView;
 import java.util.ArrayList;
 import java.util.Map;
 
-/* 경로를 보여주는 프래그먼트 */
 
-public class VisualizationMapFragment extends Fragment {
+public class VisualizationSelectMapFragment extends Fragment {
+
+
+    /*private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    private String mParam1;
+    private String mParam2;*/
 
     // 지도
     MapView mapView;
@@ -49,9 +51,7 @@ public class VisualizationMapFragment extends Fragment {
     // 지도가 올라가는 레이아웃
     ViewGroup mapViewContainer;
 
-
-
-    public VisualizationMapFragment(String place, double latitude, double longitude, Map<String, ArrayList> visualInfo) {
+    public VisualizationSelectMapFragment(String place, double latitude, double longitude, Map<String, ArrayList> visualInfo) {
         // subPlace, totalMem, avgTime 정보가 없다면
         if(visualInfo != null){
             Log.i("VisualMapFragment", "subPlace, totalMem, avgTime 정보 들어옴");
@@ -61,14 +61,29 @@ public class VisualizationMapFragment extends Fragment {
         this.place = place;
         this.latitude = latitude;
         this.longitude = longitude;
-
     }
 
+   /* public static VisualizationSelectMapFragment newInstance(String param1, String param2) {
+        VisualizationSelectMapFragment fragment = new VisualizationSelectMapFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.fragmentpackage_visualization_map, container, false);
 
 
@@ -113,7 +128,7 @@ public class VisualizationMapFragment extends Fragment {
 
 
 
-       return v;
+        return v;
     }
 
     // 큰 관광지에 마커 띄우기
@@ -148,33 +163,33 @@ public class VisualizationMapFragment extends Fragment {
 
 
     // 많이 간 경로 오버레이 띄우기
-   public void showTotalMemOverlay(ArrayList<Map> totalMem){
-       MapPolyline polyline = new MapPolyline();
-       polyline.setTag(1000);
-       polyline.setLineColor(Color.argb(128, 255, 51, 0)); // Polyline 컬러 지정.
+    public void showTotalMemOverlay(ArrayList<Map> totalMem){
+        MapPolyline polyline = new MapPolyline();
+        polyline.setTag(1000);
+        polyline.setLineColor(Color.argb(128, 255, 51, 0)); // Polyline 컬러 지정.
 
-       // Polyline 좌표 지정.
-       for (int i = 0; i < totalMem.size(); i++){
-           double lat = Double.parseDouble((String) totalMem.get(i).get("latitude"));
-           double lon = Double.parseDouble((String) totalMem.get(i).get("longitude"));
-           polyline.addPoint(MapPoint.mapPointWithGeoCoord(lat, lon));
-       }
+        // Polyline 좌표 지정.
+        for (int i = 0; i < totalMem.size(); i++){
+            double lat = Double.parseDouble((String) totalMem.get(i).get("latitude"));
+            double lon = Double.parseDouble((String) totalMem.get(i).get("longitude"));
+            polyline.addPoint(MapPoint.mapPointWithGeoCoord(lat, lon));
+        }
 
-       // Polyline 지도에 올리기.
-       mapView.addPolyline(polyline);
+        // Polyline 지도에 올리기.
+        mapView.addPolyline(polyline);
 
-      // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
-       // ** 확인 후 수정
-       MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
-       int padding = 100; // px
-       mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+        // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
+        // ** 확인 후 수정
+        MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
+        int padding = 100; // px
+        mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        Log.i("VisualMapFrag", "onPause()");
+        Log.i("VisualMapFrag2", "onPause()");
 
         mapViewContainer.removeView(mapView);
     }
@@ -183,34 +198,34 @@ public class VisualizationMapFragment extends Fragment {
     public void onStop() {
         super.onStop();
 
-        Log.i("VisualMapFrag", "onStop()");
+        Log.i("VisualMapFrag2", "onStop()");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        Log.i("VisualMapFrag", "onDestroy()");
+        Log.i("VisualMapFrag2", "onDestroy()");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        Log.i("VisualMapFrag", "onDestroyView()");
+        Log.i("VisualMapFrag2", "onDestroyView()");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
 
-        Log.i("VisualMapFrag", "onDetach()");
+        Log.i("VisualMapFrag2", "onDetach()");
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        Log.i("VisualMapFrag", "onResume()");
+        Log.i("VisualMapFrag2", "onResume()");
     }
 }

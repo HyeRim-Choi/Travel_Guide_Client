@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.chr.travel.R;
+import com.chr.travel.tpackage.FreeTimeListActivity;
 import com.chr.travel.tpackage.VisualizationActivity;
 
 import org.json.JSONArray;
@@ -32,13 +33,14 @@ public class ShowScheduleActivity extends AppCompatActivity {
     TextView txt_guide, txt_point, txt_term, txt_information, txt_schedule;
     Button btn_close, btn_freeTime;
 
-    String information, memo, startDate, endDate, title;
+    String information, memo, startDate, endDate, title, guideName, guideId;
     ArrayList<String> schedule;
 
     int day;
 
     ArrayList<Map> dayScheduleList;
     ArrayList<ArrayList> scheduleList;
+    ArrayList<String> freeTimePlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class ShowScheduleActivity extends AppCompatActivity {
 
         schedule = new ArrayList<>();
         scheduleList = new ArrayList<>();
+        freeTimePlace = new ArrayList<>();
 
         // 인텐트 가져오기
         Intent intent = getIntent();
@@ -66,6 +69,10 @@ public class ShowScheduleActivity extends AppCompatActivity {
         memo = intent.getStringExtra("memo");
         // schedule
         schedule = intent.getStringArrayListExtra("schedule");
+        // guideName
+        guideName = intent.getStringExtra("guideName");
+        // guideId
+        guideId = intent.getStringExtra("guideId");
 
 
         // JSONArray를 여행 일정으로 보여줄 수 있는 상태로 만들기
@@ -124,6 +131,7 @@ public class ShowScheduleActivity extends AppCompatActivity {
 
                 if(freeTime == 1){
                     freeTimeChk = "(자유시간)";
+                    freeTimePlace.add(name);
                 }
 
                 txt_schedule.append(startTime.substring(0,5) + " ~ " + endTime.substring(0,5) + "\n" + name + freeTimeChk + "\n");
@@ -133,18 +141,15 @@ public class ShowScheduleActivity extends AppCompatActivity {
 
         }
 
+        txt_guide.setText(guideName + "( id : " + guideId + ")");
         txt_point.setText(memo);
         txt_information.setText(information);
         txt_term.setText( day - 1 + "박 " + day + "일");
 
         btn_freeTime.setOnClickListener(click);
         btn_close.setOnClickListener(click);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
+        // 여행 기간 날짜 띄우기
         try {
             AsyncTaskFactory.getApiGetTask(ShowScheduleActivity.this, API_CHOICE.GROUP_TRIP_DATE, title, new AsyncTaskCallBack() {
                 @Override
@@ -162,8 +167,6 @@ public class ShowScheduleActivity extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
 
     // 버튼 클릭 이벤트
@@ -174,8 +177,10 @@ public class ShowScheduleActivity extends AppCompatActivity {
 
                 // 자유시간 시각화 버튼 클릭 시
                 case R.id.btn_freeTime:
-                    Intent i = new Intent(ShowScheduleActivity.this, VisualizationActivity.class);
-                    //startForResult(i
+                    Intent i = new Intent(ShowScheduleActivity.this, FreeTimeListActivity.class);
+                    i.putExtra("freeTimePlace", freeTimePlace);
+                    i.putExtra("groupTitle", title);
+                    startActivity(i);
                     break;
 
                 // 닫기 버튼 클릭 시

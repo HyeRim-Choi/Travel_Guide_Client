@@ -8,6 +8,8 @@ import com.chr.travel.fragmentpackage.VisualizationMapFragment;
 
 /* VisualizationActivity의 ViewPager의 Adapter */
 
+// ** delete
+
 public class VisualizationAdapter extends FragmentStateAdapter {
 
     private static int NUM_ITEMS=3;
@@ -26,8 +28,8 @@ public class VisualizationAdapter extends FragmentStateAdapter {
         switch (position) {
             // 많이 간 경로 보여주기
             case 0:
-                VisualizationMapFragment visualizationMapFragment = new VisualizationMapFragment();
-                return visualizationMapFragment;
+               /* VisualizationMapFragment visualizationMapFragment = new VisualizationMapFragment();
+                return visualizationMapFragment;*/
 
             case 1:
                 /*SecondFragment second = new SecondFragment();
@@ -38,8 +40,8 @@ public class VisualizationAdapter extends FragmentStateAdapter {
                 return third;*/
 
             default:
-               visualizationMapFragment = new VisualizationMapFragment();
-               return visualizationMapFragment;
+              /* visualizationMapFragment = new VisualizationMapFragment();
+               return visualizationMapFragment;*/return  null;
 
         }
     }

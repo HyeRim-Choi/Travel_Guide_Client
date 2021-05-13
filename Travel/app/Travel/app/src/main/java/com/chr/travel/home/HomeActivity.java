@@ -141,7 +141,7 @@ public class HomeActivity extends AppCompatActivity {
 
         /* Free Travel Menu */
         ArrayAdapter freeMenu = ArrayAdapter.createFromResource(this, R.array.freeItem, R.layout.design_home_menu_spinner);
-        packageMenu.setDropDownViewResource(R.layout.design_home_menu_spinner);
+        freeMenu.setDropDownViewResource(R.layout.design_home_menu_spinner);
         //어댑터에 연결
         spinner_free_menu.setAdapter(freeMenu);
 

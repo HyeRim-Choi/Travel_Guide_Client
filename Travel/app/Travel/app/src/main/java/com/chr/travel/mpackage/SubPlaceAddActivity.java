@@ -50,8 +50,10 @@ public class SubPlaceAddActivity extends AppCompatActivity{
     // 주소
     String search;
 
-    // 위도, 경도
+    // 검색 한 곳 위도, 경도
     double latitude, longitude;
+    // 지도에서 클릭 한 곳 위도, 경도
+    double lat, lon;
 
     // 지도
     MapView mapView;
@@ -159,14 +161,20 @@ public class SubPlaceAddActivity extends AppCompatActivity{
                 mapView.removePOIItem(marker);
             }
 
+            lat = mapPoint.getMapPointGeoCoord().latitude;
+            lon = mapPoint.getMapPointGeoCoord().longitude;
+
             // 클릭 한 곳 마커 띄우기
-            showMarker(mapPoint.getMapPointGeoCoord().latitude, mapPoint.getMapPointGeoCoord().longitude);
+            showMarker(lat, lon);
+            Log.i("MapViewClick", "터치3 " + mapPoint.getMapPointGeoCoord().latitude + " " + mapPoint.getMapPointGeoCoord().longitude);
+            Log.i("MapViewClick", "터치3 " + lat + " " + lon);
 
         }
 
         @Override
         public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
             Log.i("MapViewClick", "터치4");
+
         }
 
         @Override
@@ -203,9 +211,13 @@ public class SubPlaceAddActivity extends AppCompatActivity{
         @Override
         public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
             // 서버에게 search, latitude, longitude 보내기 위해 Alert 창 띄우기
-            if(mapView.getPOIItems().length == 5){
-                makeDialog();
-            }
+
+            //if(mapView.getPOIItems().length == 5){
+                makeDialog(lat, lon);
+            Log.i("MapViewClick", "터치 마커 " + lat + " " + lon);
+            //}
+
+            /* 저장 된 장소는 장소 저장하라는 Alert창이 안나오도록 하기 */
         }
 
         @Override
@@ -298,7 +310,7 @@ public class SubPlaceAddActivity extends AppCompatActivity{
 
     /* Alert창 */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void makeDialog() {
+    private void makeDialog(double lat, double lon) {
         // 장소 이름 지정하는 EditText
         EditText et = new EditText(SubPlaceAddActivity.this);
         et.setTextColor(Color.WHITE);
@@ -331,8 +343,8 @@ public class SubPlaceAddActivity extends AppCompatActivity{
                 try {
                     // node에 전달 할 정보 넣기
                     postDataParam.put("name", place);
-                    postDataParam.put("latitude", latitude);
-                    postDataParam.put("longitude", longitude);
+                    postDataParam.put("latitude", lat);
+                    postDataParam.put("longitude", lon);
                 }
                 catch (JSONException e) {
                     Log.e("PlaceAddActivity", "JSONEXception");

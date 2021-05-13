@@ -125,20 +125,22 @@ public class RegisterTimePlaceActivity extends AppCompatActivity {
                         AsyncTaskFactory.getApiGetTask(RegisterTimePlaceActivity.this, API_CHOICE.MANAGER_ROUTE_PLACE_SEARCH, place, new AsyncTaskCallBack() {
                             @Override
                             public void onTaskDone(Object... params) {
-                                adapter = new ArrayAdapter(RegisterTimePlaceActivity.this, android.R.layout.simple_list_item_1, (List) params[0]) {
+                                if((Integer) params[0] == 1){
+                                    adapter = new ArrayAdapter(RegisterTimePlaceActivity.this, android.R.layout.simple_list_item_1, (List) params[1]) {
 
-                                    @Override
-                                    public View getView(int position, View convertView, ViewGroup parent) {
-                                        // ListView custom
-                                        View view = super.getView(position, convertView, parent);
-                                        TextView tv = (TextView) view.findViewById(android.R.id.text1);
-                                        tv.setTextColor(Color.BLACK);
-                                        tv.setPadding(50, 50, 0, 50);
-                                        return view;
-                                    }
-                                };
+                                        @Override
+                                        public View getView(int position, View convertView, ViewGroup parent) {
+                                            // ListView custom
+                                            View view = super.getView(position, convertView, parent);
+                                            TextView tv = (TextView) view.findViewById(android.R.id.text1);
+                                            tv.setTextColor(Color.BLACK);
+                                            tv.setPadding(50, 50, 0, 50);
+                                            return view;
+                                        }
+                                    };
 
-                                listView_place.setAdapter(adapter);
+                                    listView_place.setAdapter(adapter);
+                                }
                             }
                         }).execute();
                     }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tpackage.FreeTimeListActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="그룹 이름의 자유시간"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/txt_actionbar"/>
+
+
+       <!-- <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1.8"
+            android:background="@drawable/btn_groupadd"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="80dp"
+            android:id="@+id/btn_addGroup"/>-->
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="2dp"
+            android:divider="@color/black"
+            android:background="@color/appColor"
+            android:id="@+id/freeTime_listView"/>
+
+    </ScrollView>
+
+
+
+</LinearLayout>
