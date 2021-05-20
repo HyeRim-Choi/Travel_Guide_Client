@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/map_frag_view"
+        android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

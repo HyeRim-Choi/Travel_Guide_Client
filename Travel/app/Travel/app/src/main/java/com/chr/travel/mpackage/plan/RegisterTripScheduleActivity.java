@@ -82,6 +82,18 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
 
     }
 
+    // 화면을 끄면 일정 등록한 내용을 비우기
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // 저장소 비우기
+        SharedPreferences pref = getSharedPreferences("SCHEDULE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.commit();
+
+    }
 
     // 버튼 클릭 이벤트
     View.OnClickListener click = new View.OnClickListener() {
@@ -111,8 +123,6 @@ public class RegisterTripScheduleActivity extends AppCompatActivity implements A
                   // 1일차, 2일차 목록 띄우기
                   makeListView(day);
 
-                  // 확인 버튼 안보이게 하기
-                  //btn_confirm.setVisibility(View.INVISIBLE);
 
                   break;
 

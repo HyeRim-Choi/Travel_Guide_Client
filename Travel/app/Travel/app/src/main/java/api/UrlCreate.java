@@ -2,7 +2,7 @@ package api;
 
 
 public class UrlCreate {
-    private static final String ip = "13.125.136.146";
+    private static final String ip = "";
     private static final int port = 3001;
 
     public static String getUrl(int chk, String info) {
@@ -37,15 +37,12 @@ public class UrlCreate {
                 return url;
 
             case API_CHOICE.MEMBER_LOCATION_SEND_DONE:
+            case API_CHOICE.MANAGER_ROUTE_PLACE_SEARCH:
                 url += "/location/" + info;
                 return url;
 
             case API_CHOICE.MANAGER_SHOW_PLACE:
                 url += "/map/place";
-                return url;
-
-            case API_CHOICE.MANAGER_ROUTE_PLACE_SEARCH:
-                url += "/location/places/" + info;
                 return url;
 
             case API_CHOICE.GROUP_TRIP_DATE:

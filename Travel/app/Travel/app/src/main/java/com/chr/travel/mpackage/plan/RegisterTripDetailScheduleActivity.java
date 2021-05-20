@@ -58,7 +58,7 @@ public class RegisterTripDetailScheduleActivity extends AppCompatActivity{
         pref = getSharedPreferences("SCHEDULE", MODE_PRIVATE);
 
         // 수정 버튼을 클릭하고 들어오면 등록했던 일정이 보여지도록 세팅팅
-       schedule = pref.getString("day" + String.valueOf(day.charAt(0)), "");
+        schedule = pref.getString("day" + String.valueOf(day.charAt(0)), "");
         txt_schedule.setText(schedule);
 
         daySchedule = new ArrayList();
@@ -66,6 +66,8 @@ public class RegisterTripDetailScheduleActivity extends AppCompatActivity{
         btn_add.setOnClickListener(click);
         btn_save.setOnClickListener(click);
     }
+
+
 
 
     // 버튼 클릭 이벤트

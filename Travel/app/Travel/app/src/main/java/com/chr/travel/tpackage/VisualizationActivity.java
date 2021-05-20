@@ -1,21 +1,32 @@
 package com.chr.travel.tpackage;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.chr.travel.R;
-import com.chr.travel.fragmentpackage.VisualizationMapFragment;
-import com.chr.travel.fragmentpackage.VisualizationSelectMapFragment;
+
+import net.daum.mf.map.api.CalloutBalloonAdapter;
+import net.daum.mf.map.api.CameraUpdateFactory;
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapPointBounds;
+import net.daum.mf.map.api.MapPolyline;
+import net.daum.mf.map.api.MapView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,19 +36,21 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import adapter.CustomCalloutBalloonAdapter;
 import api.API_CHOICE;
 import api.AsyncTaskFactory;
 import api.callback.AsyncTaskCallBack;
 
 /* 여행객들에게 주는 자유시간 시각화 정보 */
 
-public class VisualizationActivity extends AppCompatActivity {
+public class VisualizationActivity extends AppCompatActivity{
 
     String place;
     double latitude, longitude;
+
     // 큰 관광지(한성대) 안의 등록해둔 서브 관광지
     ArrayList<String> subPlace;
-    // 최단 경로
+    // 경로
     ArrayList<String> totalMem;
     // 각 서브 관광지별로 머문 평균 시간
     ArrayList<String> avgTime;
@@ -55,8 +68,17 @@ public class VisualizationActivity extends AppCompatActivity {
 
     String age, gender;
 
-    // 지도를 띄우는 횟수(지도 remove, addView를 위해)
-    int fragCnt;
+    // map
+    RelativeLayout relativeLayout;
+    MapView mapView;
+    // 서브 관광지(자유시간 장소) 마커
+    MapPOIItem subPlaceMarker;
+    // 자유시간이 있는 큰 관광지 마커
+    MapPOIItem placeMarker;
+    // Polyline
+    MapPolyline polyline;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +88,7 @@ public class VisualizationActivity extends AppCompatActivity {
         spinner_age = findViewById(R.id.spinner_age);
         spinner_gender = findViewById(R.id.spinner_gender);
         btn_search = findViewById(R.id.btn_search);
+        relativeLayout = findViewById(R.id.map_view);
 
         // 인텐트 가져오기
         Intent intent = getIntent();
@@ -76,16 +99,18 @@ public class VisualizationActivity extends AppCompatActivity {
         totalMem = new ArrayList<>();
         avgTime = new ArrayList<>();
 
-        subPlaceMap = new ArrayList<>();
-        totalMemMap = new ArrayList<>();
-        avgTimeMap = new ArrayList<>();
 
-        visualInfo = new HashMap<>();
+        ViewGroup mapViewContainer = relativeLayout;
+        mapView = new MapView(VisualizationActivity.this);
+        mapViewContainer.addView(mapView);
 
-        fragCnt = 0;
 
-        // 많이 간 경로(전체)의 데이터를 받기 위해 서버 통신을 하고 프래그먼트 띄우기
-        //connectServerGetDataAndSendFragment("all", "all");
+        // 많이 간 경로(전체)의 데이터를 받기 위해 서버 통신해서 정보 보여주기
+        connectServerGetDataAndSendFragment("all", "all");
+
+        // 커스텀 말풍선 등록
+        mapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter(getLayoutInflater()));
+
 
         btn_search.setOnClickListener(btn_click);
 
@@ -159,7 +184,6 @@ public class VisualizationActivity extends AppCompatActivity {
                 case R.id.btn_search:
                     // 선택한 나이, 성별에 맞는 데이터를 가져오기 위한 서버 통신
                     connectServerGetDataAndSendFragment(age, gender);
-
                     break;
 
             }
@@ -172,9 +196,6 @@ public class VisualizationActivity extends AppCompatActivity {
     public void connectServerGetDataAndSendFragment(String age, String gender){
         // 서버와 통신해서 많이 간 경로(전체) 가져오기
         JSONObject postDataParam = new JSONObject();
-
-        final VisualizationMapFragment[] visualizationMapFragment = new VisualizationMapFragment[1];
-        final VisualizationSelectMapFragment[] visualizationSelectMapFragment = new VisualizationSelectMapFragment[1];
 
 
         // node에 전달 할 정보 넣기
@@ -197,6 +218,13 @@ public class VisualizationActivity extends AppCompatActivity {
                         subPlace = (ArrayList<String>) params[3];
                         totalMem = (ArrayList<String>) params[4];
                         avgTime = (ArrayList<String>) params[5];
+
+                        visualInfo = new HashMap<>();
+
+                        subPlaceMap = new ArrayList<>();
+                        totalMemMap = new ArrayList<>();
+                        avgTimeMap = new ArrayList<>();
+
 
                         if(subPlace.size() != 0 && totalMem.size() != 0 && avgTime.size() != 0){
                             // subPlace 이제 사용 가능한 List 형태로 만들어짐
@@ -222,54 +250,18 @@ public class VisualizationActivity extends AppCompatActivity {
                             visualInfo = null;
                         }
 
-                        getSupportFragmentManager().beginTransaction().add(R.id.map_frag_view, new VisualizationMapFragment(place, latitude, longitude, visualInfo)).commit();
-
-                       /* if(fragCnt == 0){
-                            fragCnt = 1;
-
-                            visualizationMapFragment[0] = new VisualizationMapFragment(place, latitude, longitude, visualInfo);
-
-
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-
-                            if(visualizationSelectMapFragment[0] != null){
-                                fragmentManager.beginTransaction().remove(visualizationSelectMapFragment[0]).commit();
-                                fragmentManager.popBackStack();
-                            }
-
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.add(R.id.map_frag_view, visualizationMapFragment[0]);
-                            fragmentTransaction.commit();
-
-
-                            // 지도 Fragment 띄우기
-                            //getSupportFragmentManager().beginTransaction().add(R.id.map_frag_view, new VisualizationMapFragment(place, latitude, longitude, visualInfo)).commit();
+                        // 마커 지우기
+                        if(subPlaceMarker != null){
+                            mapView.removePOIItem(subPlaceMarker);
                         }
 
-                        else{
-                            fragCnt = 0;
+                        // polyline 지우기
+                        if(polyline != null){
+                            mapView.removeAllPolylines();
+                        }
 
-                            visualizationSelectMapFragment[0] = new VisualizationSelectMapFragment(place, latitude, longitude, visualInfo);
-
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-
-                            if(visualizationMapFragment[0] != null){
-                                fragmentManager.beginTransaction().remove(visualizationMapFragment[0]).commit();
-                                fragmentManager.popBackStack();
-                            }
-
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.add(R.id.map_frag_view, visualizationSelectMapFragment[0]);
-                            fragmentTransaction.commit();
-
-
-
-                            // 지도 Fragment 띄우기
-                            //getSupportFragmentManager().beginTransaction().add(R.id.map_frag_view, new VisualizationSelectMapFragment(place, latitude, longitude, visualInfo)).commit();
-                        }*/
-
-
-
+                        // 마커, 오버레이 띄우기
+                        showData(place, latitude, longitude, visualInfo);
 
                     }
                 }
@@ -304,10 +296,118 @@ public class VisualizationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-
         return hashmap;
 
+    }
+
+
+
+    // 마커, 오버레이 나타내기
+    public void showData(String place, double latitude, double longitude, Map<String, ArrayList> visualInfo){
+
+        // 큰 관광지 위치 띄우기
+        showPlaceMarker(latitude, longitude, place);
+
+        // subPlace, totalMem, avgTime 데이터가 없으면 큰 관광지만 지도에 띄우기
+        if(visualInfo != null){
+
+            // 큰 관광지(한성대) 안의 등록해둔 서브 관광지
+            ArrayList<Map> subPlace = visualInfo.get("subPlace");
+            // 많이 간 경로
+            ArrayList<Map> totalMem = visualInfo.get("totalMem");
+            // 각 서브 관광지별로 머문 평균 시간
+            ArrayList<Map> avgTime = visualInfo.get("avgTime");
+
+
+            // 서브 관광지 위치(자유시간 장소 종류) 띄우기
+            for (int i = 0; i < subPlace.size(); i++){
+                double lat = Double.parseDouble((String) subPlace.get(i).get("latitude"));
+                double lon = Double.parseDouble((String) subPlace.get(i).get("longitude"));
+                String subPlaceName = (String) subPlace.get(i).get("name");
+                String subPlaceAvgTime = (String) avgTime.get(i).get("avg");
+
+                // 마커 띄우기
+                showSubPlaceMarker(lat, lon, subPlaceName, subPlaceAvgTime, totalMem);
+            }
+
+
+            showTotalMemOverlay(totalMem);
+
+        }
+
+
+
+    }
+
+
+    // 큰 관광지에 마커 띄우기
+    public void showPlaceMarker(double latitude, double longitude, String placeName){
+
+        // 마커 띄우기
+        placeMarker = new MapPOIItem();
+        placeMarker.setItemName(placeName);
+        placeMarker.setTag(0);
+        placeMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude));
+        placeMarker.setMarkerType(MapPOIItem.MarkerType.YellowPin); // 기본 마커
+        placeMarker.setSelectedMarkerType(MapPOIItem.MarkerType.YellowPin); // 마커 클릭 시
+        mapView.addPOIItem(placeMarker);
+
+        // 화면 중앙에 표시 될 위치
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
+
+    }
+
+    // 서브 관광지에 마커 띄우기
+    public void showSubPlaceMarker(double latitude, double longitude, String subPlaceName, String subPlaceAvgTime, ArrayList<Map> totalMem){
+        int i;
+
+        Log.i("Visualization", String.valueOf(totalMem.size()));
+
+        // 많이 간 경로 순서 표현
+        for (i = 0; i < totalMem.size(); i++){
+            double lat = Double.parseDouble((String) totalMem.get(i).get("latitude"));
+            double lon = Double.parseDouble((String) totalMem.get(i).get("longitude"));
+
+            if(lat == latitude){
+                break;
+            }
+
+        }
+
+        // 마커 띄우기
+        subPlaceMarker = new MapPOIItem();
+        subPlaceMarker.setItemName(++i + "\n" + subPlaceName + "\n" + subPlaceAvgTime);
+        Log.i("VisualActivity", i + "\n" + subPlaceName + "\n" + subPlaceAvgTime);
+        subPlaceMarker.setTag(0);
+        subPlaceMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude));
+        subPlaceMarker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본 마커
+        subPlaceMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커 클릭 시
+        mapView.addPOIItem(subPlaceMarker);
+
+    }
+
+
+    // 많이 간 경로 오버레이 띄우기
+    public void showTotalMemOverlay(ArrayList<Map> totalMem){
+
+        polyline = new MapPolyline();
+        polyline.setTag(1000);
+        polyline.setLineColor(Color.argb(200, 101, 172, 243)); // Polyline 컬러 지정.
+
+        // Polyline 좌표 지정.
+        for (int i = 0; i < totalMem.size(); i++){
+            double lat = Double.parseDouble((String) totalMem.get(i).get("latitude"));
+            double lon = Double.parseDouble((String) totalMem.get(i).get("longitude"));
+            polyline.addPoint(MapPoint.mapPointWithGeoCoord(lat, lon));
+        }
+
+        // Polyline 지도에 올리기.
+        mapView.addPolyline(polyline);
+
+        // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
+        MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
+        int padding = 100;
+        mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
     }
 
 }

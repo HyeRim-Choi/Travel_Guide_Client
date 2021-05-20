@@ -3,6 +3,7 @@ package com.chr.travel.mpackage.operation;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +39,10 @@ public class GroupActivity extends AppCompatActivity {
 
     // 알림 보내기
     PostLocationReq postLocationReq;
+
+    // 자유시간 시작, 종료버튼을 유지하기 위한 저장소
+    SharedPreferences pref;
+    int freeTimeBtnChk;
 
 
 
@@ -77,6 +82,25 @@ public class GroupActivity extends AppCompatActivity {
         btn_showSchedule.setOnClickListener(click);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        pref = getSharedPreferences("FREETIME",MODE_PRIVATE);
+
+        freeTimeBtnChk = pref.getInt("freeTimeBtnChk", 1);
+        freeTimeBtn(freeTimeBtnChk);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putInt("freeTimeBtnChk",freeTimeBtnChk);
+        edit.commit();
+
+    }
 
 
     View.OnClickListener click = new View.OnClickListener() {
@@ -95,8 +119,8 @@ public class GroupActivity extends AppCompatActivity {
 
                 // 자유시간 시작 클릭 시
                 case R.id.btn_start:
-                    btn_start.setVisibility(View.INVISIBLE);
-                    btn_end.setVisibility(View.VISIBLE);
+                    freeTimeBtnChk = 0;
+                    freeTimeBtn(freeTimeBtnChk);
 
                     postDataParam = new JSONObject();
 
@@ -121,14 +145,15 @@ public class GroupActivity extends AppCompatActivity {
 
                     // 자유시간 종료 클릭 시
                 case R.id.btn_end:
-                    btn_start.setVisibility(View.VISIBLE);
-                    btn_end.setVisibility(View.INVISIBLE);
+                    freeTimeBtnChk = 1;
+                    freeTimeBtn(freeTimeBtnChk);
 
                     postDataParam = new JSONObject();
 
                     // node에 전달 할 정보 넣기
                     try {
                         postDataParam.put("title", title);
+                        postDataParam.put("tourPlace", product);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -184,6 +209,21 @@ public class GroupActivity extends AppCompatActivity {
             }
         }
     };
+
+
+    public void freeTimeBtn(int chk){
+        // 자유시간 시작 버튼 클릭 시
+        if(chk == 0){
+            btn_start.setVisibility(View.INVISIBLE);
+            btn_end.setVisibility(View.VISIBLE);
+        }
+
+        // 자유시간 종료 버튼 클릭 시
+        else{
+            btn_start.setVisibility(View.VISIBLE);
+            btn_end.setVisibility(View.INVISIBLE);
+        }
+    }
 
 
 
