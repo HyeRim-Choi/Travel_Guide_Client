@@ -7,11 +7,10 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <Button
+    <com.naver.maps.map.MapView
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="show Notification"
-        android:onClick="clickBtn"/>
+        android:layout_height="match_parent"/>
 
 
 

@@ -47,7 +47,9 @@
         <activity android:name=".mpackage.operation.ManagerAddGroupActivity" />
         <activity android:name=".mpackage.operation.PackageManagerActivity" />
         <activity android:name=".login.SignupActivity" />
-        <activity android:name=".MainActivity" /> <!-- ??? -->
+        <activity android:name=".MainActivity">
+
+        </activity> <!-- ??? -->
         <!-- kakao API -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"

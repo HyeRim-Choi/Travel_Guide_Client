@@ -77,8 +77,8 @@ public class PostVisualization extends PostRequest {
 
             // 큰 관광지(한성대) 안의 등록해둔 서브 관광지
             JSONArray subPlaceData = jsonObject.getJSONArray("subPlace");
-
-            if(subPlaceData != null){
+            // 정보가 존재한다면 ]
+            if(subPlaceData.length() != 0){
                 for(int i = 0 ; i < subPlaceData.length() ; i++){
 
                     JSONObject jObj = (JSONObject)subPlaceData.get(i);
@@ -88,10 +88,11 @@ public class PostVisualization extends PostRequest {
                 }
             }
 
+
             // 많이 간 경로
             JSONArray totalMemData = jsonObject.getJSONArray("totalMem");
 
-            if(totalMemData != null){
+            if(totalMemData.length() != 0){
                 for(int i = 0 ; i < totalMemData.length() ; i++){
 
                     JSONObject jObj = (JSONObject)totalMemData.get(i);
@@ -105,7 +106,7 @@ public class PostVisualization extends PostRequest {
             // 각 서브 관광지별로 머문 평균 시간
             JSONArray avgTimeData = jsonObject.getJSONArray("avgTime");
 
-            if(avgTimeData != null){
+            if(avgTimeData.length() != 0){
                 for(int i = 0 ; i < avgTimeData.length() ; i++){
 
                     JSONObject jObj = (JSONObject)avgTimeData.get(i);

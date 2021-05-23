@@ -27,8 +27,29 @@ public class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
     // 말풍선 띄우기
     @Override
     public View getCalloutBalloon(MapPOIItem mapPOIItem) {
-        txt_route.setText(mapPOIItem.getItemName().substring(0,1));
-        txt_subPlace.setText(mapPOIItem.getItemName().substring(2));
+        // 서브 관광지 마커이면
+        if(mapPOIItem.getTag() == 1){
+            String rank = mapPOIItem.getItemName().substring(0,1);
+
+            if(rank.equals("\n")){
+                txt_route.setText("");
+                txt_subPlace.setText(mapPOIItem.getItemName());
+            }
+
+            else{
+                txt_route.setText(rank);
+                txt_subPlace.setText(mapPOIItem.getItemName().substring(2));
+            }
+
+
+        }
+
+        // 큰 관광지 마커이면
+        else{
+            txt_route.setText("");
+            txt_subPlace.setText(mapPOIItem.getItemName());
+        }
+
         return mCalloutBalloon;
     }
 

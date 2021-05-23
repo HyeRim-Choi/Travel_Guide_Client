@@ -166,8 +166,6 @@ public class SubPlaceAddActivity extends AppCompatActivity{
 
             // 클릭 한 곳 마커 띄우기
             showMarker(lat, lon);
-            Log.i("MapViewClick", "터치3 " + mapPoint.getMapPointGeoCoord().latitude + " " + mapPoint.getMapPointGeoCoord().longitude);
-            Log.i("MapViewClick", "터치3 " + lat + " " + lon);
 
         }
 
@@ -212,12 +210,12 @@ public class SubPlaceAddActivity extends AppCompatActivity{
         public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
             // 서버에게 search, latitude, longitude 보내기 위해 Alert 창 띄우기
 
-            //if(mapView.getPOIItems().length == 5){
-                makeDialog(lat, lon);
-            Log.i("MapViewClick", "터치 마커 " + lat + " " + lon);
-            //}
-
             /* 저장 된 장소는 장소 저장하라는 Alert창이 안나오도록 하기 */
+            if(mapPOIItem.getTag() == 0){ // 0 : 저장 할 장소, 1 : 저장 된 장소
+                makeDialog(lat, lon);
+            }
+
+
         }
 
         @Override

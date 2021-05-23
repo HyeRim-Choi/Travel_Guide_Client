@@ -1,14 +1,11 @@
 package com.chr.travel.tpackage;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,11 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.chr.travel.R;
 
-import net.daum.mf.map.api.CalloutBalloonAdapter;
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -40,6 +35,7 @@ import adapter.CustomCalloutBalloonAdapter;
 import api.API_CHOICE;
 import api.AsyncTaskFactory;
 import api.callback.AsyncTaskCallBack;
+import vo.VisualizationInfo;
 
 /* 여행객들에게 주는 자유시간 시각화 정보 */
 
@@ -60,7 +56,6 @@ public class VisualizationActivity extends AppCompatActivity{
     ArrayList<Map> totalMemMap;
     ArrayList<Map> avgTimeMap;
 
-    Map<String, ArrayList> visualInfo;
 
     // 나이별, 성별을 검색하기 위한 Spinner
     Spinner spinner_age, spinner_gender;
@@ -95,18 +90,13 @@ public class VisualizationActivity extends AppCompatActivity{
         // place
         place = intent.getStringExtra("place");
 
-        subPlace = new ArrayList<>();
-        totalMem = new ArrayList<>();
-        avgTime = new ArrayList<>();
-
-
         ViewGroup mapViewContainer = relativeLayout;
         mapView = new MapView(VisualizationActivity.this);
         mapViewContainer.addView(mapView);
 
 
         // 많이 간 경로(전체)의 데이터를 받기 위해 서버 통신해서 정보 보여주기
-        connectServerGetDataAndSendFragment("all", "all");
+        connectServerGetData("all", "all");
 
         // 커스텀 말풍선 등록
         mapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter(getLayoutInflater()));
@@ -183,7 +173,7 @@ public class VisualizationActivity extends AppCompatActivity{
                 // 검색 버튼 클릭 시
                 case R.id.btn_search:
                     // 선택한 나이, 성별에 맞는 데이터를 가져오기 위한 서버 통신
-                    connectServerGetDataAndSendFragment(age, gender);
+                    connectServerGetData(age, gender);
                     break;
 
             }
@@ -193,9 +183,18 @@ public class VisualizationActivity extends AppCompatActivity{
 
 
     // 서버 통신 + 프래그먼트 불러오기 함수
-    public void connectServerGetDataAndSendFragment(String age, String gender){
+    public void connectServerGetData(String age, String gender){
         // 서버와 통신해서 많이 간 경로(전체) 가져오기
         JSONObject postDataParam = new JSONObject();
+
+        // 변수 초기화
+        subPlaceMap = new ArrayList<>();
+        totalMemMap = new ArrayList<>();
+        avgTimeMap = new ArrayList<>();
+
+        subPlace = new ArrayList<>();
+        totalMem = new ArrayList<>();
+        avgTime = new ArrayList<>();
 
 
         // node에 전달 할 정보 넣기
@@ -212,42 +211,35 @@ public class VisualizationActivity extends AppCompatActivity{
             AsyncTaskFactory.getApiPostTask(VisualizationActivity.this, API_CHOICE.VISUALIZATION, new AsyncTaskCallBack() {
                 @Override
                 public void onTaskDone(Object... params) {
+
                     if((Integer)params[0] == 1){
+
                         latitude = (double) params[1];
                         longitude = (double) params[2];
                         subPlace = (ArrayList<String>) params[3];
                         totalMem = (ArrayList<String>) params[4];
                         avgTime = (ArrayList<String>) params[5];
 
-                        visualInfo = new HashMap<>();
 
-                        subPlaceMap = new ArrayList<>();
-                        totalMemMap = new ArrayList<>();
-                        avgTimeMap = new ArrayList<>();
-
-
-                        if(subPlace.size() != 0 && totalMem.size() != 0 && avgTime.size() != 0){
+                        if(subPlace.size() != 0){
                             // subPlace 이제 사용 가능한 List 형태로 만들어짐
                             for(int i = 0 ; i < subPlace.size() ; i++){
                                 subPlaceMap.add(paramMap(subPlace.get(i)));
                             }
+                        }
+
+                        if(totalMem.size() != 0){
                             // totalMem 이제 사용 가능한 List 형태로 만들어짐
                             for(int i = 0 ; i < totalMem.size() ; i++){
                                 totalMemMap.add(paramMap(totalMem.get(i)));
                             }
+                        }
+
+                        if(avgTime.size() != 0){
                             // subPlaceMap은 이제 사용 가능한 List 형태로 만들어짐
                             for(int i = 0 ; i < avgTime.size() ; i++){
                                 avgTimeMap.add(paramMap(avgTime.get(i)));
                             }
-
-                            // VisualizationFragment에 전달 될 Map
-                            visualInfo.put("subPlace", subPlaceMap);
-                            visualInfo.put("totalMem", totalMemMap);
-                            visualInfo.put("avgTime", avgTimeMap);
-                        }
-
-                        else{
-                            visualInfo = null;
                         }
 
                         // 마커 지우기
@@ -260,8 +252,12 @@ public class VisualizationActivity extends AppCompatActivity{
                             mapView.removeAllPolylines();
                         }
 
+                        Log.i("Visualization", "subPlaceMap : " + subPlaceMap);
+                        Log.i("Visualization", "totalMemMap : " + totalMemMap);
+                        Log.i("Visualization", "avgTimeMap : " + avgTimeMap);
+
                         // 마커, 오버레이 띄우기
-                        showData(place, latitude, longitude, visualInfo);
+                        showData(place, latitude, longitude, subPlaceMap, totalMemMap, avgTimeMap);
 
                     }
                 }
@@ -303,39 +299,96 @@ public class VisualizationActivity extends AppCompatActivity{
 
 
     // 마커, 오버레이 나타내기
-    public void showData(String place, double latitude, double longitude, Map<String, ArrayList> visualInfo){
+    public void showData(String place, double latitude, double longitude, ArrayList<Map> subPlaceMap, ArrayList<Map> totalMemMap, ArrayList<Map> avgTimeMap){
+
+        // 큰 관광지(한성대) 안의 등록해둔 서브 관광지
+        ArrayList<Map> subPlace = new ArrayList<>();
+        // 많이 간 경로
+        ArrayList<Map> totalMem = new ArrayList<>();
+        // 각 서브 관광지별로 머문 평균 시간
+        ArrayList<Map> avgTime = new ArrayList<>();
+
+        // Visualization Instance
+        ArrayList<VisualizationInfo> info = new ArrayList<>();
 
         // 큰 관광지 위치 띄우기
         showPlaceMarker(latitude, longitude, place);
 
-        // subPlace, totalMem, avgTime 데이터가 없으면 큰 관광지만 지도에 띄우기
-        if(visualInfo != null){
-
-            // 큰 관광지(한성대) 안의 등록해둔 서브 관광지
-            ArrayList<Map> subPlace = visualInfo.get("subPlace");
-            // 많이 간 경로
-            ArrayList<Map> totalMem = visualInfo.get("totalMem");
-            // 각 서브 관광지별로 머문 평균 시간
-            ArrayList<Map> avgTime = visualInfo.get("avgTime");
-
-
-            // 서브 관광지 위치(자유시간 장소 종류) 띄우기
-            for (int i = 0; i < subPlace.size(); i++){
-                double lat = Double.parseDouble((String) subPlace.get(i).get("latitude"));
-                double lon = Double.parseDouble((String) subPlace.get(i).get("longitude"));
-                String subPlaceName = (String) subPlace.get(i).get("name");
-                String subPlaceAvgTime = (String) avgTime.get(i).get("avg");
-
-                // 마커 띄우기
-                showSubPlaceMarker(lat, lon, subPlaceName, subPlaceAvgTime, totalMem);
+        if(subPlaceMap.size() != 0){
+            for(int i = 0; i < subPlaceMap.size(); i++){
+                subPlace.add(subPlaceMap.get(i));
             }
-
-
-            showTotalMemOverlay(totalMem);
 
         }
 
+        if(totalMemMap.size() != 0){
+            for(int i = 0; i < totalMemMap.size(); i++){
+                totalMem.add(totalMemMap.get(i));
+            }
+        }
 
+        if(avgTimeMap.size() != 0){
+            for(int i = 0; i < avgTimeMap.size(); i++){
+                avgTime.add(avgTimeMap.get(i));
+            }
+        }
+
+        // totalMem 순으로 저장하기
+        for (int i = 0; i < totalMem.size(); i++){
+            VisualizationInfo vo = new VisualizationInfo();
+
+            String name = (String) totalMem.get(i).get("name");
+
+            vo.setName(name);
+            vo.setLatitude(Double.parseDouble((String) totalMem.get(i).get("latitude")));
+            vo.setLongitude(Double.parseDouble((String) totalMem.get(i).get("longitude")));
+            vo.setRank(i + 1);
+
+
+            for(int j = 0; j < subPlace.size(); j++){
+                if(name.equals(subPlace.get(j).get("name"))){
+                    subPlace.remove(j);
+                }
+            }
+
+
+            for(int j = 0; j < avgTime.size(); j++){
+                if(name.equals(avgTime.get(j).get("name"))){
+                    vo.setAvg((String) avgTime.get(j).get("avg"));
+                    avgTime.remove(j);
+                }
+            }
+
+            info.add(vo);
+        }
+
+        // totalMem 에 존재하지 않은 subPlace 저장하기
+        for(int i = 0; i < subPlace.size(); i++){
+            VisualizationInfo vo = new VisualizationInfo();
+
+            String name = (String) subPlace.get(i).get("name");
+
+            vo.setName(name);
+            vo.setLatitude(Double.parseDouble((String) subPlace.get(i).get("latitude")));
+            vo.setLongitude(Double.parseDouble((String) subPlace.get(i).get("longitude")));
+            vo.setRank(0);
+
+            for(int j = 0; j < avgTime.size(); j++){
+                if(name.equals(avgTime.get(j).get("name"))){
+                    vo.setAvg((String) avgTime.get(j).get("avg"));
+                }
+            }
+
+            info.add(vo);
+        }
+
+        // 마커 띄우기
+        showSubPlaceMarker(info);
+
+
+        if(totalMem.size() != 0){
+            showTotalMemOverlay(totalMem);
+        }
 
     }
 
@@ -358,31 +411,27 @@ public class VisualizationActivity extends AppCompatActivity{
     }
 
     // 서브 관광지에 마커 띄우기
-    public void showSubPlaceMarker(double latitude, double longitude, String subPlaceName, String subPlaceAvgTime, ArrayList<Map> totalMem){
-        int i;
+    public void showSubPlaceMarker(ArrayList<VisualizationInfo> info){
 
-        Log.i("Visualization", String.valueOf(totalMem.size()));
+        for(int i = 0; i < info.size(); i++){
 
-        // 많이 간 경로 순서 표현
-        for (i = 0; i < totalMem.size(); i++){
-            double lat = Double.parseDouble((String) totalMem.get(i).get("latitude"));
-            double lon = Double.parseDouble((String) totalMem.get(i).get("longitude"));
+            int rank = info.get(i).getRank();
 
-            if(lat == latitude){
-                break;
+            // 마커 띄우기
+            subPlaceMarker = new MapPOIItem();
+            if(rank == 0){
+                subPlaceMarker.setItemName( "" + "\n" + info.get(i).getName() + "\n" + info.get(i).getAvg());
             }
+            else{
+                subPlaceMarker.setItemName( rank + "\n" + info.get(i).getName() + "\n" + info.get(i).getAvg());
+            }
+            subPlaceMarker.setTag(1);
+            subPlaceMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(info.get(i).getLatitude(),info.get(i).getLongitude()));
+            subPlaceMarker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본 마커
+            subPlaceMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커 클릭 시
+            mapView.addPOIItem(subPlaceMarker);
 
         }
-
-        // 마커 띄우기
-        subPlaceMarker = new MapPOIItem();
-        subPlaceMarker.setItemName(++i + "\n" + subPlaceName + "\n" + subPlaceAvgTime);
-        Log.i("VisualActivity", i + "\n" + subPlaceName + "\n" + subPlaceAvgTime);
-        subPlaceMarker.setTag(0);
-        subPlaceMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude));
-        subPlaceMarker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본 마커
-        subPlaceMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커 클릭 시
-        mapView.addPOIItem(subPlaceMarker);
 
     }
 

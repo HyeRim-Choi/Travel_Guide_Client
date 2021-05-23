@@ -150,7 +150,7 @@ public class BackLocationRequest extends AsyncTask<JSONObject, Void, String> {
 
                 Log.i("flag", ""+flag);
                 Log.i("BackLocationRequest", "333");
-                Thread.sleep(15000);
+                Thread.sleep(30000);
             }
             catch (InterruptedException e)
             {
