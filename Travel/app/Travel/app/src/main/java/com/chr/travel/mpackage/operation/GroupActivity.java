@@ -61,7 +61,6 @@ public class GroupActivity extends AppCompatActivity {
         //product
         product = intent.getStringExtra("product");
 
-
         txt_member = findViewById(R.id.txt_memeber);
         btn_title = findViewById(R.id.btn_title);
         btn_start = findViewById(R.id.btn_start);
@@ -89,6 +88,9 @@ public class GroupActivity extends AppCompatActivity {
         pref = getSharedPreferences("FREETIME",MODE_PRIVATE);
 
         freeTimeBtnChk = pref.getInt("freeTimeBtnChk", 1);
+
+        Log.i("GroupActivity(onResume)", "freeTimeBtnChk : " + freeTimeBtnChk);
+
         freeTimeBtn(freeTimeBtnChk);
     }
 
@@ -147,6 +149,10 @@ public class GroupActivity extends AppCompatActivity {
                 case R.id.btn_end:
                     freeTimeBtnChk = 1;
                     freeTimeBtn(freeTimeBtnChk);
+
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.clear();
+                    edit.commit();
 
                     postDataParam = new JSONObject();
 
@@ -223,6 +229,11 @@ public class GroupActivity extends AppCompatActivity {
             btn_start.setVisibility(View.VISIBLE);
             btn_end.setVisibility(View.INVISIBLE);
         }
+    }
+
+    // NotificationActivity과 연결
+    public int getFreeTimeBtnChk(){
+        return freeTimeBtnChk;
     }
 
 

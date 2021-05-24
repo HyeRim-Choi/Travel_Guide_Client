@@ -13,6 +13,8 @@ import android.util.Log;
 
 import com.chr.travel.R;
 
+import org.json.JSONObject;
+
 import api.background.BackLocationRequest;
 import api.callback.AsyncTaskCallBack;
 import vo.LoginVO;
@@ -42,8 +44,19 @@ public class  NotificationActivity extends AppCompatActivity {
         //저장을 위한 SharedPreferences 객체를 생성
         chkPref = getSharedPreferences("CHK",MODE_PRIVATE);
 
+        // 알림이 꼬였을 때
+        /*SharedPreferences.Editor edit = chkPref.edit();
+        edit.clear();
+        edit.commit();*/
+
         //로드
         freeTimeChk = chkPref.getInt("freeTimeChk", 0);
+
+        Log.i("NotificationActivity", "freeTimeBtnChk : " + freeTimeChk);
+
+        /*GroupActivity groupActivity = new GroupActivity();
+
+        freeTimeChk = groupActivity.getFreeTimeBtnChk();*/
 
         // Alert창 띄우기
         makeDialog(freeTimeChk);
@@ -59,6 +72,14 @@ public class  NotificationActivity extends AppCompatActivity {
        if(freeTimeChk == 0){
            dialog.setTitle(Html.fromHtml("<b><font color='#FFFFFF'>위치 전송 메세지</font></b>"));
            dialog.setMessage(Html.fromHtml("<font color='#FFFFFF'>매니저에게 위치를 전송하시겠습니까?</font>"));
+
+           freeTimeChk++;
+
+           //앱이 일시정지 되었을 때 현재 cnt값을 저장
+           SharedPreferences.Editor edit = chkPref.edit();
+           //Map 구조
+           edit.putInt("freeTimeChk",freeTimeChk);
+           edit.commit(); // commit을 하지 않으면 값이 저장되지 않는다
 
            dialog.setNegativeButton("네", new DialogInterface.OnClickListener() {
                @Override
@@ -77,14 +98,6 @@ public class  NotificationActivity extends AppCompatActivity {
 
                }
            });
-
-           freeTimeChk++;
-
-           //앱이 일시정지 되었을 때 현재 cnt값을 저장
-           SharedPreferences.Editor edit = chkPref.edit();
-           //Map 구조
-           edit.putInt("freeTimeChk",freeTimeChk);
-           edit.commit(); // commit을 하지 않으면 값이 저장되지 않는다
        }
 
        // 위치 전송 종료 알림
@@ -92,10 +105,13 @@ public class  NotificationActivity extends AppCompatActivity {
            dialog.setTitle(Html.fromHtml("<b><font color='#FFFFFF'>자유시간 종료 메세지</font></b>"));
            dialog.setMessage(Html.fromHtml("<font color='#FFFFFF'>매니저에게 위치 전송을 멈추겠습니까?</font>"));
 
+           SharedPreferences.Editor edit = chkPref.edit();
+           edit.clear();
+           edit.commit();
+
            dialog.setNegativeButton("네", new DialogInterface.OnClickListener() {
                @Override
                public void onClick(DialogInterface dialog, int which) {
-
 
                    backLocationRequestEnd = (BackLocationRequest) new BackLocationRequest(NotificationActivity.this, vo.getUserId(), false, new AsyncTaskCallBack() {
                        @Override
@@ -111,18 +127,17 @@ public class  NotificationActivity extends AppCompatActivity {
                }
            });
 
-           freeTimeChk = 0;
-
-           //앱이 일시정지 되었을 때 현재 cnt값을 저장
+           /*//앱이 일시정지 되었을 때 현재 cnt값을 저장
            SharedPreferences.Editor edit = chkPref.edit();
            //Map 구조
            edit.putInt("freeTimeChk",freeTimeChk); // save라는 이름으로 cnt값을 저장
-           edit.commit(); // commit을 하지 않으면 값이 저장되지 않는다
+           edit.commit(); // commit을 하지 않으면 값이 저장되지 않는다*/
        }
 
         dialog.setNeutralButton("아니요", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 dialog.cancel();
                 finish();
             }
