@@ -53,7 +53,7 @@ public class SubPlaceAddActivity extends AppCompatActivity{
     // 검색 한 곳 위도, 경도
     double latitude, longitude;
     // 지도에서 클릭 한 곳 위도, 경도
-    double lat, lon;
+    //double lat, lon;
 
     // 지도
     MapView mapView;
@@ -161,11 +161,11 @@ public class SubPlaceAddActivity extends AppCompatActivity{
                 mapView.removePOIItem(marker);
             }
 
-            lat = mapPoint.getMapPointGeoCoord().latitude;
-            lon = mapPoint.getMapPointGeoCoord().longitude;
+            latitude = mapPoint.getMapPointGeoCoord().latitude;
+            longitude = mapPoint.getMapPointGeoCoord().longitude;
 
             // 클릭 한 곳 마커 띄우기
-            showMarker(lat, lon);
+            showMarker(latitude, longitude);
 
         }
 
@@ -212,8 +212,10 @@ public class SubPlaceAddActivity extends AppCompatActivity{
 
             /* 저장 된 장소는 장소 저장하라는 Alert창이 안나오도록 하기 */
             if(mapPOIItem.getTag() == 0){ // 0 : 저장 할 장소, 1 : 저장 된 장소
-                makeDialog(lat, lon);
+                makeDialog(latitude, longitude);
             }
+
+            Log.i("SubPlaceAddActivity", "lat : " + latitude + " lon : " + longitude);
 
 
         }
@@ -312,7 +314,7 @@ public class SubPlaceAddActivity extends AppCompatActivity{
         // 장소 이름 지정하는 EditText
         EditText et = new EditText(SubPlaceAddActivity.this);
         et.setTextColor(Color.WHITE);
-        et.setHint("     장소 이름 지정해주세요(터치)\n     장소 이름을 지정하지 않으면 '" + search + "' 로 저장됨");
+        et.setHint(Html.fromHtml("<font color='#FFFFFF'> 장소 이름 지정해주세요(터치)<br>  장소 이름을 지정하지 않으면 </font>" + search + "<font color='#FFFFFF'>(으)로 저장됩니다</font>"));
         et.setHintTextColor(Color.WHITE);
         et.setTextCursorDrawable(null);
         et.setTextSize((float) 14.4);
