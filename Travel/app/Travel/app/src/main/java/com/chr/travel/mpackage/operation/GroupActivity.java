@@ -22,6 +22,7 @@ import api.API_CHOICE;
 import api.AsyncTaskFactory;
 import api.callback.AsyncTaskCallBack;
 import api.post.PostLocationReq;
+import service.location.GpsTracker;
 
 /* 매니저 그룹 목록 가져오기 */
 
@@ -44,6 +45,7 @@ public class GroupActivity extends AppCompatActivity {
     SharedPreferences pref;
     int freeTimeBtnChk;
 
+    GpsTracker gpsTracker;
 
 
     @Override
@@ -159,7 +161,6 @@ public class GroupActivity extends AppCompatActivity {
                     // node에 전달 할 정보 넣기
                     try {
                         postDataParam.put("title", title);
-                        postDataParam.put("tourPlace", product);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -168,15 +169,40 @@ public class GroupActivity extends AppCompatActivity {
                     postLocationReq = (PostLocationReq) new PostLocationReq(GroupActivity.this, new AsyncTaskCallBack() {
                         @Override
                         public void onTaskDone(Object... params) {
-                            Log.i("GroupActivity", "자유시간 종료");
+                            if((Integer) params[0] == 1){
 
+                                Log.i("GroupActivity", "자유시간 종료");
 
-                            try {
-                                AsyncTaskFactory.getApiGetTask(GroupActivity.this, API_CHOICE.MEMBER_LOCATION_SEND_DONE, title, null).execute();
-                            }
+                                // 가이드의 위도, 경도 받기
+                                gpsTracker = new GpsTracker(GroupActivity.this);
 
-                            catch (Exception e){
-                                e.printStackTrace();
+                                gpsTracker.getLocation();
+                                double latitude = gpsTracker.getLatitude(); // 위도
+                                double longitude = gpsTracker.getLongitude(); //경도
+
+                                JSONObject freeTimeEndData = new JSONObject();
+
+                                try {
+                                    freeTimeEndData.put("title", title);
+                                    freeTimeEndData.put("latitude", latitude);
+                                    freeTimeEndData.put("longitude", longitude);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                try {
+                                    AsyncTaskFactory.getApiPostTask(GroupActivity.this, API_CHOICE.MEMBER_LOCATION_SEND_DONE, new AsyncTaskCallBack() {
+                                        @Override
+                                        public void onTaskDone(Object... params) {
+                                            Log.i("GroupActivity", "latitude : " + latitude + " longitude : " + longitude);
+                                        }
+                                    }).execute(freeTimeEndData);
+                                }
+
+                                catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
                             }
                         }
                     }).execute(postDataParam);

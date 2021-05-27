@@ -52,11 +52,11 @@ public class  NotificationActivity extends AppCompatActivity {
         //로드
         freeTimeChk = chkPref.getInt("freeTimeChk", 0);
 
-        Log.i("NotificationActivity", "freeTimeBtnChk : " + freeTimeChk);
-
         /*GroupActivity groupActivity = new GroupActivity();
 
         freeTimeChk = groupActivity.getFreeTimeBtnChk();*/
+
+        Log.i("NotificationActivity", "freeTimeBtnChk : " + freeTimeChk);
 
         // Alert창 띄우기
         makeDialog(freeTimeChk);
@@ -131,12 +131,17 @@ public class  NotificationActivity extends AppCompatActivity {
            SharedPreferences.Editor edit = chkPref.edit();
            //Map 구조
            edit.putInt("freeTimeChk",freeTimeChk); // save라는 이름으로 cnt값을 저장
-           edit.commit(); // commit을 하지 않으면 값이 저장되지 않는다*/
+           edit.commit();*/
        }
 
         dialog.setNeutralButton("아니요", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                // 알림이 꼬였을 시
+                /*SharedPreferences.Editor edit = chkPref.edit();
+                edit.clear();
+                edit.commit();*/
 
                 dialog.cancel();
                 finish();

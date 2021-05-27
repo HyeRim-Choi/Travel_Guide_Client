@@ -36,7 +36,6 @@ public class UrlCreate {
                 url += "/location/reload/" + info;
                 return url;
 
-            case API_CHOICE.MEMBER_LOCATION_SEND_DONE:
             case API_CHOICE.MANAGER_ROUTE_PLACE_SEARCH:
                 url += "/location/" + info;
                 return url;
@@ -107,6 +106,10 @@ public class UrlCreate {
 
             case API_CHOICE.VISUALIZATION:
                 url += "/map";
+                return url;
+
+            case API_CHOICE.MEMBER_LOCATION_SEND_DONE:
+                url += "/location/freetimeEnd";
                 return url;
 
             default:

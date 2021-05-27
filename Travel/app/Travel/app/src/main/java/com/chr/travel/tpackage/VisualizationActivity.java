@@ -46,14 +46,17 @@ public class VisualizationActivity extends AppCompatActivity{
 
     // 큰 관광지(한성대) 안의 등록해둔 서브 관광지
     ArrayList<String> subPlace;
-    // 경로
+    // 많이 간 경로
     ArrayList<String> totalMem;
+    // 구체적 경로
+    ArrayList<String> order;
     // 각 서브 관광지별로 머문 평균 시간
     ArrayList<String> avgTime;
 
     // json 형태로 되어있는 String을 사용할 수 있는 Map구조
     ArrayList<Map> subPlaceMap;
     ArrayList<Map> totalMemMap;
+    ArrayList<Map> orderMap;
     ArrayList<Map> avgTimeMap;
 
 
@@ -190,10 +193,12 @@ public class VisualizationActivity extends AppCompatActivity{
         // 변수 초기화
         subPlaceMap = new ArrayList<>();
         totalMemMap = new ArrayList<>();
+        orderMap = new ArrayList<>();
         avgTimeMap = new ArrayList<>();
 
         subPlace = new ArrayList<>();
         totalMem = new ArrayList<>();
+        order = new ArrayList<>();
         avgTime = new ArrayList<>();
 
 
@@ -219,6 +224,7 @@ public class VisualizationActivity extends AppCompatActivity{
                         subPlace = (ArrayList<String>) params[3];
                         totalMem = (ArrayList<String>) params[4];
                         avgTime = (ArrayList<String>) params[5];
+                        order = (ArrayList<String>) params[6];
 
 
                         if(subPlace.size() != 0){
@@ -235,8 +241,15 @@ public class VisualizationActivity extends AppCompatActivity{
                             }
                         }
 
+                        if(order.size() != 0){
+                            // order 이제 사용 가능한 List 형태로 만들어짐
+                            for(int i = 0 ; i < order.size() ; i++){
+                                orderMap.add(paramMap(order.get(i)));
+                            }
+                        }
+
                         if(avgTime.size() != 0){
-                            // subPlaceMap은 이제 사용 가능한 List 형태로 만들어짐
+                            // avgTime 이제 사용 가능한 List 형태로 만들어짐
                             for(int i = 0 ; i < avgTime.size() ; i++){
                                 avgTimeMap.add(paramMap(avgTime.get(i)));
                             }
@@ -254,10 +267,11 @@ public class VisualizationActivity extends AppCompatActivity{
 
                         Log.i("Visualization", "subPlaceMap : " + subPlaceMap);
                         Log.i("Visualization", "totalMemMap : " + totalMemMap);
+                        Log.i("Visualization", "orderMap : " + orderMap);
                         Log.i("Visualization", "avgTimeMap : " + avgTimeMap);
 
                         // 마커, 오버레이 띄우기
-                        showData(place, latitude, longitude, subPlaceMap, totalMemMap, avgTimeMap);
+                        showData(place, latitude, longitude, subPlaceMap, totalMemMap, avgTimeMap, orderMap);
 
                     }
                 }
@@ -299,12 +313,14 @@ public class VisualizationActivity extends AppCompatActivity{
 
 
     // 마커, 오버레이 나타내기
-    public void showData(String place, double latitude, double longitude, ArrayList<Map> subPlaceMap, ArrayList<Map> totalMemMap, ArrayList<Map> avgTimeMap){
+    public void showData(String place, double latitude, double longitude, ArrayList<Map> subPlaceMap, ArrayList<Map> totalMemMap, ArrayList<Map> avgTimeMap, ArrayList<Map> orderMap){
 
         // 큰 관광지(한성대) 안의 등록해둔 서브 관광지
         ArrayList<Map> subPlace = new ArrayList<>();
         // 많이 간 경로
         ArrayList<Map> totalMem = new ArrayList<>();
+        // 구체적 경로
+        ArrayList<Map> order = new ArrayList<>();
         // 각 서브 관광지별로 머문 평균 시간
         ArrayList<Map> avgTime = new ArrayList<>();
 
@@ -324,6 +340,12 @@ public class VisualizationActivity extends AppCompatActivity{
         if(totalMemMap.size() != 0){
             for(int i = 0; i < totalMemMap.size(); i++){
                 totalMem.add(totalMemMap.get(i));
+            }
+        }
+
+        if(orderMap.size() != 0){
+            for(int i = 0; i < orderMap.size(); i++){
+                order.add(orderMap.get(i));
             }
         }
 
@@ -386,8 +408,8 @@ public class VisualizationActivity extends AppCompatActivity{
         showSubPlaceMarker(info);
 
 
-        if(totalMem.size() != 0){
-            showTotalMemOverlay(totalMem);
+        if(order.size() != 0){
+            showTotalMemOverlay(order);
         }
 
     }
@@ -437,16 +459,16 @@ public class VisualizationActivity extends AppCompatActivity{
 
 
     // 많이 간 경로 오버레이 띄우기
-    public void showTotalMemOverlay(ArrayList<Map> totalMem){
+    public void showTotalMemOverlay(ArrayList<Map> order){
 
         polyline = new MapPolyline();
         polyline.setTag(1000);
         polyline.setLineColor(Color.argb(200, 101, 172, 243)); // Polyline 컬러 지정.
 
         // Polyline 좌표 지정.
-        for (int i = 0; i < totalMem.size(); i++){
-            double lat = Double.parseDouble((String) totalMem.get(i).get("latitude"));
-            double lon = Double.parseDouble((String) totalMem.get(i).get("longitude"));
+        for (int i = 0; i < order.size(); i++){
+            double lat = Double.parseDouble((String) order.get(i).get("latitude"));
+            double lon = Double.parseDouble((String) order.get(i).get("longitude"));
             polyline.addPoint(MapPoint.mapPointWithGeoCoord(lat, lon));
         }
 

@@ -32,9 +32,6 @@ public class AsyncTaskFactory{
             case API_CHOICE.MEMBER_LOCATION_RELOAD_SEND:
                 return new GetMemberReloadLocation(activity, info, callBack);
 
-            case API_CHOICE.MEMBER_LOCATION_SEND_DONE:
-                return new GetMemberLocationSendDone(activity, info);
-
             case API_CHOICE.MANAGER_SHOW_PLACE:
                 return new GetManagerShowPlace(activity, "", callBack);
 
@@ -84,6 +81,9 @@ public class AsyncTaskFactory{
 
             case API_CHOICE.VISUALIZATION:
                 return new PostVisualization(activity, callBack);
+
+            case API_CHOICE.MEMBER_LOCATION_SEND_DONE:
+                return new PostMemberLocationSendDone(activity, callBack);
 
              default:
                 return null;

@@ -22,7 +22,7 @@ public class PostVisualization extends PostRequest {
 
     JSONObject jsonObject;
     double latitude, longitude;
-    ArrayList<String> subPlace, totalMem, avgTime;
+    ArrayList<String> subPlace, totalMem, order, avgTime;
     int pos_res_chk = 0;
 
     public PostVisualization(Activity activity, AsyncTaskCallBack callBack) {
@@ -60,8 +60,10 @@ public class PostVisualization extends PostRequest {
 
             // 큰 관광지(한성대) 안의 등록해둔 서브 관광지
             subPlace = new ArrayList<>();
-            // 최단 경로
+            // 많이 간 경로
             totalMem = new ArrayList<>();
+            // 구체적 경로
+            order = new ArrayList<>();
             // 각 서브 관광지별로 머문 평균 시간
             avgTime = new ArrayList<>();
 
@@ -102,6 +104,17 @@ public class PostVisualization extends PostRequest {
                 }
             }
 
+            // 구체적 경로
+            JSONArray orderData = jsonObject.getJSONArray("order");
+
+            if(orderData.length() != 0){
+                for(int i = 0; i < orderData.length(); i++){
+                    JSONObject jObj = (JSONObject)orderData.get(i);
+                    order.add(jObj.toString());
+                }
+            }
+
+
 
             // 각 서브 관광지별로 머문 평균 시간
             JSONArray avgTimeData = jsonObject.getJSONArray("avgTime");
@@ -126,23 +139,8 @@ public class PostVisualization extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(pos_res_chk, latitude, longitude, subPlace, totalMem, avgTime);
+        callBack.onTaskDone(pos_res_chk, latitude, longitude, subPlace, totalMem, avgTime, order);
 
     }
-
-
-    /*public void resultResponse(String result){
-        switch (result) {
-
-            case "ok":
-
-
-                break;
-
-
-
-        }
-    }*/
-
 
 }

@@ -9,7 +9,6 @@ public final class API_CHOICE {
     public static final int LOGOUT = 10;
     public static final int TRAVELER_GROUP_SEARCH = 13;
     public static final int MEMBER_LOCATION_RELOAD_SEND = 14;
-    public static final int MEMBER_LOCATION_SEND_DONE = 16;
     public static final int MANAGER_SHOW_PLACE = 17;
     public static final int MANAGER_ROUTE_PLACE_SEARCH = 18;
     public static final int GROUP_TRIP_DATE = 19;
@@ -26,6 +25,7 @@ public final class API_CHOICE {
     public static final int LOCATION_REQ = 11;
     public static final int LOCATION_SEND = 12;
     public static final int MANAGER_ADD_PLACE = 15;
+    public static final int MEMBER_LOCATION_SEND_DONE = 16;
     public static final int MANAGER_REGISTER_ROUTE = 20;
     public static final int VISUALIZATION = 24;
 
