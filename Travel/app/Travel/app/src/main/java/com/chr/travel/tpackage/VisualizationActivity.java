@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.chr.travel.R;
 import com.chr.travel.login.FindIdActivity;
@@ -290,7 +291,7 @@ public class VisualizationActivity extends AppCompatActivity{
                         Log.i("Visualization", "visitArrMap : " + visitArrMap);
 
                         // 성별, 나이별로 좋아하는 장소 Alert 띄우기
-                        makeDialog(age, gender, visitArrMap);
+                        showPlace(age, gender, visitArrMap);
 
                         // 마커, 오버레이 띄우기
                         showData(place, latitude, longitude, subPlaceMap, totalMemMap, avgTimeMap, orderMap);
@@ -503,8 +504,8 @@ public class VisualizationActivity extends AppCompatActivity{
     }
 
 
-    /* Alert창 */
-    private void makeDialog(String age, String gender, ArrayList<Map> visitArrMap) {
+    // 많이 간 장소 띄우기
+    private void showPlace(String age, String gender, ArrayList<Map> visitArrMap) {
 
         String search = "";
 
@@ -524,34 +525,15 @@ public class VisualizationActivity extends AppCompatActivity{
         // 많이 간 장소
         String resultPlace = resultPlace(visitArrMap);
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(VisualizationActivity.this);
-        dialog.setTitle(Html.fromHtml("<b><font color='#FFFFFF'>" + search +"</font></b>"));
+        TextView txt_resultPlace = findViewById(R.id.txt_resultPlace);
+
         if(resultPlace.equals("")){
-            dialog.setMessage(Html.fromHtml("<font color='#FFFFFF'>아직 데이터가 존재하지 않습니다.</font>"));
+            txt_resultPlace.setText(Html.fromHtml("<font color='#FFFFFF'>아직 데이터가 존재하지 않습니다.</font>"));
         }
         else{
-            dialog.setMessage(Html.fromHtml("<font color='#FFFFFF'>" + search + "가 가장 많이 방문한 장소는</font>" + "<font color='#000000'>'" + resultPlace + "'</font>" + "<font color='#FFFFFF'>입니다.</font>"));
+            txt_resultPlace.setText(Html.fromHtml("<font color='#FFFFFF'>" + search + "가 가장 많이 방문한 장소는</font><br>" + "<font color='#000000'>" + resultPlace + "</font>" + "<font color='#FFFFFF'>입니다.</font>"));
         }
 
-        dialog.setNegativeButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alert = dialog.create();
-
-        alert.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface arg0) {
-                alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
-                alert.setIcon(R.drawable.img_alert);
-                alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#65acf3")));
-            }
-        });
-
-        alert.show();
     }
 
     // 많이 간 장소를 주는 함수
