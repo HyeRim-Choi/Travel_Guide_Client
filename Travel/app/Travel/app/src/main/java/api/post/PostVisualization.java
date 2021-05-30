@@ -22,7 +22,7 @@ public class PostVisualization extends PostRequest {
 
     JSONObject jsonObject;
     double latitude, longitude;
-    ArrayList<String> subPlace, totalMem, order, avgTime;
+    ArrayList<String> subPlace, totalMem, order, avgTime, visitArr;
     int pos_res_chk = 0;
 
     public PostVisualization(Activity activity, AsyncTaskCallBack callBack) {
@@ -66,6 +66,8 @@ public class PostVisualization extends PostRequest {
             order = new ArrayList<>();
             // 각 서브 관광지별로 머문 평균 시간
             avgTime = new ArrayList<>();
+            // 나이, 성별 별로 많이 간 장소
+            visitArr = new ArrayList<>();
 
             jsonObject = new JSONObject(jsonString);
 
@@ -128,10 +130,23 @@ public class PostVisualization extends PostRequest {
                 }
             }
 
+            // 성별, 나이 별로 많이 간 장소
+            JSONArray visitArrData = jsonObject.getJSONArray("visitArr");
+
+            if(visitArrData.length() != 0){
+                for(int i = 0; i < visitArrData.length(); i++){
+
+                    JSONObject jObj = (JSONObject)visitArrData.get(i);
+                    visitArr.add(jObj.toString());
+
+                }
+            }
+
 
             Log.i("PostVisualization", "subPlace : " + subPlace);
             Log.i("PostVisualization", "totalMem : " + totalMem);
             Log.i("PostVisualization", "avgTime : " + avgTime);
+            Log.i("PostVisualization", "visitArr : " + visitArr);
 
         }
 
@@ -139,7 +154,7 @@ public class PostVisualization extends PostRequest {
             e.printStackTrace();
         }
 
-        callBack.onTaskDone(pos_res_chk, latitude, longitude, subPlace, totalMem, avgTime, order);
+        callBack.onTaskDone(pos_res_chk, latitude, longitude, subPlace, totalMem, avgTime, order, visitArr);
 
     }
 

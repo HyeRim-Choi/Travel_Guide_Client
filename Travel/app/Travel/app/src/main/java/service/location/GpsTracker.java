@@ -54,7 +54,7 @@ public class GpsTracker extends Service implements LocationListener {
 
             // GPS와 네트워크가 꺼져있다면(설정 화면)
             if (!isGPSEnabled && !isNetworkEnabled) {
-                // 코드 작동되는지 확인 후 지우기
+
                 /*AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                 dialog.setMessage("위치 서비스를 사용할 수 없습니다 \n GPS와 네트워크를 켜주세요");
 

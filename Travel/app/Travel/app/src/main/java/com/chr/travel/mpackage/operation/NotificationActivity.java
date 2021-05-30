@@ -52,10 +52,6 @@ public class  NotificationActivity extends AppCompatActivity {
         //로드
         freeTimeChk = chkPref.getInt("freeTimeChk", 0);
 
-        /*GroupActivity groupActivity = new GroupActivity();
-
-        freeTimeChk = groupActivity.getFreeTimeBtnChk();*/
-
         Log.i("NotificationActivity", "freeTimeBtnChk : " + freeTimeChk);
 
         // Alert창 띄우기
@@ -126,12 +122,6 @@ public class  NotificationActivity extends AppCompatActivity {
 
                }
            });
-
-           /*//앱이 일시정지 되었을 때 현재 cnt값을 저장
-           SharedPreferences.Editor edit = chkPref.edit();
-           //Map 구조
-           edit.putInt("freeTimeChk",freeTimeChk); // save라는 이름으로 cnt값을 저장
-           edit.commit();*/
        }
 
         dialog.setNeutralButton("아니요", new DialogInterface.OnClickListener() {

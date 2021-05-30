@@ -10,6 +10,8 @@ import com.chr.travel.R;
 import net.daum.mf.map.api.CalloutBalloonAdapter;
 import net.daum.mf.map.api.MapPOIItem;
 
+/* 많이 간 경로를 나타내기 위한 Custom 말풍선 */
+
 public class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
 
     private final View mCalloutBalloon;

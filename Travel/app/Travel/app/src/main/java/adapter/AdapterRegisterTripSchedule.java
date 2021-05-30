@@ -56,7 +56,7 @@ public class AdapterRegisterTripSchedule extends BaseAdapter {
         TextView txt_date = (TextView) convertView.findViewById(R.id.txt_day);
         txt_date.setText(mItems.get(position).getDay());
 
-        // 관광지 등록 버튼 클릭 시
+        // 일정 등록 버튼 클릭 시
        Button btn_registerPlace = convertView.findViewById(R.id.btn_registerSchedule);
        btn_registerPlace.setText(mItems.get(position).getBtn());
         btn_registerPlace.setOnClickListener(new View.OnClickListener() {

@@ -2,9 +2,13 @@ package com.chr.travel.tpackage;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.chr.travel.R;
+import com.chr.travel.login.FindIdActivity;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
@@ -27,6 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -52,12 +59,15 @@ public class VisualizationActivity extends AppCompatActivity{
     ArrayList<String> order;
     // 각 서브 관광지별로 머문 평균 시간
     ArrayList<String> avgTime;
+    // 성별, 나이별로 많이 간 장소
+    ArrayList<String> visitArr;
 
     // json 형태로 되어있는 String을 사용할 수 있는 Map구조
     ArrayList<Map> subPlaceMap;
     ArrayList<Map> totalMemMap;
     ArrayList<Map> orderMap;
     ArrayList<Map> avgTimeMap;
+    ArrayList<Map> visitArrMap;
 
 
     // 나이별, 성별을 검색하기 위한 Spinner
@@ -195,6 +205,7 @@ public class VisualizationActivity extends AppCompatActivity{
         totalMemMap = new ArrayList<>();
         orderMap = new ArrayList<>();
         avgTimeMap = new ArrayList<>();
+        visitArrMap = new ArrayList<>();
 
         subPlace = new ArrayList<>();
         totalMem = new ArrayList<>();
@@ -225,7 +236,7 @@ public class VisualizationActivity extends AppCompatActivity{
                         totalMem = (ArrayList<String>) params[4];
                         avgTime = (ArrayList<String>) params[5];
                         order = (ArrayList<String>) params[6];
-
+                        visitArr = (ArrayList<String>) params[7];
 
                         if(subPlace.size() != 0){
                             // subPlace 이제 사용 가능한 List 형태로 만들어짐
@@ -255,6 +266,13 @@ public class VisualizationActivity extends AppCompatActivity{
                             }
                         }
 
+                        if(visitArr.size() != 0){
+                            // visitArr 이제 사용 가능한 List 형태로 만들어짐
+                            for(int i = 0 ; i < visitArr.size() ; i++){
+                                visitArrMap.add(paramMap(visitArr.get(i)));
+                            }
+                        }
+
                         // 마커 지우기
                         if(subPlaceMarker != null){
                             mapView.removePOIItem(subPlaceMarker);
@@ -269,6 +287,10 @@ public class VisualizationActivity extends AppCompatActivity{
                         Log.i("Visualization", "totalMemMap : " + totalMemMap);
                         Log.i("Visualization", "orderMap : " + orderMap);
                         Log.i("Visualization", "avgTimeMap : " + avgTimeMap);
+                        Log.i("Visualization", "visitArrMap : " + visitArrMap);
+
+                        // 성별, 나이별로 좋아하는 장소 Alert 띄우기
+                        makeDialog(age, gender, visitArrMap);
 
                         // 마커, 오버레이 띄우기
                         showData(place, latitude, longitude, subPlaceMap, totalMemMap, avgTimeMap, orderMap);
@@ -334,7 +356,6 @@ public class VisualizationActivity extends AppCompatActivity{
             for(int i = 0; i < subPlaceMap.size(); i++){
                 subPlace.add(subPlaceMap.get(i));
             }
-
         }
 
         if(totalMemMap.size() != 0){
@@ -479,6 +500,107 @@ public class VisualizationActivity extends AppCompatActivity{
         MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
         int padding = 100;
         mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+    }
+
+
+    /* Alert창 */
+    private void makeDialog(String age, String gender, ArrayList<Map> visitArrMap) {
+
+        String search = "";
+
+        if(age.equals("all")){
+            if(gender.equals("all")){
+                search = "전체";
+            }
+            else{
+                search = showGender(gender);
+            }
+        }
+
+        else{
+            search = age + "대 " + showGender(gender);
+        }
+
+        // 많이 간 장소
+        String resultPlace = resultPlace(visitArrMap);
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(VisualizationActivity.this);
+        dialog.setTitle(Html.fromHtml("<b><font color='#FFFFFF'>" + search +"</font></b>"));
+        if(resultPlace.equals("")){
+            dialog.setMessage(Html.fromHtml("<font color='#FFFFFF'>아직 데이터가 존재하지 않습니다.</font>"));
+        }
+        else{
+            dialog.setMessage(Html.fromHtml("<font color='#FFFFFF'>" + search + "가 가장 많이 방문한 장소는</font>" + "<font color='#000000'>'" + resultPlace + "'</font>" + "<font color='#FFFFFF'>입니다.</font>"));
+        }
+
+        dialog.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = dialog.create();
+
+        alert.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+                alert.setIcon(R.drawable.img_alert);
+                alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#65acf3")));
+            }
+        });
+
+        alert.show();
+    }
+
+    // 많이 간 장소를 주는 함수
+    public String resultPlace(ArrayList<Map> visitArrMap){
+        // 성별, 나이별로 많이 간 장소
+        ArrayList<Map> visitArr = new ArrayList<>();
+
+        int cnt = 0;
+        String resultPlace = "";
+
+        if(visitArrMap.size() != 0){
+            for(int i = 0; i < visitArrMap.size(); i++){
+                visitArr.add(visitArrMap.get(i));
+            }
+        }
+
+        if(visitArr.size() != 0){
+            for(int i = 0; i < visitArr.size(); i++){
+                if(cnt <= Integer.parseInt((String)visitArr.get(i).get("cnt"))){
+                    cnt = Integer.parseInt((String)visitArr.get(i).get("cnt"));
+                }
+            }
+
+            for(int i = 0; i < visitArr.size(); i++){
+                if( cnt!= 0 && cnt == Integer.parseInt((String)visitArr.get(i).get("cnt"))){
+                    resultPlace += (String)visitArr.get(i).get("name");
+                    resultPlace += " ";
+                }
+            }
+        }
+
+        return resultPlace;
+    }
+
+    // gender 데이터 '0', '1'을 '남자', '여자'로 바꾸기
+    public String showGender(String gender){
+        String resultGender = "";
+
+        if(gender.equals("0")){
+            resultGender = "남자";
+        }
+        else if(gender.equals("1")){
+            resultGender = "여자";
+        }
+        else {
+            resultGender = "전체";
+        }
+
+        return resultGender;
     }
 
 }
