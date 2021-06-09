@@ -52,6 +52,8 @@ public class VisualizationActivity extends AppCompatActivity{
     String place;
     double latitude, longitude;
 
+    TextView txt_route, txt_avgTime;
+
     // 큰 관광지(한성대) 안의 등록해둔 서브 관광지
     ArrayList<String> subPlace;
     // 많이 간 경로
@@ -290,11 +292,10 @@ public class VisualizationActivity extends AppCompatActivity{
                         Log.i("Visualization", "avgTimeMap : " + avgTimeMap);
                         Log.i("Visualization", "visitArrMap : " + visitArrMap);
 
-                        // 성별, 나이별로 좋아하는 장소 Alert 띄우기
-                        showPlace(age, gender, visitArrMap);
-
                         // 마커, 오버레이 띄우기
                         showData(place, latitude, longitude, subPlaceMap, totalMemMap, avgTimeMap, orderMap);
+                        // 성별, 나이별로 좋아하는 장소 Text 띄우기
+                        showPlace(age, gender, visitArrMap);
 
                     }
                 }
@@ -454,21 +455,69 @@ public class VisualizationActivity extends AppCompatActivity{
 
     }
 
-    // 서브 관광지에 마커 띄우기
+    // 서브 관광지에 마커 띄우기, Text 띄우기
     public void showSubPlaceMarker(ArrayList<VisualizationInfo> info){
 
+        // 경로
+        txt_route = findViewById(R.id.txt_route);
+        // 평균 머문시간
+        txt_avgTime = findViewById(R.id.txt_avgTime);
+
+        String search = "";
+
+        if(age.equals("all")){
+            if(gender.equals("all")){
+                search = "전체";
+            }
+            else{
+                search = showGender(gender);
+            }
+        }
+
+        else{
+            search = age + "대 " + showGender(gender);
+        }
+
+        // 경로
+        txt_route.setText(Html.fromHtml("<font color='#FFFFFF'><b>" + search + "가 가장 많이 간 경로</font><br>"));
+        // 평균 머문시간
+        txt_avgTime.setText(Html.fromHtml("<font color='#FFFFFF'><b>" + search + "가 장소에 머문 평균 시간</font><br>"));
+
+        // '->'를 정보 개수와 맞춰 나타내기 위한 것
+        int infoCnt = 0;
+
         for(int i = 0; i < info.size(); i++){
+            if(info.get(i).getRank() != 0){
+                infoCnt++;
+            }
+        }
+
+
+        for(int i = 0; i < info.size(); i++) {
 
             int rank = info.get(i).getRank();
 
             // 마커 띄우기
             subPlaceMarker = new MapPOIItem();
+
+
             if(rank == 0){
-                subPlaceMarker.setItemName( "" + "\n" + info.get(i).getName() + "\n" + info.get(i).getAvg());
+                subPlaceMarker.setItemName( "" + "\n" + info.get(i).getName()); //  + "\n" + info.get(i).getAvg()
             }
             else{
                 subPlaceMarker.setItemName( rank + "\n" + info.get(i).getName() + "\n" + info.get(i).getAvg());
+
+                // totalMem data가 존재하면 Text 띄우기
+                txt_route.append(Html.fromHtml("<font color='#000000'>" + info.get(i).getName() + "</font>"));
+                txt_avgTime.append(Html.fromHtml("<font color='#000000'>" + info.get(i).getName() + " : " + info.get(i).getAvg() + "</font><br>"));
+
+
+                if(i != infoCnt - 1){
+                    txt_route.append(Html.fromHtml("<font color='#000000'> -> </font>"));
+                }
             }
+
+
             subPlaceMarker.setTag(1);
             subPlaceMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(info.get(i).getLatitude(),info.get(i).getLongitude()));
             subPlaceMarker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본 마커
@@ -529,9 +578,11 @@ public class VisualizationActivity extends AppCompatActivity{
 
         if(resultPlace.equals("")){
             txt_resultPlace.setText(Html.fromHtml("<font color='#FFFFFF'>아직 데이터가 존재하지 않습니다.</font>"));
+            txt_route.setText(" ");
+            txt_avgTime.setText(" ");
         }
         else{
-            txt_resultPlace.setText(Html.fromHtml("<font color='#FFFFFF'>" + search + "가 가장 많이 방문한 장소는</font><br>" + "<font color='#000000'>" + resultPlace + "</font>" + "<font color='#FFFFFF'>입니다.</font>"));
+            txt_resultPlace.setText(Html.fromHtml("<font color='#FFFFFF'><b>" + search + "가 가장 많이 방문한 장소</font><br>" + "<font color='#000000'>" + resultPlace + "</font>"));
         }
 
     }
