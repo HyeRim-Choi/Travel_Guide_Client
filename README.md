@@ -23,7 +23,7 @@ demo video :
 ## 프로젝트 구조
 ![img](./img/사진/projectStructure.PNG)
 
-Android
+- Android
 ![img](./img/사진/javaClass.PNG)
 
 ## 서비스 시연
