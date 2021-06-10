@@ -15,6 +15,7 @@ demo video : https://youtu.be/GkL0ngKyvGg
 ## 개발 환경
 - node.js (웹 서버)
 - Android 스튜디오
+- Android KakaoMap API
 
 ## 애플리케이션 버전
 - minSdkVersion : 16
