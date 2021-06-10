@@ -42,7 +42,8 @@ public class MapTravelerLocationActivity extends AppCompatActivity {
         // 날짜 받기
         SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd");
         Date date = new Date();
-        String time = format.format(date);
+        //String time = format.format(date);
+        String time = "2021-06-09";
 
         // info = /:title/:date 이 형식으로 만들기
         info+="/"+ time;
