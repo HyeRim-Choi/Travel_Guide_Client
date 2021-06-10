@@ -21,9 +21,9 @@ demo video :
 - targetSdkVersion : 30
 
 ## 프로젝트 구조
-![img](./img/사진/projectStructure.PNG)
+![img](./img/사진/projectStructure.PNG) </br>
 
-- Android
+Android
 ![img](./img/사진/javaClass.PNG)
 
 ## 서비스 시연
