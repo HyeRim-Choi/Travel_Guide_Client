@@ -22,7 +22,6 @@ demo video :
 
 ## 프로젝트 구조
 ![img](./img/사진/projectStructure.PNG) <br/>
-
 Android
 ![img](./img/사진/javaClass.PNG)
 
