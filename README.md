@@ -1,5 +1,5 @@
 # Travel_Guide_Client
-demo video : 
+demo video : https://youtu.be/GkL0ngKyvGg
 
 ## 소개
 패키지 여행
@@ -22,7 +22,7 @@ demo video :
 
 ## 프로젝트 구조
 ![img](./img/사진/projectStructure.PNG) <br/>
-Android <br/>
+- Android <br/>
 ![img](./img/사진/javaClass.PNG)
 
 ## 서비스 시연
