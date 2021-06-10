@@ -27,6 +27,7 @@ demo video : https://youtu.be/GkL0ngKyvGg
 ![img](./img/사진/javaClass.PNG)
 
 ## 서비스 시연
+<img width="80%" src="https://user-images.githubusercontent.com/78059146/121502075-c94a9200-ca1a-11eb-987e-3b874dbfbcda.gif"/>
 
 ## Server Node.js
 [Travel_Guide_Server](https://github.com/nayeonkiim/Travel_Guide_server)
